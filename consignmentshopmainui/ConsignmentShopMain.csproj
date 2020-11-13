@@ -1,0 +1,559 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0CE17F62-9B5E-46B1-A7E2-DDE897FBF883}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ConsignmentShopMainUI</RootNamespace>
+    <AssemblyName>ConsignmentShopMainUI</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>false</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>http://localhost:8080/</InstallUrl>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>publish.htm</WebPage>
+    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>false</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>ConsignmentShopMainUI.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>2AFF37530AD4FA15729411484E5B18D6B69DF1BF</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>ConsignmentShopMainUI_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup>
+    <ApplicationIcon>logo4.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug .NET Native|AnyCPU'">
+    <OutputPath>bin\Debug .NET Native\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug .NET Native|x86'">
+    <OutputPath>bin\x86\Debug .NET Native\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug .NET Native|x64'">
+    <OutputPath>bin\x64\Debug .NET Native\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>false</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug .Net4|AnyCPU'">
+    <OutputPath>bin\Debug .Net4\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug .Net4|x86'">
+    <OutputPath>bin\x86\Debug .Net4\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug .Net4|x64'">
+    <OutputPath>bin\x64\Debug .Net4\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CashClosePayedListWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CashClosePayedListWindow.Designer.cs">
+      <DependentUpon>CashClosePayedListWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CashCloseSoldListWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CashCloseSoldListWindow.Designer.cs">
+      <DependentUpon>CashCloseSoldListWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CashGraphicWindowMonthly.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CashGraphicWindowMonthly.Designer.cs">
+      <DependentUpon>CashGraphicWindowMonthly.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CashGraphicWindowYearly.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CashGraphicWindowYearly.Designer.cs">
+      <DependentUpon>CashGraphicWindowYearly.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CashVolumeMonthlyWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CashVolumeMonthlyWindow.Designer.cs">
+      <DependentUpon>CashVolumeMonthlyWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CheckoutWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheckoutWindow.Designer.cs">
+      <DependentUpon>CheckoutWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataGridViewEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DocumentCashClose.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DocumentCashClose.Designer.cs">
+      <DependentUpon>DocumentCashClose.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DocumentContract.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DocumentContract.Designer.cs">
+      <DependentUpon>DocumentContract.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DocumentLabelPrint.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DocumentLabelPrint.Designer.cs">
+      <DependentUpon>DocumentLabelPrint.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DocumentMonthlyVolumes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DocumentMonthlyVolumes.Designer.cs">
+      <DependentUpon>DocumentMonthlyVolumes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DocumentPayout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DocumentPayout.Designer.cs">
+      <DependentUpon>DocumentPayout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DocumentReturnList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DocumentReturnList.Designer.cs">
+      <DependentUpon>DocumentReturnList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DocumentSalesVolume.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DocumentSalesVolume.Designer.cs">
+      <DependentUpon>DocumentSalesVolume.cs</DependentUpon>
+    </Compile>
+    <Compile Include="KeyInputWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="KeyInputWindow.Designer.cs">
+      <DependentUpon>KeyInputWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ReportUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReportUI.designer.cs">
+      <DependentUpon>ReportUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InfoWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InfoWindow.Designer.cs">
+      <DependentUpon>InfoWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ItemEditUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ItemEditUI.Designer.cs">
+      <DependentUpon>ItemEditUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ItemsOutWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ItemsOutWindow.Designer.cs">
+      <DependentUpon>ItemsOutWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LabelSelectionWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LabelSelectionWindow.Designer.cs">
+      <DependentUpon>LabelSelectionWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindow.Designer.cs">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OwnerEditUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OwnerEditUI.Designer.cs">
+      <DependentUpon>OwnerEditUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RichTextPrintCtrl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RichTextPrintCtrl.Designer.cs">
+      <DependentUpon>RichTextPrintCtrl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RueckgabeEingabeWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RueckgabeEingabeWindow.Designer.cs">
+      <DependentUpon>RueckgabeEingabeWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VendorEditUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VendorEditUI.Designer.cs">
+      <DependentUpon>VendorEditUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VendorTableUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VendorTableUI.Designer.cs">
+      <DependentUpon>VendorTableUI.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="CashClosePayedListWindow.resx">
+      <DependentUpon>CashClosePayedListWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CashCloseSoldListWindow.resx">
+      <DependentUpon>CashCloseSoldListWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CashGraphicWindowMonthly.resx">
+      <DependentUpon>CashGraphicWindowMonthly.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CashGraphicWindowYearly.resx">
+      <DependentUpon>CashGraphicWindowYearly.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CashVolumeMonthlyWindow.resx">
+      <DependentUpon>CashVolumeMonthlyWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CheckoutWindow.resx">
+      <DependentUpon>CheckoutWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DocumentCashClose.resx">
+      <DependentUpon>DocumentCashClose.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DocumentContract.resx">
+      <DependentUpon>DocumentContract.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DocumentLabelPrint.resx">
+      <DependentUpon>DocumentLabelPrint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DocumentMonthlyVolumes.resx">
+      <DependentUpon>DocumentMonthlyVolumes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DocumentPayout.resx">
+      <DependentUpon>DocumentPayout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DocumentReturnList.resx">
+      <DependentUpon>DocumentReturnList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DocumentSalesVolume.resx">
+      <DependentUpon>DocumentSalesVolume.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="KeyInputWindow.resx">
+      <DependentUpon>KeyInputWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReportUI.resx">
+      <DependentUpon>ReportUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InfoWindow.resx">
+      <DependentUpon>InfoWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ItemEditUI.resx">
+      <DependentUpon>ItemEditUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ItemsOutWindow.resx">
+      <DependentUpon>ItemsOutWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LabelSelectionWindow.resx">
+      <DependentUpon>LabelSelectionWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainWindow.resx">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OwnerEditUI.resx">
+      <DependentUpon>OwnerEditUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="RueckgabeEingabeWindow.resx">
+      <DependentUpon>RueckgabeEingabeWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VendorEditUI.resx">
+      <DependentUpon>VendorEditUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VendorTableUI.resx">
+      <DependentUpon>VendorTableUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
+    <None Include="Properties\DataSources\ConsignmentShopLibrary.CashCloseSoldItem.datasource" />
+    <None Include="Properties\DataSources\ConsignmentShopLibrary.CashVolumeMonthly.datasource" />
+    <None Include="Properties\DataSources\ConsignmentShopLibrary.ConfigData.datasource" />
+    <None Include="Properties\DataSources\ConsignmentShopLibrary.Contract.datasource" />
+    <None Include="Properties\DataSources\ConsignmentShopLibrary.DataAccessItems.datasource" />
+    <None Include="Properties\DataSources\ConsignmentShopLibrary.DataAccessVendors.datasource" />
+    <None Include="Properties\DataSources\ConsignmentShopLibrary.Helper.datasource" />
+    <None Include="Properties\DataSources\ConsignmentShopLibrary.Item.datasource" />
+    <None Include="Properties\DataSources\ConsignmentShopLibrary.ItemAllGrouped.datasource" />
+    <None Include="Properties\DataSources\ConsignmentShopLibrary.ItemGrouped.datasource" />
+    <None Include="Properties\DataSources\ConsignmentShopLibrary.ItemPayedGrouped.datasource" />
+    <None Include="Properties\DataSources\ConsignmentShopLibrary.ItemReturnGrouped.datasource" />
+    <None Include="Properties\DataSources\ConsignmentShopLibrary.ItemSalesVolumeGrouped.datasource" />
+    <None Include="Properties\DataSources\ConsignmentShopLibrary.ItemSoldGrouped.datasource" />
+    <None Include="Properties\DataSources\ConsignmentShopLibrary.Owner.datasource" />
+    <None Include="Properties\DataSources\ConsignmentShopLibrary.PrintRichTextContents.datasource" />
+    <None Include="Properties\DataSources\ConsignmentShopLibrary.Refund.datasource" />
+    <None Include="Properties\DataSources\ConsignmentShopLibrary.RichTextBoxEx.datasource" />
+    <None Include="Properties\DataSources\ConsignmentShopLibrary.Store.datasource" />
+    <None Include="Properties\DataSources\ConsignmentShopLibrary.StringExtensions.datasource" />
+    <None Include="Properties\DataSources\ConsignmentShopLibrary.Vendor.datasource" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Kassenabschluss.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\warenausgang_b.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\warenBearbeiten_a.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\wareneingang_a.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\wareneingang_b.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Auswertung.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ArchivVerträgea1.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AktuelleVerträgea1.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit-find.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Package.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\strip.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="logo4.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\consignmentshoplibrary\ConsignmentShopLibrary.csproj">
+      <Project>{bdf94262-abbe-46cb-b287-e295e917a059}</Project>
+      <Name>ConsignmentShopLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
