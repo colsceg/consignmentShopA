@@ -27,6 +27,7 @@ namespace ConsignmentShopMainUI
 
         private bool loaded = false;
         private string myFilter;
+        private bool isNewVendor=false;
 
         public VendorTableUI()
         {
@@ -276,6 +277,7 @@ namespace ConsignmentShopMainUI
             OwnerEditUI ownerEditWindow = new OwnerEditUI();
 
             string selectedAccountID;
+
             //Abhängig vom AccountID Owner-Edit oder customer-Edit window aufrufen
             if (VendorDataGridView.SelectedRows.Count > 0 && 
                 VendorDataGridView.SelectedRows[0].Index <= VendorDataGridView.Rows.Count - 1)
@@ -334,30 +336,24 @@ namespace ConsignmentShopMainUI
         private void UpdateRow(Vendor aVendor)
         {
             int mySelectedIndex;
+
+            //Get all items in a DataTable
+            dt = dbVendors.GetAllVendors();
+            //Bind all items in a DataTable to a DataView
+            view1 = new DataView(dt);
+            //Bind the DataView to a DataSource
+            source1.DataSource = view1;
+            //Bind a DataSource to a DataGridView  (ds.Tables[0]);
+            //VendorDataGridView.DataSource = source1;
+            VendorDataGridView.Refresh();
             int count = VendorDataGridView.SelectedRows.Count;
             if (count > 0)
-            {
                 mySelectedIndex = VendorDataGridView.SelectedRows[0].Index;
-                VendorDataGridView.SelectedRows[0].Cells[0].Value = aVendor.AccountID;
-                VendorDataGridView.SelectedRows[0].Cells[1].Value = aVendor.LastName;
-                VendorDataGridView.SelectedRows[0].Cells[2].Value = aVendor.FirstName;
-                VendorDataGridView.SelectedRows[0].Cells[3].Value = aVendor.Street;
-                VendorDataGridView.SelectedRows[0].Cells[4].Value = aVendor.Plz;
-                VendorDataGridView.SelectedRows[0].Cells[5].Value = aVendor.Town;
-                VendorDataGridView.SelectedRows[0].Cells[6].Value = aVendor.PhoneNumber1;
-                VendorDataGridView.SelectedRows[0].Cells[7].Value = aVendor.PhoneNumber2;
-                VendorDataGridView.SelectedRows[0].Cells[8].Value = aVendor.EmailAccount;
-                VendorDataGridView.SelectedRows[0].Cells[9].Value = aVendor.Margin;
-                VendorDataGridView.SelectedRows[0].Cells[10].Value = aVendor.Period;
-                VendorDataGridView.SelectedRows[0].Cells[11].Value = aVendor.Annex1;
-                VendorDataGridView.SelectedRows[0].Cells[12].Value = aVendor.Annex2;
-                
-            }
             else
-            {
                 mySelectedIndex = GetIndexForAccountID(aVendor.AccountID);
-            }
+
             VendorDataGridView.FirstDisplayedScrollingRowIndex = mySelectedIndex;
+
         }
 
         //ButtonClick Reaction
@@ -377,6 +373,7 @@ namespace ConsignmentShopMainUI
             VendorEdit vendorEditWindow = new VendorEdit();
             vendorEditWindow.FormClosed += new FormClosedEventHandler(VendorEditWindow_Closed);
             vendorEditWindow.ShowDialog();
+            isNewVendor = true;
         }
 
         private void EditRowButton_Click(object sender, EventArgs e)
@@ -499,11 +496,12 @@ namespace ConsignmentShopMainUI
                         source1.DataSource = view1;
                         //Bind a DataSource to a DataGridView  (ds.Tables[0]);
                         //VendorDataGridView.DataSource = source1;
-                        //VendorDataGridView.Refresh();
+                        VendorDataGridView.Refresh();
                         VendorDataGridView.FirstDisplayedScrollingRowIndex = mySelectedIndex;
                     }
                     else
                         UpdateRow(myNewVendor);
+
                     //Änderungen in Datenbank werden in EditWindow gespeichert
                     this.FullInfo = myNewVendor.FullInfo;
                 }

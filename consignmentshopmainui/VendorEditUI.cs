@@ -174,6 +174,7 @@ namespace VendorEditUI
             {
                 //alle Eingaben in Vendor model speichern dann DataAccess aufrufen
                 List<Vendor> vendorsList = new List<Vendor>();
+                //Global object aVendor
                 aVendor.AccountID = VendorIDTextBox.Text;
                 aVendor.LastName = LastnameTextBox.Text;
                 if (String.IsNullOrWhiteSpace(FirstnameTextBox.Text))
@@ -215,6 +216,7 @@ namespace VendorEditUI
                 }                
                 aVendor.Annex1 = String.Empty;
                 aVendor.Annex2 = String.Empty;
+
                 //if vendor exists update existing vendor
                 vendorsList = DBVendors.GetVendorWithAccountID(aVendor.AccountID);
                 if (vendorsList.Count > 0)
@@ -223,7 +225,7 @@ namespace VendorEditUI
                 }
                 else
                 {   
-                    //neuer Kunde
+                    //neuer Kunde in Datenbank eintragen
                     DBVendors.InsertPerson(aVendor);
                     VendorInserted = true;
                     //prüfen ob es einen Kunden mit Lastname, Firstname und Phonenumer schon gibt

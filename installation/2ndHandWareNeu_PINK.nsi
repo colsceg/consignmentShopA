@@ -6,7 +6,7 @@
 # All the other settings can be tweaked by editing the !defines at the top of this script
 !define APPNAME "PINK2ndHand"
 !define APPDIR "PINK2ndHand"
-!define COMPANYNAME "chairfit"
+!define COMPANYNAME "2ndHandWare"
 !define DESCRIPTION "Programm zur Verwaltung von Kommissionswaren "
 !define INSTALLSIZE 40000
 
@@ -43,19 +43,19 @@
 
 !insertmacro MUI_LANGUAGE "German"
 
-Function connectionString1
+/* Function connectionString1
 	
-	${WordReplace} '$R9' '<add name="SecondHandCollection_old"' '<add name="SecondHandCollection_old" connectionString="Data Source=$Documents\PINK2ndHand\SecondHandCollection.sqlite; version=3;" />' '+*' $R9
+	${WordReplace} '$R9' '<add name="SecondHandCollection_old"' '<add name="SecondHandCollection_old" connectionString="Data Source=$Documents\PINK2ndHand\SecondHandCollection.db; version=3;" />' '+*' $R9
 	
 	Push $0
 FunctionEnd
 
 Function connectionString2
 	
-	${WordReplace} '$R9' '<add name="SecondHandArchiveCollection_old"' '<add name="SecondHandArchiveCollection_old" connectionString="Data Source=$Documents\$(APPDIR)Archive\SecondHandArchiveCollection.sqlite; version=3;" />' '+*' $R9
+	${WordReplace} '$R9' '<add name="SecondHandArchiveCollection_old"' '<add name="SecondHandArchiveCollection_old" connectionString="Data Source=$Documents\$(APPDIR)Archive\SecondHandArchiveCollection.db; version=3;" />' '+*' $R9
 	
 	Push $0
-FunctionEnd
+FunctionEnd */
 
 
 Section "" SecDummy
@@ -64,8 +64,8 @@ Section "" SecDummy
   
   ;ADD YOUR OWN FILES HERE...
 	
-        file "ConsignmentShopLibrary.dll"
-        file "ConsignmentShopLibrary.dll.config"		
+    file "ConsignmentShopLibrary.dll"
+    file "ConsignmentShopLibrary.dll.config"		
 	file "ConsignmentShopMainUI.exe"
 	file "ConsignmentShopMainUI.exe.config"
 	file "dotNetFx40_Full_x86_x64.exe"
@@ -85,6 +85,7 @@ Section "" SecDummy
 	SetOutPath "$INSTDIR\x64"
 		file "x64\SQLite.Interop.dll"
 	SetOutPath "$APPDATA\chairfit"
+		file "SecondHandCollection.db"
 	
 	;Anpassen der connection Strings in ConsignmentShopMainUI.exe.config
 	;${LineFind} "$INSTDIR\ConsignmentShopMainUI.exe.config" "$INSTDIR\ConsignmentShopMainUI.exe.config" "1:-1" "connectionString1"
@@ -99,13 +100,15 @@ Section "" SecDummy
   	WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}" "NoRepair" 1
   
      # Start Menu
-   	createDirectory "$SMPROGRAMS\${COMPANYNAME}"
-   	createShortCut "$SMPROGRAMS\${COMPANYNAME}\${APPNAME}.lnk" "$INSTDIR\PINK2ndHand.exe" "" "$INSTDIR\logo4.ico" 
-   	createShortCut "$SMPROGRAMS\${COMPANYNAME}\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 
+   	CreateDirectory "$SMPROGRAMS\${COMPANYNAME}"
+   	CreateShortCut "$SMPROGRAMS\${COMPANYNAME}\${APPNAME}.lnk" "$INSTDIR\PINK2ndHand.exe" "" "$INSTDIR\logo4.ico" 
+   	CreateShortCut "$SMPROGRAMS\${COMPANYNAME}\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 
+	
 
- ;Create uninstaller
+
+	;Create uninstaller
   	WriteUninstaller $INSTDIR\uninstall.exe
-;Test for dotNET Framework
+	;Test for dotNET Framework
 	ReadRegDWORD $0 HKLM "SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Client" Install
 	Pop $0
    	StrCmp $0 1 found_dotNETFramework no_dotNETFramework
@@ -123,19 +126,18 @@ Section "" SecDummy
 
 SectionEnd
 
+; Optional section (can be disabled by the user)
 Section /o "Daten loeschen" SecDeleteOldData
 	#Desktop Icon
-         ;ADD YOUR OWN FILES HERE...
-        Delete "$DOCUMENTS\${APPDIR}\SecondHandCollection.sqlite" 
+	;ADD YOUR OWN FILES HERE...
+	Delete "$DOCUMENTS\${APPDIR}\SecondHandCollection.db" 
 
 
 SectionEnd
 
-; Optional section (can be disabled by the user)
-
 Section "DeskTop Icon" SecIcon
 	#Desktop Icon
-	createShortCut "$DESKTOP\PINK2ndHand.lnk" "$INSTDIR\ConsignmentShopMainUI.exe" "" "$INSTDIR\logo4.ico"
+	CreateShortCut "$DESKTOP\${APPNAME}.lnk" "$INSTDIR\ConsignmentShopMainUI.exe" "" "$INSTDIR\logo4.ico"
 SectionEnd
 
 ;Descriptions
@@ -156,42 +158,41 @@ SectionEnd
   
 
 Section "Uninstall"
-  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}"
+
+	# Registry Einträge löschen
+	DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}"
+	DeleteRegKey /ifempty HKCU "Software\2ndHandWare"
+	
 	# Remove Desktop Icon
-	delete "$DESKTOP\PINK2ndHand.lnk.lnk"
+	Delete "$DESKTOP\${APPNAME}.lnk"
 
 	# Remove Start Menu launcher
-	delete "$SMPROGRAMS\${COMPANYNAME}\${APPNAME}.lnk"
-	delete "$SMPROGRAMS\${COMPANYNAME}\Uninstall.lnk"
+	Delete "$SMPROGRAMS\${COMPANYNAME}\${APPNAME}.lnk"
+	Delete "$SMPROGRAMS\${COMPANYNAME}\Uninstall.lnk"
+	RMDir "$SMPROGRAMS\${COMPANYNAME}"
 
   ;ADD YOUR OWN FILES HERE...
-        Delete "$INSTDIR\ConsignmentShopLibrary.dll"
-        Delete "$INSTDIR\ConsignmentShopLibrary.dll.config"		
+    Delete "$INSTDIR\ConsignmentShopLibrary.dll"
+    Delete "$INSTDIR\ConsignmentShopLibrary.dll.config"		
 	Delete "$INSTDIR\ConsignmentShopMainUI.exe"
 	Delete "$INSTDIR\ConsignmentShopMainUI.exe.config"
-	Delete "$INSTDIR\dotNetFx40_Full_x86_x64.exe"
-
-	Delete "$INSTDIR\Dapper.dll"
-
 	Delete "$INSTDIR\License.rtf"
 	Delete "$INSTDIR\logo4.ico"
-
+	
+	Delete "$INSTDIR\dotNetFx40_Full_x86_x64.exe"
+	Delete "$INSTDIR\Dapper.dll"
 	Delete "$INSTDIR\System.Data.SQLite.dll"
 	Delete "$INSTDIR\System.Data.SQLite.dll.config"
 	Delete "$INSTDIR\System.Data.SQLite.EF6.dll"
 	Delete "$INSTDIR\System.Data.SQLite.Linq.dll"
+  	Delete "$INSTDIR\Uninstall.exe"
+	
 	Delete "$INSTDIR\x86\SQLite.Interop.dll"
 	Delete "$INSTDIR\x64\SQLite.Interop.dll"
-
-  	Delete "$INSTDIR\Uninstall.exe"
   	RMDir "$INSTDIR\x64"
   	RMDir "$INSTDIR\x86"
+	
   # Try to remove the Start Menu folder - this will only happen if it is empty
   	RMDir "$INSTDIR"
-  	rmDir "$SMPROGRAMS\${COMPANYNAME}"
 
-  # Registry Einträge löschen
-  DeleteRegKey /ifempty HKCU "Software\2ndHandWare"
-  Delete "$SMPROGRAMS\${APPNAME}\*.*"
-  RMDir "$SMPROGRAMS\${APPNAME}"
 SectionEnd
