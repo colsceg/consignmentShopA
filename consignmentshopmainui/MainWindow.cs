@@ -159,7 +159,7 @@ namespace ConsignmentShopMainUI
             SalesPriceTextBox.Text = String.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", 0.0);
             MarginTextBox.Text = string.Format("{0} %", 0);
             ComboBoxVendorName.Focus();
-            ItemDescriptionTextBox.ReadOnly = true;
+            ItemDescriptionTextBox_.ReadOnly = true;
             SalesPriceTextBox.ReadOnly = true;
 
             //Kundeneingabe Buttons enablen
@@ -802,7 +802,7 @@ namespace ConsignmentShopMainUI
                             GoodsInOKButton.Enabled = true;
                             MarginTextBox.ReadOnly = false;
                             PeriodTextBox.ReadOnly = false;
-                            ItemDescriptionTextBox.ReadOnly = false;
+                            ItemDescriptionTextBox_.ReadOnly = false;
                             //ItemDescriptionTextBox.Focus();
                             _ignoreEvents = false;
                            
@@ -900,7 +900,7 @@ namespace ConsignmentShopMainUI
             if (NewContract)
             {
                 ComboBoxVendorName.Focus();
-                ItemDescriptionTextBox.Focus();
+                ItemDescriptionTextBox_.Focus();
             }
         }
 
@@ -912,7 +912,7 @@ namespace ConsignmentShopMainUI
 
             if (!String.IsNullOrEmpty(AccountIDTextBox.Text)) //Prüfen ob AccountID vorhanden
             {
-                if (!String.IsNullOrEmpty(ItemDescriptionTextBox.Text)) //Prüfen ob ItemBeschreibung eingegeben 
+                if (!String.IsNullOrEmpty(ItemDescriptionTextBox_.Text)) //Prüfen ob ItemBeschreibung eingegeben 
                 {
                     if (!String.IsNullOrEmpty(SalesPriceTextBox.Text)) //Prüfen ob SalesPrice eingegeben - nur Zahlen erlaubt
                     {
@@ -929,7 +929,7 @@ namespace ConsignmentShopMainUI
                             //updaten der Itemsdaten
                             myItem.AccountID = myAccountID;
                             myItem.ContractID = Store.ConvertContractNumberToContractID(ContractNumberTextBox.Text);
-                            myItem.ItemDescription = ItemDescriptionTextBox.Text;
+                            myItem.ItemDescription = ItemDescriptionTextBox_.Text;
                             myItem.SalesPrice = Convert.ToString(mySalesPrice).Replace(",", ".");
                             myItem.CostPrice = Convert.ToString(myCostPrice).Replace(",", ".");
                             myItem.Color = ComboBoxColor.Text;
@@ -942,7 +942,7 @@ namespace ConsignmentShopMainUI
                             {   // Item in Tabelle einfügen
                                 ItemsDataGridView.Rows.Add(
                                     ItemsNumberTextBox.Text,
-                                    ItemDescriptionTextBox.Text,
+                                    ItemDescriptionTextBox_.Text,
                                     ComboBoxBrand.Text,
                                     ComboBoxColor.Text,
                                     ComboBoxSize.Text,
@@ -963,7 +963,7 @@ namespace ConsignmentShopMainUI
                             else //vorhandenes Item wurde editiert
                             {
                                 //ItemsDataGridView.SelectedRows[0].Cells[0].Value = ItemsNumberTextBox.Text;
-                                ItemsDataGridView.SelectedRows[0].Cells[1].Value = ItemDescriptionTextBox.Text;                                
+                                ItemsDataGridView.SelectedRows[0].Cells[1].Value = ItemDescriptionTextBox_.Text;                                
                                 ItemsDataGridView.SelectedRows[0].Cells[2].Value = ComboBoxBrand.Text;
                                 ItemsDataGridView.SelectedRows[0].Cells[3].Value = ComboBoxColor.Text;
                                 ItemsDataGridView.SelectedRows[0].Cells[4].Value = ComboBoxSize.Text;
@@ -983,7 +983,7 @@ namespace ConsignmentShopMainUI
                                 ItemsDataGridView.FirstDisplayedScrollingRowIndex = 17 * myIntIndex;
                             myContract.NumberOfItems += 1;
                             DbItems.UpdateContract(myContract);
-                            ItemDescriptionTextBox.Text = "";
+                            ItemDescriptionTextBox_.Text = "";
                             SalesPriceTextBox.Text = String.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", 0.0);
                             ComboBoxBrand.SelectedIndex = 0;
                             ComboBoxColor.SelectedIndex = 0;
@@ -992,7 +992,7 @@ namespace ConsignmentShopMainUI
                             ComboBoxSize.SelectedIndex = 0;
                             ComboBoxSize.Text = "";
                             ContractSaveBtn.Enabled = true;
-                            ItemDescriptionTextBox.Focus();
+                            ItemDescriptionTextBox_.Focus();
                             PremiumLbl.Visible = false;
                         }
                         else
@@ -1010,7 +1010,7 @@ namespace ConsignmentShopMainUI
                 else
                 {
                     MessageBox.Show("Bitte Artikelbeschreibung eingeben");
-                    ItemDescriptionTextBox.Focus();
+                    ItemDescriptionTextBox_.Focus();
                 }
             }
             else
@@ -1059,10 +1059,10 @@ namespace ConsignmentShopMainUI
             MarginTextBox.Text = string.Format("{0} %", 0);
             PeriodTextBox.Text = "";
             PhoneNumberTextBox.Text = "";
-            ItemDescriptionTextBox.ReadOnly = true;
+            ItemDescriptionTextBox_.ReadOnly = true;
 
             SalesPriceTextBox.ReadOnly = true;
-            ItemDescriptionTextBox.Text = "";
+            ItemDescriptionTextBox_.Text = "";
 
             //tabelle leeren
             int itemsCount = ItemsDataGridView.Rows.Count;
@@ -1149,7 +1149,7 @@ namespace ConsignmentShopMainUI
             FullNameTextBox.Visible = false;
             ComboBoxVendorName.Visible = true;
             ComboBoxVendorName.Enabled = true;
-            ItemDescriptionTextBox.ReadOnly = true;
+            ItemDescriptionTextBox_.ReadOnly = true;
             ComboBoxColor.Enabled = false;
             ComboBoxBrand.Enabled = false;
             TextBoxProperties.Enabled = false;
@@ -1593,7 +1593,7 @@ namespace ConsignmentShopMainUI
             {
                 GoodsInOKButton.Text = "Speichern";
                 
-                ItemDescriptionTextBox.Text = ItemsDataGridView.SelectedRows[0].Cells[1].Value.ToString();
+                ItemDescriptionTextBox_.Text = ItemsDataGridView.SelectedRows[0].Cells[1].Value.ToString();
                 ComboBoxBrand.Text = ItemsDataGridView.SelectedRows[0].Cells[2].Value.ToString();
                 ComboBoxColor.Text = ItemsDataGridView.SelectedRows[0].Cells[3].Value.ToString();
                 ComboBoxSize.Text = ItemsDataGridView.SelectedRows[0].Cells[4].Value.ToString();
@@ -1719,8 +1719,8 @@ namespace ConsignmentShopMainUI
 
         private void ItemNumberTextBox_TextChanged(object sender, EventArgs e)
         {
-            ItemDescriptionTextBox.Select();
-            ItemDescriptionTextBox.ReadOnly = false;
+            ItemDescriptionTextBox_.Select();
+            ItemDescriptionTextBox_.ReadOnly = false;
             SalesPriceTextBox.ReadOnly = false;
         }
 
@@ -1770,7 +1770,7 @@ namespace ConsignmentShopMainUI
                 MarginTextBox.Text = string.Format("{0} %", Convert.ToString(value));
             else
                 MarginTextBox.Text = string.Format("{0} %", "0");
-            ItemDescriptionTextBox.Focus();
+            ItemDescriptionTextBox_.Focus();
         }
 
         private void PeriodTextBox_Leave(object sender, EventArgs e)
@@ -1783,7 +1783,7 @@ namespace ConsignmentShopMainUI
             }
             else
                 PeriodTextBox.Text = string.Format("{0}", myPeriod);
-            ItemDescriptionTextBox.Focus();
+            ItemDescriptionTextBox_.Focus();
         }
 
         private void SalesPriceTextBox_Leave(object sender, EventArgs e)
@@ -1797,7 +1797,7 @@ namespace ConsignmentShopMainUI
 
         private void ItemDescriptionTextBox_Leave(object sender, EventArgs e)
         {
-            ItemDescriptionTextBox.Text = ItemDescriptionTextBox.Text.Replace(';', ',');
+            ItemDescriptionTextBox_.Text = ItemDescriptionTextBox_.Text.Replace(';', ',');
         }
 
         private void ItemDescriptionTextBox_EnabledChanged(object sender, EventArgs e)
@@ -2294,7 +2294,5 @@ namespace ConsignmentShopMainUI
         {
             mySizeTextChanged = true;
         }
-
-
     }
 }

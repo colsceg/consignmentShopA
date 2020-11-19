@@ -50,6 +50,7 @@
             this.AuswertungToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.KassenabschlussToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UmsätzeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RefundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hilfeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.HandbuchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SchlüsselEingebenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -99,7 +100,6 @@
             this.ComboBoxColor = new ConsignmentShopLibrary.ComboBoxEnter();
             this.ComboBoxSize = new ConsignmentShopLibrary.ComboBoxEnter();
             this.ComboBoxBrand = new ConsignmentShopLibrary.ComboBoxEnter();
-            this.ItemDescriptionTextBox = new ConsignmentShopLibrary.TextBoxEnter();
             this.KeyTextBox = new ConsignmentShopLibrary.TextBoxEnter();
             this.SalesPriceTextBox = new ConsignmentShopLibrary.NumTextBox();
             this.PremiumLbl = new System.Windows.Forms.Label();
@@ -122,7 +122,7 @@
             this.ContractBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.itemBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.toolTipVendorNameCB = new System.Windows.Forms.ToolTip(this.components);
-            this.RefundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ItemDescriptionTextBox = new ConsignmentShopLibrary.ComboBoxEnter();
             this.menuStrip1.SuspendLayout();
             this.ItemDataContextMenuStrip.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -263,28 +263,35 @@
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(158, 6);
             // 
             // AuswertungToolStripMenuItem
             // 
             this.AuswertungToolStripMenuItem.Name = "AuswertungToolStripMenuItem";
-            this.AuswertungToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.AuswertungToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.AuswertungToolStripMenuItem.Text = "Auswertung";
             this.AuswertungToolStripMenuItem.Click += new System.EventHandler(this.AuswertungToolStripMenuItem_Click);
             // 
             // KassenabschlussToolStripMenuItem
             // 
             this.KassenabschlussToolStripMenuItem.Name = "KassenabschlussToolStripMenuItem";
-            this.KassenabschlussToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.KassenabschlussToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.KassenabschlussToolStripMenuItem.Text = "Kassenabschluss";
             this.KassenabschlussToolStripMenuItem.Click += new System.EventHandler(this.KassenabschlussToolStripMenuItem_Click);
             // 
             // UmsätzeToolStripMenuItem
             // 
             this.UmsätzeToolStripMenuItem.Name = "UmsätzeToolStripMenuItem";
-            this.UmsätzeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.UmsätzeToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.UmsätzeToolStripMenuItem.Text = "Umsätze";
             this.UmsätzeToolStripMenuItem.Click += new System.EventHandler(this.UmsätzeToolStripMenuItem_Click);
+            // 
+            // RefundToolStripMenuItem
+            // 
+            this.RefundToolStripMenuItem.Name = "RefundToolStripMenuItem";
+            this.RefundToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.RefundToolStripMenuItem.Text = "Rückgabe";
+            this.RefundToolStripMenuItem.Click += new System.EventHandler(this.RefundToolStripMenuItem_Click);
             // 
             // hilfeToolStripMenuItem
             // 
@@ -673,11 +680,11 @@
             // ItemInputGroupBox
             // 
             this.ItemInputGroupBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(170)))), ((int)(((byte)(255)))));
+            this.ItemInputGroupBox.Controls.Add(this.ItemDescriptionTextBox);
             this.ItemInputGroupBox.Controls.Add(this.TextBoxProperties);
             this.ItemInputGroupBox.Controls.Add(this.ComboBoxColor);
             this.ItemInputGroupBox.Controls.Add(this.ComboBoxSize);
             this.ItemInputGroupBox.Controls.Add(this.ComboBoxBrand);
-            this.ItemInputGroupBox.Controls.Add(this.ItemDescriptionTextBox);
             this.ItemInputGroupBox.Controls.Add(this.KeyTextBox);
             this.ItemInputGroupBox.Controls.Add(this.SalesPriceTextBox);
             this.ItemInputGroupBox.Controls.Add(this.PremiumLbl);
@@ -755,16 +762,6 @@
             this.ComboBoxBrand.TextChanged += new System.EventHandler(this.ComboBoxBrand_TextChanged);
             this.ComboBoxBrand.Leave += new System.EventHandler(this.ComboBoxBrand_Leave);
             // 
-            // ItemDescriptionTextBox
-            // 
-            this.ItemDescriptionTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ItemDescriptionTextBox.Location = new System.Drawing.Point(8, 41);
-            this.ItemDescriptionTextBox.Name = "ItemDescriptionTextBox";
-            this.ItemDescriptionTextBox.Size = new System.Drawing.Size(313, 21);
-            this.ItemDescriptionTextBox.TabIndex = 1;
-            this.ItemDescriptionTextBox.EnabledChanged += new System.EventHandler(this.ItemDescriptionTextBox_EnabledChanged);
-            this.ItemDescriptionTextBox.Leave += new System.EventHandler(this.ItemDescriptionTextBox_Leave);
-            // 
             // KeyTextBox
             // 
             this.KeyTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -794,7 +791,7 @@
             this.PremiumLbl.ForeColor = System.Drawing.SystemColors.Highlight;
             this.PremiumLbl.Location = new System.Drawing.Point(372, 87);
             this.PremiumLbl.Name = "PremiumLbl";
-            this.PremiumLbl.Size = new System.Drawing.Size(112, 16);
+            this.PremiumLbl.Size = new System.Drawing.Size(111, 16);
             this.PremiumLbl.TabIndex = 32;
             this.PremiumLbl.Text = "Premiummarke";
             this.PremiumLbl.Visible = false;
@@ -995,12 +992,19 @@
             // 
             this.toolTipVendorNameCB.ToolTipTitle = "Falsche Eingabe";
             // 
-            // RefundToolStripMenuItem
+            // ItemDescriptionTextBox
             // 
-            this.RefundToolStripMenuItem.Name = "RefundToolStripMenuItem";
-            this.RefundToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.RefundToolStripMenuItem.Text = "Rückgabe";
-            this.RefundToolStripMenuItem.Click += new System.EventHandler(this.RefundToolStripMenuItem_Click);
+            this.ItemDescriptionTextBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.ItemDescriptionTextBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.ItemDescriptionTextBox.Enabled = false;
+            this.ItemDescriptionTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ItemDescriptionTextBox.FormattingEnabled = true;
+            this.ItemDescriptionTextBox.Location = new System.Drawing.Point(8, 41);
+            this.ItemDescriptionTextBox.Name = "ItemDescriptionTextBox";
+            this.ItemDescriptionTextBox.Size = new System.Drawing.Size(361, 23);
+            this.ItemDescriptionTextBox.TabIndex = 1;
+            this.ItemDescriptionTextBox.EnabledChanged += new System.EventHandler(this.ItemDescriptionTextBox_EnabledChanged);
+            this.ItemDescriptionTextBox.Leave += new System.EventHandler(this.ItemDescriptionTextBox_Leave);
             // 
             // MainWindow
             // 
@@ -1125,7 +1129,6 @@
         private System.Windows.Forms.ToolTip toolTipVendorNameCB;
         private ConsignmentShopLibrary.ComboBoxEnter ComboBoxSize;
         private ConsignmentShopLibrary.ComboBoxEnter ComboBoxBrand;
-        private ConsignmentShopLibrary.TextBoxEnter ItemDescriptionTextBox;
         private ConsignmentShopLibrary.TextBoxEnter KeyTextBox;
         private ConsignmentShopLibrary.ComboBoxEnter ComboBoxVendorName;
         private System.Windows.Forms.ToolStripMenuItem DeletedEinlesenToolStripMenuItem;
@@ -1142,6 +1145,7 @@
         private ConsignmentShopLibrary.TextBoxEnter TextBoxProperties;
         private System.Windows.Forms.ToolStripMenuItem laufwerkFürBackupFestlegenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem RefundToolStripMenuItem;
+        private ConsignmentShopLibrary.ComboBoxEnter ItemDescriptionTextBox;
     }
 }
 

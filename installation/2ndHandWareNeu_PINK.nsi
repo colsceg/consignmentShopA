@@ -58,7 +58,13 @@ Function connectionString2
 FunctionEnd */
 
 
+
+
+
 Section "" SecDummy
+
+SetShellVarContext current
+
 
   SetOutPath "$INSTDIR"
   
@@ -84,15 +90,20 @@ Section "" SecDummy
 		file "x86\SQLite.Interop.dll"
 	SetOutPath "$INSTDIR\x64"
 		file "x64\SQLite.Interop.dll"
-	SetOutPath "$APPDATA\chairfit"
-		file "SecondHandCollection.db"
+		
+	; nur kopieren wenn nicht vorhanden	
+	IfFileExists "$DOCUMENTS\${APPDIR}\SecondHandCollection.db" exists notExists
 	
+	notExists:
+	SetOutPath "$DOCUMENTS\${APPDIR}"
+		file "SecondHandCollection.db"
 	;Anpassen der connection Strings in ConsignmentShopMainUI.exe.config
 	;${LineFind} "$INSTDIR\ConsignmentShopMainUI.exe.config" "$INSTDIR\ConsignmentShopMainUI.exe.config" "1:-1" "connectionString1"
 
 	;${LineFind} "$INSTDIR\ConsignmentShopMainUI.exe.config" "$INSTDIR\ConsignmentShopMainUI.exe.config" "1:-1" "connectionString2"
 	
-  ;Store installation folder
+	;Store installation folder
+    exists:
   	WriteRegStr HKCU "Software\2ndHandWare" "" $INSTDIR
   	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}" "DisplayName" "PINK2ndHand"
   	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}" "UninstallString" '"$INSTDIR\uninstall.exe"'
@@ -131,7 +142,8 @@ Section /o "Daten loeschen" SecDeleteOldData
 	#Desktop Icon
 	;ADD YOUR OWN FILES HERE...
 	Delete "$DOCUMENTS\${APPDIR}\SecondHandCollection.db" 
-
+	SetOutPath "$DOCUMENTS\${APPDIR}"
+		file "SecondHandCollection.db"
 
 SectionEnd
 
