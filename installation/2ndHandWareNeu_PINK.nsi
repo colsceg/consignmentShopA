@@ -58,9 +58,6 @@ Function connectionString2
 FunctionEnd */
 
 
-
-
-
 Section "" SecDummy
 
 SetShellVarContext current
@@ -206,5 +203,17 @@ Section "Uninstall"
 	
   # Try to remove the Start Menu folder - this will only happen if it is empty
   	RMDir "$INSTDIR"
+	
+  # Remove AppDir
+  ; Optional section (can be disabled by the user)
+	#Section /o "Daten loeschen" SecDeleteOldData
+	#Desktop Icon
+	;ADD YOUR OWN FILES HERE...
+	Delete "$DOCUMENTS\${APPDIR}\SecondHandCollection.db" 
+	Delete "$DOCUMENTS\${APPDIR}\Backup\*.*" 
+	RMdir "$DOCUMENTS\${APPDIR}\Backup"
+	RMdir "$DOCUMENTS\${APPDIR}"
+	#SetOutPath "$DOCUMENTS\${APPDIR}"
+	#	file "SecondHandCollection.db"
 
 SectionEnd

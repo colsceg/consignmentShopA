@@ -32,10 +32,24 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.ReportItemsDataGridView = new System.Windows.Forms.DataGridView();
+            this.accountID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.itemNumberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.itemDescriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.brandDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sizeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.propDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.salesPriceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.costPriceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.beginDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.endDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.soldDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.payoutDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bearbeitenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UndeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.itemBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btnClear = new System.Windows.Forms.Button();
             this.lblKdNr = new System.Windows.Forms.Label();
             this.lblArtNr = new System.Windows.Forms.Label();
@@ -79,25 +93,11 @@
             this.CBItemNumber = new ConsignmentShopLibrary.ComboBoxEnter();
             this.CBItemDescription = new ConsignmentShopLibrary.ComboBoxEnter();
             this.lblDatum = new System.Windows.Forms.Label();
-            this.itemBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.accountID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.itemNumberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.itemDescriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.brandDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sizeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.propDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.salesPriceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.costPriceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.beginDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.endDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.soldDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.payoutDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.ReportItemsDataGridView)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.itemBindingSource)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.itemBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // ReportItemsDataGridView
@@ -135,6 +135,119 @@
             this.ReportItemsDataGridView.TabIndex = 0;
             this.ReportItemsDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ReportItemsDataGridView_CellContentClick);
             // 
+            // accountID
+            // 
+            this.accountID.DataPropertyName = "AccountID";
+            this.accountID.HeaderText = "KdNr";
+            this.accountID.Name = "accountID";
+            this.accountID.ReadOnly = true;
+            this.accountID.Width = 56;
+            // 
+            // itemNumberDataGridViewTextBoxColumn
+            // 
+            this.itemNumberDataGridViewTextBoxColumn.DataPropertyName = "ItemNumber";
+            this.itemNumberDataGridViewTextBoxColumn.HeaderText = "ArtNr";
+            this.itemNumberDataGridViewTextBoxColumn.Name = "itemNumberDataGridViewTextBoxColumn";
+            this.itemNumberDataGridViewTextBoxColumn.ReadOnly = true;
+            this.itemNumberDataGridViewTextBoxColumn.Width = 56;
+            // 
+            // itemDescriptionDataGridViewTextBoxColumn
+            // 
+            this.itemDescriptionDataGridViewTextBoxColumn.DataPropertyName = "ItemDescription";
+            this.itemDescriptionDataGridViewTextBoxColumn.HeaderText = "Artikel";
+            this.itemDescriptionDataGridViewTextBoxColumn.MinimumWidth = 80;
+            this.itemDescriptionDataGridViewTextBoxColumn.Name = "itemDescriptionDataGridViewTextBoxColumn";
+            this.itemDescriptionDataGridViewTextBoxColumn.ReadOnly = true;
+            this.itemDescriptionDataGridViewTextBoxColumn.Width = 80;
+            // 
+            // brandDataGridViewTextBoxColumn
+            // 
+            this.brandDataGridViewTextBoxColumn.DataPropertyName = "Brand";
+            this.brandDataGridViewTextBoxColumn.HeaderText = "Marke";
+            this.brandDataGridViewTextBoxColumn.Name = "brandDataGridViewTextBoxColumn";
+            this.brandDataGridViewTextBoxColumn.ReadOnly = true;
+            this.brandDataGridViewTextBoxColumn.Width = 62;
+            // 
+            // colorDataGridViewTextBoxColumn
+            // 
+            this.colorDataGridViewTextBoxColumn.DataPropertyName = "Color";
+            this.colorDataGridViewTextBoxColumn.HeaderText = "Farbe";
+            this.colorDataGridViewTextBoxColumn.Name = "colorDataGridViewTextBoxColumn";
+            this.colorDataGridViewTextBoxColumn.ReadOnly = true;
+            this.colorDataGridViewTextBoxColumn.Width = 59;
+            // 
+            // sizeDataGridViewTextBoxColumn
+            // 
+            this.sizeDataGridViewTextBoxColumn.DataPropertyName = "Size";
+            this.sizeDataGridViewTextBoxColumn.HeaderText = "Gr.";
+            this.sizeDataGridViewTextBoxColumn.Name = "sizeDataGridViewTextBoxColumn";
+            this.sizeDataGridViewTextBoxColumn.ReadOnly = true;
+            this.sizeDataGridViewTextBoxColumn.Width = 46;
+            // 
+            // propDataGridViewTextBoxColumn
+            // 
+            this.propDataGridViewTextBoxColumn.DataPropertyName = "Prop";
+            this.propDataGridViewTextBoxColumn.HeaderText = "Sonst.";
+            this.propDataGridViewTextBoxColumn.Name = "propDataGridViewTextBoxColumn";
+            this.propDataGridViewTextBoxColumn.ReadOnly = true;
+            this.propDataGridViewTextBoxColumn.Width = 62;
+            // 
+            // salesPriceDataGridViewTextBoxColumn
+            // 
+            this.salesPriceDataGridViewTextBoxColumn.DataPropertyName = "SalesPrice";
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle1.Format = "C2";
+            dataGridViewCellStyle1.NullValue = null;
+            this.salesPriceDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            this.salesPriceDataGridViewTextBoxColumn.HeaderText = "VK-Preis";
+            this.salesPriceDataGridViewTextBoxColumn.Name = "salesPriceDataGridViewTextBoxColumn";
+            this.salesPriceDataGridViewTextBoxColumn.ReadOnly = true;
+            this.salesPriceDataGridViewTextBoxColumn.Width = 72;
+            // 
+            // costPriceDataGridViewTextBoxColumn
+            // 
+            this.costPriceDataGridViewTextBoxColumn.DataPropertyName = "CostPrice";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.Format = "C2";
+            dataGridViewCellStyle2.NullValue = null;
+            this.costPriceDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            this.costPriceDataGridViewTextBoxColumn.HeaderText = "Auszahl.";
+            this.costPriceDataGridViewTextBoxColumn.Name = "costPriceDataGridViewTextBoxColumn";
+            this.costPriceDataGridViewTextBoxColumn.ReadOnly = true;
+            this.costPriceDataGridViewTextBoxColumn.Width = 72;
+            // 
+            // beginDateDataGridViewTextBoxColumn
+            // 
+            this.beginDateDataGridViewTextBoxColumn.DataPropertyName = "BeginDate";
+            this.beginDateDataGridViewTextBoxColumn.HeaderText = "Annahme";
+            this.beginDateDataGridViewTextBoxColumn.Name = "beginDateDataGridViewTextBoxColumn";
+            this.beginDateDataGridViewTextBoxColumn.ReadOnly = true;
+            this.beginDateDataGridViewTextBoxColumn.Width = 77;
+            // 
+            // endDateDataGridViewTextBoxColumn
+            // 
+            this.endDateDataGridViewTextBoxColumn.DataPropertyName = "EndDate";
+            this.endDateDataGridViewTextBoxColumn.HeaderText = "Ablauf";
+            this.endDateDataGridViewTextBoxColumn.Name = "endDateDataGridViewTextBoxColumn";
+            this.endDateDataGridViewTextBoxColumn.ReadOnly = true;
+            this.endDateDataGridViewTextBoxColumn.Width = 62;
+            // 
+            // soldDateDataGridViewTextBoxColumn
+            // 
+            this.soldDateDataGridViewTextBoxColumn.DataPropertyName = "SoldDate";
+            this.soldDateDataGridViewTextBoxColumn.HeaderText = "verk.";
+            this.soldDateDataGridViewTextBoxColumn.Name = "soldDateDataGridViewTextBoxColumn";
+            this.soldDateDataGridViewTextBoxColumn.ReadOnly = true;
+            this.soldDateDataGridViewTextBoxColumn.Width = 56;
+            // 
+            // payoutDateDataGridViewTextBoxColumn
+            // 
+            this.payoutDateDataGridViewTextBoxColumn.DataPropertyName = "PayoutDate";
+            this.payoutDateDataGridViewTextBoxColumn.HeaderText = "ausgez.";
+            this.payoutDateDataGridViewTextBoxColumn.Name = "payoutDateDataGridViewTextBoxColumn";
+            this.payoutDateDataGridViewTextBoxColumn.ReadOnly = true;
+            this.payoutDateDataGridViewTextBoxColumn.Width = 69;
+            // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -166,6 +279,10 @@
             this.UndeleteToolStripMenuItem.Text = "Undelete";
             this.UndeleteToolStripMenuItem.Visible = false;
             this.UndeleteToolStripMenuItem.Click += new System.EventHandler(this.UndeleteToolStripMenuItem_Click);
+            // 
+            // itemBindingSource
+            // 
+            this.itemBindingSource.DataSource = typeof(ConsignmentShopLibrary.Item);
             // 
             // btnClear
             // 
@@ -630,123 +747,6 @@
             this.lblDatum.TabIndex = 33;
             this.lblDatum.Text = "Annahmedatum";
             // 
-            // itemBindingSource
-            // 
-            this.itemBindingSource.DataSource = typeof(ConsignmentShopLibrary.Item);
-            // 
-            // accountID
-            // 
-            this.accountID.DataPropertyName = "AccountID";
-            this.accountID.HeaderText = "KdNr";
-            this.accountID.Name = "accountID";
-            this.accountID.ReadOnly = true;
-            this.accountID.Width = 56;
-            // 
-            // itemNumberDataGridViewTextBoxColumn
-            // 
-            this.itemNumberDataGridViewTextBoxColumn.DataPropertyName = "ItemNumber";
-            this.itemNumberDataGridViewTextBoxColumn.HeaderText = "ArtNr";
-            this.itemNumberDataGridViewTextBoxColumn.Name = "itemNumberDataGridViewTextBoxColumn";
-            this.itemNumberDataGridViewTextBoxColumn.ReadOnly = true;
-            this.itemNumberDataGridViewTextBoxColumn.Width = 56;
-            // 
-            // itemDescriptionDataGridViewTextBoxColumn
-            // 
-            this.itemDescriptionDataGridViewTextBoxColumn.DataPropertyName = "ItemDescription";
-            this.itemDescriptionDataGridViewTextBoxColumn.HeaderText = "Artikel";
-            this.itemDescriptionDataGridViewTextBoxColumn.MinimumWidth = 80;
-            this.itemDescriptionDataGridViewTextBoxColumn.Name = "itemDescriptionDataGridViewTextBoxColumn";
-            this.itemDescriptionDataGridViewTextBoxColumn.ReadOnly = true;
-            this.itemDescriptionDataGridViewTextBoxColumn.Width = 80;
-            // 
-            // brandDataGridViewTextBoxColumn
-            // 
-            this.brandDataGridViewTextBoxColumn.DataPropertyName = "Brand";
-            this.brandDataGridViewTextBoxColumn.HeaderText = "Marke";
-            this.brandDataGridViewTextBoxColumn.Name = "brandDataGridViewTextBoxColumn";
-            this.brandDataGridViewTextBoxColumn.ReadOnly = true;
-            this.brandDataGridViewTextBoxColumn.Width = 62;
-            // 
-            // colorDataGridViewTextBoxColumn
-            // 
-            this.colorDataGridViewTextBoxColumn.DataPropertyName = "Color";
-            this.colorDataGridViewTextBoxColumn.HeaderText = "Farbe";
-            this.colorDataGridViewTextBoxColumn.Name = "colorDataGridViewTextBoxColumn";
-            this.colorDataGridViewTextBoxColumn.ReadOnly = true;
-            this.colorDataGridViewTextBoxColumn.Width = 59;
-            // 
-            // sizeDataGridViewTextBoxColumn
-            // 
-            this.sizeDataGridViewTextBoxColumn.DataPropertyName = "Size";
-            this.sizeDataGridViewTextBoxColumn.HeaderText = "Gr.";
-            this.sizeDataGridViewTextBoxColumn.Name = "sizeDataGridViewTextBoxColumn";
-            this.sizeDataGridViewTextBoxColumn.ReadOnly = true;
-            this.sizeDataGridViewTextBoxColumn.Width = 46;
-            // 
-            // propDataGridViewTextBoxColumn
-            // 
-            this.propDataGridViewTextBoxColumn.DataPropertyName = "Prop";
-            this.propDataGridViewTextBoxColumn.HeaderText = "Sonst.";
-            this.propDataGridViewTextBoxColumn.Name = "propDataGridViewTextBoxColumn";
-            this.propDataGridViewTextBoxColumn.ReadOnly = true;
-            this.propDataGridViewTextBoxColumn.Width = 62;
-            // 
-            // salesPriceDataGridViewTextBoxColumn
-            // 
-            this.salesPriceDataGridViewTextBoxColumn.DataPropertyName = "SalesPrice";
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle1.Format = "C2";
-            dataGridViewCellStyle1.NullValue = null;
-            this.salesPriceDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
-            this.salesPriceDataGridViewTextBoxColumn.HeaderText = "VK-Preis";
-            this.salesPriceDataGridViewTextBoxColumn.Name = "salesPriceDataGridViewTextBoxColumn";
-            this.salesPriceDataGridViewTextBoxColumn.ReadOnly = true;
-            this.salesPriceDataGridViewTextBoxColumn.Width = 72;
-            // 
-            // costPriceDataGridViewTextBoxColumn
-            // 
-            this.costPriceDataGridViewTextBoxColumn.DataPropertyName = "CostPrice";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.Format = "C2";
-            dataGridViewCellStyle2.NullValue = null;
-            this.costPriceDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
-            this.costPriceDataGridViewTextBoxColumn.HeaderText = "Auszahl.";
-            this.costPriceDataGridViewTextBoxColumn.Name = "costPriceDataGridViewTextBoxColumn";
-            this.costPriceDataGridViewTextBoxColumn.ReadOnly = true;
-            this.costPriceDataGridViewTextBoxColumn.Width = 72;
-            // 
-            // beginDateDataGridViewTextBoxColumn
-            // 
-            this.beginDateDataGridViewTextBoxColumn.DataPropertyName = "BeginDate";
-            this.beginDateDataGridViewTextBoxColumn.HeaderText = "Annahme";
-            this.beginDateDataGridViewTextBoxColumn.Name = "beginDateDataGridViewTextBoxColumn";
-            this.beginDateDataGridViewTextBoxColumn.ReadOnly = true;
-            this.beginDateDataGridViewTextBoxColumn.Width = 77;
-            // 
-            // endDateDataGridViewTextBoxColumn
-            // 
-            this.endDateDataGridViewTextBoxColumn.DataPropertyName = "EndDate";
-            this.endDateDataGridViewTextBoxColumn.HeaderText = "Ablauf";
-            this.endDateDataGridViewTextBoxColumn.Name = "endDateDataGridViewTextBoxColumn";
-            this.endDateDataGridViewTextBoxColumn.ReadOnly = true;
-            this.endDateDataGridViewTextBoxColumn.Width = 62;
-            // 
-            // soldDateDataGridViewTextBoxColumn
-            // 
-            this.soldDateDataGridViewTextBoxColumn.DataPropertyName = "SoldDate";
-            this.soldDateDataGridViewTextBoxColumn.HeaderText = "verk.";
-            this.soldDateDataGridViewTextBoxColumn.Name = "soldDateDataGridViewTextBoxColumn";
-            this.soldDateDataGridViewTextBoxColumn.ReadOnly = true;
-            this.soldDateDataGridViewTextBoxColumn.Width = 56;
-            // 
-            // payoutDateDataGridViewTextBoxColumn
-            // 
-            this.payoutDateDataGridViewTextBoxColumn.DataPropertyName = "PayoutDate";
-            this.payoutDateDataGridViewTextBoxColumn.HeaderText = "ausgez.";
-            this.payoutDateDataGridViewTextBoxColumn.Name = "payoutDateDataGridViewTextBoxColumn";
-            this.payoutDateDataGridViewTextBoxColumn.ReadOnly = true;
-            this.payoutDateDataGridViewTextBoxColumn.Width = 69;
-            // 
             // ReportUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -778,11 +778,11 @@
             this.Load += new System.EventHandler(this.Form2_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ReportItemsDataGridView)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.itemBindingSource)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.itemBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

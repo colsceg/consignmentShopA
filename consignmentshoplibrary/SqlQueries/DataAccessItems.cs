@@ -501,6 +501,74 @@ namespace ConsignmentShopLibrary
             }
         }
 
+        /// <summary>
+        /// Einlesen der Artikel nach ContractDaten sortiert
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetAllItemsContract()
+        {
+            using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
+            {
+                ReportDataTable table = new ReportDataTable();
+                DataRow row;
+                DataTable myTable = table.DataTable;
+
+                try
+                {
+                    var output = connection.Query<Item>($"SELECT ContractID, AccountID, itemNumber, itemDescription, brand, color, size, prop, salesPrice, costPrice, beginDate, " +
+                               "endDate, soldDate, payoutDate  FROM items WHERE DeleteDate = '' ORDER BY beginDate DESC ").ToList();
+                    foreach (var item in output)
+                    {
+                        row = myTable.NewRow();
+
+                        row["ContractID"] = item.AccountID;
+                        row["AccountID"] = item.AccountID;
+                        try
+                        {
+                            row["ItemNumber"] = item.ItemNumber;
+                        }
+                        catch (Exception)
+                        {
+
+                            row["ItemNumber"] = item.ItemNumber.Substring(0, 4);
+                        }
+                        row["ItemDescription"] = item.ItemDescription;
+                        row["Brand"] = item.Brand;
+                        row["Color"] = item.Color;
+                        row["Size"] = item.Size;
+                        row["Prop"] = item.Prop;
+                        row["SalesPrice"] = item.SalesPrice;
+                        row["CostPrice"] = item.CostPrice;
+                        if (!String.IsNullOrEmpty(item.BeginDate))
+                            row["BeginDate"] = item.BeginDate;
+                        else
+                            row["BeginDate"] = DBNull.Value;
+                        if (!String.IsNullOrEmpty(item.EndDate))
+                            row["EndDate"] = item.EndDate;
+                        else
+                            row["EndDate"] = DBNull.Value;
+                        if (!String.IsNullOrEmpty(item.SoldDate))
+                            row["SoldDate"] = item.SoldDate;
+                        else
+                            row["SoldDate"] = DBNull.Value;
+                        if (!String.IsNullOrEmpty(item.PayoutDate))
+                            row["PayoutDate"] = item.PayoutDate;
+                        else
+                            row["PayoutDate"] = DBNull.Value;
+
+                        myTable.Rows.Add(row);
+                    }
+                    return myTable;
+                }
+                catch (SQLiteException ex)
+                {
+                    MessageBox.Show($"Problem beim einlesen der Vertragnummern {ex}");
+                    throw;
+                }
+
+            }
+        }
+
         public DataTable GetAllItemsReportDeleted()
         {
             string test = Helper.ConnectionString;

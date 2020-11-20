@@ -5,6 +5,7 @@ using Dapper;
 using System.Data.SQLite;
 using System.ComponentModel;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace ConsignmentShopLibrary
 {
@@ -304,6 +305,32 @@ namespace ConsignmentShopLibrary
                 //return connection.Query<Person>("SELECT * FROM customers WHERE name = '{ name }'").ToList();
                 var output = connection.Query<Brand>($"SELECT * FROM labels  WHERE labels.name = '{Store.SQLEscape(aBrand)}'").ToList();
                 return output;
+            }
+        }
+
+        public bool FindItemdescription(string anItemdescription)
+        {
+            int i = 0;
+            try
+            {
+                using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
+                {
+                    //return connection.Query<Person>("SELECT * FROM customers WHERE name = '{ name }'").ToList();
+                    var output = connection.Query<Brand>($"SELECT itemDescription FROM items WHERE itemDescription = '{ anItemdescription }' GROUP BY itemDescription ORDER BY itemDescription ASC ").ToList();
+                    foreach (var item in output)
+                    {
+                        i++;
+                    }
+                    if (i > 0)
+                        return true;
+                    else
+                        return false;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"Fehler {e}");
+                return false;
             }
         }
 

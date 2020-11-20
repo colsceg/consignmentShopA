@@ -25,6 +25,16 @@ namespace ConsignmentShopLibrary
             // ColumnName and add to DataTable.    
             column = new DataColumn();
             column.DataType = System.Type.GetType("System.String");
+            column.ColumnName = "ContractID";
+            column.ReadOnly = true;
+            column.Unique = false;
+            // Add the Column to the DataColumnCollection.
+            table.Columns.Add(column);
+
+            // Create new DataColumn, set DataType, 
+            // ColumnName and add to DataTable.    
+            column = new DataColumn();
+            column.DataType = System.Type.GetType("System.String");
             column.ColumnName = "AccountID";
             column.ReadOnly = true;
             column.Unique = false;

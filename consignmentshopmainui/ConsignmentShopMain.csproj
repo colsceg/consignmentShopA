@@ -303,6 +303,12 @@
     <Compile Include="KeyInputWindow.Designer.cs">
       <DependentUpon>KeyInputWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="ContractUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ContractUI.designer.cs">
+      <DependentUpon>ContractUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReportUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -412,6 +418,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="KeyInputWindow.resx">
       <DependentUpon>KeyInputWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ContractUI.resx">
+      <DependentUpon>ContractUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ReportUI.resx">
       <DependentUpon>ReportUI.cs</DependentUpon>

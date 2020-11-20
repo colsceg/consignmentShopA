@@ -60,16 +60,16 @@ namespace ConsignmentShopMainUI
         private bool myBrandTextChanged = false;
         private bool myColorTextChanged = false;
         private bool mySizeTextChanged = false;
-
-        //private bool CustomerNameLeft = false;
-
-        private List<Make> labelList = new List<Make>();
+        private bool myItemdescriptionTextChanged = false;
 
         private BindingList<string> bindinglistColor = new BindingList<string>();
         private BindingSource bSourceColor = new BindingSource();
 
         private BindingList<string> bindinglistBrand = new BindingList<string>();
         private BindingSource bSourceBrand = new BindingSource();
+
+        private BindingList<string> bindinglistItemdescription = new BindingList<string>();
+        private BindingSource bSourceItemdescription = new BindingSource();
 
         private BindingList<string> bindinglistProperties = new BindingList<string>();
         private BindingSource bSourceProperties = new BindingSource();
@@ -124,201 +124,9 @@ namespace ConsignmentShopMainUI
             ComboBoxVendorName.Focus();
         }
 
-        /// <summary>
-        /// Teil des Mainwindow Constructors 
-        /// </summary>
-        private void Setup()
-        {
-            string aktItemNumber = null;
-            string myBackupFileName;
-            //string connectionStringName = "SecondHandCollection";
-         
-
-            AppDataDirectory = Helper.AppDataDirectory;
-            if (!Directory.Exists(AppDataDirectory))
-            {
-                Directory.CreateDirectory(AppDataDirectory);
-            }
-
-            WorkingDirectory = Helper.WorkingDirectory;
-            if (!Directory.Exists(WorkingDirectory))
-            {
-                Directory.CreateDirectory(WorkingDirectory);
-            }
-
-            BackupDirectory = Helper.BackupDirectory;
-            if (!Directory.Exists(BackupDirectory))
-            {
-                Directory.CreateDirectory(BackupDirectory);
-            }
-
-            //string ConnectionString = "Data Source=" + WorkingDirectory + Helper.MyDBFilename + "; version=3;";
-            //Helper.AddUpdateConnectionStringSettings(connectionStringName, ConnectionString);
-
-            AccountIDTextBox.Text = "";
-            SalesPriceTextBox.Text = String.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", 0.0);
-            MarginTextBox.Text = string.Format("{0} %", 0);
-            ComboBoxVendorName.Focus();
-            ItemDescriptionTextBox_.ReadOnly = true;
-            SalesPriceTextBox.ReadOnly = true;
-
-            //Kundeneingabe Buttons enablen
-            ComboBoxVendorName.Enabled = true;
-            NewCustomerButton.Enabled = true;
-            ItemsDataGridView.ScrollBars = ScrollBars.Vertical;
-            ContractSaveBtn.Enabled = false;
-            ClearBtn.Enabled = false;
-            GoodsInOKButton.Enabled = false;
-
-            //Lizensierung überprüfen
-            LicenseFile = AppDataDirectory + "\\2nd.dta";
-            if (File.Exists(LicenseFile))
-            {
-                SerNo  = Store.ReadSerNoFromFile(LicenseFile);
-                LicenseNo = Store.ReadLicenseNoFromFile(LicenseFile);
-                if (!String.IsNullOrEmpty(LicenseNo))
-                {   //License File vorhanden
-                    //Schlüsselnummern in Array einlesen
-                    Hashtable keys =Store.GetKeyList();
-                    //Die letzten beiden Ziffern der Seriennummer extrahieren ist key
-                    int key = Convert.ToInt32( SerNo.Substring(SerNo.Length - 2, 2));
-                    if (keys.ContainsKey(key))
-                    {
-                        //keyValue ist der zugehörige Wert in der Schlüsselliste
-                        string keyValue = keys[key].ToString();
-
-                        //Prüfen ob md5 Wert von value in Datei gespeichert
-                        if (LicenseNo == Store.StringtoMD5(keyValue))
-                        {
-                            Licensed = true;
-                            SchlüsselEingebenToolStripMenuItem.Enabled = false;
-                            this.Text = "Kommissionswaren Secondhand Kleidung (Lizensiert)";
-                            this.Invalidate();
-                        }
-                        else
-                        { 
-                            Licensed = false;
-                            SchlüsselEingebenToolStripMenuItem.Enabled = true;
-                            this.Text = "Kommissionswaren Secondhand Kleidung (Demo)";
-                        }
-                    }
-                }
-            }
-            else
-            {
-                //Erste Installation des Programms keine Dataie vorhanden
-                Guid myGUID;
-                // Create GUID.
-                myGUID = Guid.NewGuid();
-                //Eine Seriennummer anhand des Datums bilden
-                SerNo = Convert.ToString(Store.DateTimeToUnixTimestamp(DateTime.Now));
-                //Seriennummer in Datei speichenrn
-                Store.WriteSernoToFile(SerNo, LicenseFile);
-            }
 
 
-            //Neues Backup anlegen Ein Backup pro Tag max 7
-            string myAktDate = DateTime.Today.ToShortDateString();
-            myAktDate = myAktDate.Replace('.', '_');
-            myBackupFileName = "\\SecondHandCollection_" + myAktDate + ".db";
-
-            if (!File.Exists(Helper.WorkingDirectory + Helper.MyDBFilename))
-            {
-                Directory.CreateDirectory(Helper.WorkingDirectory);
-                Directory.CreateDirectory(BackupDirectory);
-                DbItems.CreateDataBase(Helper.WorkingDirectory + Helper.MyDBFilename);
-                File.Copy((Helper.WorkingDirectory + Helper.MyDBFilename), (BackupDirectory + myBackupFileName), true);
-
-            }
-            else
-            {
-                int myBackupFilesCount = Store.GetFilesCount(BackupDirectory, "*.db");
-                if (myBackupFilesCount > 0)
-                {
-                    string myNewestBackupFileName = Store.GetNewestFileName(BackupDirectory, "*.db");
-                    if (myNewestBackupFileName != myBackupFileName)
-                    {
-                        if (!File.Exists(BackupDirectory + myBackupFileName))
-                        {
-                            File.Copy(Helper.WorkingDirectory + Helper.MyDBFilename, BackupDirectory + myBackupFileName);
-                        }
-
-                        if (myBackupFilesCount > 7)
-                        {
-                            string myOldestBackupFileName = Store.GetOldestFileName(BackupDirectory, "*.db");
-                            if (File.Exists(BackupDirectory + myBackupFileName))
-                            {
-                                File.Delete(BackupDirectory + "\\" + myOldestBackupFileName);
-                            }
-                        }
-                    }
-                }
-            }
-
-            //List<Contract> myContractsList = DbItems.GetAllTotalNumberOfContracts();
-            //Artikelliste einlesen
-            ItemsList = DbItems.GetAllItems();
-            ItemsCount = ItemsList.Count;
-
-            //Kundendaten einlesen
-            DbVendors.GetAllVendors();
-
-            //Postleitzahlen
-            List<ZIPCode> myZipCodes = DbZipCode.GetAllZIPCodes();
-            
-            //Programmabbruch wenn 1000 Artikel und keine Lizenz
-            if (ItemsCount >= 1000 && !Licensed)
-            {
-                MessageBox.Show("Senden Sie die Seriennummer: " + SerNo + " für eine kostenlose Lizensierung an info@chairfit.de");
-                //Automatisch mail senden ? über WEB ? Mail Programm öffnen
-            }
-            else  //Datenkonsistenz überprüfen
-            {   
-                if (ItemsCount > 0)
-                {
-                    List<int> myItemNumberList = new List<int>();
-                    List<Item> myItemsList = new List<Item>();
-                    //myItemsList = DbItems.GetAllItems();
-                    int val = 0;
-                    foreach (var item in ItemsList)
-                    {
-                        if (Int32.TryParse(item.ItemNumber, out val))
-                            myItemNumberList.Add(val);
-                    }
-                    myItemNumberList.Sort();
-                    aktItemNumber = myItemNumberList.LastOrDefault().ToString();
-                    //List<ItemAllGroupedByItemNumber> myGroupedItemList1 = DbItems.GetAllItemsGroupedByItemNumber();
-                    //aktItemNumber = myGroupedItemList1.Last().ItemNumber;
-                    ////Für den Fall, dass Fehler in ConfigData
-                    LastItemNumber = DbItems.GetLastItemNumber(); //aus configData
-
-                    if (LastItemNumber != aktItemNumber)
-                    {
-                        //LastItemNumber in items ungleich LastItemNumber in configData
-                        MessageBox.Show("Achtung Dateninkonsistenz, LastItemNumber = " + LastItemNumber + " aktItemNumber = " + aktItemNumber + "  Wiederherstellung mit letztem Backup empfohlen");
-                        return;
-                    }
-
-                }
-
-                //Test ob Jahreswechsel
-                if (Store.YearChanged(LastContractID))
-                {
-                    List<ConfigData> myConfigData = DbItems.GetConfigData();
-                    myConfigData[0].LastContractID = DateTime.Today.Year.ToString().Substring(2, 2) + "0000";
-                    myConfigData[0].LastInvoiceID = DateTime.Today.Year.ToString().Substring(2, 2) + "0000";
-                    myConfigData[0].LastItemNumber = DateTime.Today.Year.ToString().Substring(2, 2) + "0000";
-                    DbItems.UpdateConfigDat(myConfigData[0]);
-                }
-                //Aufträge mit Abrechnungsdatum alter als 12 Monate archivieren.
-                string myTestString = DateTime.Today.AddMonths(-12).ToShortDateString();
-                //MessageBox.Show("Datum vor 12 Monaten " + myTestString);
-
-            }
-            //Die Listen mit Artikeleigenschaften füllen (Comboboxen)
-            FillAttributeTables();
-        }
-
+        #region Read files from old Cincom version
         //Dient dem Einlesen der Waremliste aus dem Cincom Programm
         private void ReadAllItemsFromFile(string myFilename)
         {
@@ -701,6 +509,203 @@ namespace ConsignmentShopMainUI
                 }
             }
         }
+        #endregion
+
+        #region Methods after application loaded
+        /// <summary>
+        /// Called as a Teil des Mainwindow Constructors 
+        /// </summary>
+        private void Setup()
+        {
+            string aktItemNumber = null;
+            string myBackupFileName;
+            //string connectionStringName = "SecondHandCollection";
+
+
+            AppDataDirectory = Helper.AppDataDirectory;
+            if (!Directory.Exists(AppDataDirectory))
+            {
+                Directory.CreateDirectory(AppDataDirectory);
+            }
+
+            WorkingDirectory = Helper.WorkingDirectory;
+            if (!Directory.Exists(WorkingDirectory))
+            {
+                Directory.CreateDirectory(WorkingDirectory);
+            }
+
+            BackupDirectory = Helper.BackupDirectory;
+            if (!Directory.Exists(BackupDirectory))
+            {
+                Directory.CreateDirectory(BackupDirectory);
+            }
+
+            //string ConnectionString = "Data Source=" + WorkingDirectory + Helper.MyDBFilename + "; version=3;";
+            //Helper.AddUpdateConnectionStringSettings(connectionStringName, ConnectionString);
+
+            AccountIDTextBox.Text = "";
+            SalesPriceTextBox.Text = String.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", 0.0);
+            MarginTextBox.Text = string.Format("{0} %", 0);
+            ComboBoxVendorName.Focus();
+            ComboBoxItemDescription.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            SalesPriceTextBox.ReadOnly = true;
+
+            //Kundeneingabe Buttons enablen
+            ComboBoxVendorName.Enabled = true;
+            NewCustomerButton.Enabled = true;
+            ItemsDataGridView.ScrollBars = ScrollBars.Vertical;
+            ContractSaveBtn.Enabled = false;
+            ClearBtn.Enabled = false;
+            GoodsInOKButton.Enabled = false;
+
+            //Lizensierung überprüfen
+            LicenseFile = AppDataDirectory + "\\2nd.dta";
+            if (File.Exists(LicenseFile))
+            {
+                SerNo = Store.ReadSerNoFromFile(LicenseFile);
+                LicenseNo = Store.ReadLicenseNoFromFile(LicenseFile);
+                if (!String.IsNullOrEmpty(LicenseNo))
+                {   //License File vorhanden
+                    //Schlüsselnummern in Array einlesen
+                    Hashtable keys = Store.GetKeyList();
+                    //Die letzten beiden Ziffern der Seriennummer extrahieren ist key
+                    int key = Convert.ToInt32(SerNo.Substring(SerNo.Length - 2, 2));
+                    if (keys.ContainsKey(key))
+                    {
+                        //keyValue ist der zugehörige Wert in der Schlüsselliste
+                        string keyValue = keys[key].ToString();
+
+                        //Prüfen ob md5 Wert von value in Datei gespeichert
+                        if (LicenseNo == Store.StringtoMD5(keyValue))
+                        {
+                            Licensed = true;
+                            SchlüsselEingebenToolStripMenuItem.Enabled = false;
+                            this.Text = "Kommissionswaren Secondhand Kleidung (Lizensiert)";
+                            this.Invalidate();
+                        }
+                        else
+                        {
+                            Licensed = false;
+                            SchlüsselEingebenToolStripMenuItem.Enabled = true;
+                            this.Text = "Kommissionswaren Secondhand Kleidung (Demo)";
+                        }
+                    }
+                }
+            }
+            else
+            {
+                //Erste Installation des Programms keine Dataie vorhanden
+                Guid myGUID;
+                // Create GUID.
+                myGUID = Guid.NewGuid();
+                //Eine Seriennummer anhand des Datums bilden
+                SerNo = Convert.ToString(Store.DateTimeToUnixTimestamp(DateTime.Now));
+                //Seriennummer in Datei speichenrn
+                Store.WriteSernoToFile(SerNo, LicenseFile);
+            }
+
+
+            //Neues Backup anlegen Ein Backup pro Tag max 7
+            string myAktDate = DateTime.Today.ToShortDateString();
+            myAktDate = myAktDate.Replace('.', '_');
+            myBackupFileName = "\\SecondHandCollection_" + myAktDate + ".db";
+
+            if (!File.Exists(Helper.WorkingDirectory + Helper.MyDBFilename))
+            {
+                Directory.CreateDirectory(Helper.WorkingDirectory);
+                Directory.CreateDirectory(BackupDirectory);
+                DbItems.CreateDataBase(Helper.WorkingDirectory + Helper.MyDBFilename);
+                File.Copy((Helper.WorkingDirectory + Helper.MyDBFilename), (BackupDirectory + myBackupFileName), true);
+
+            }
+            else
+            {
+                int myBackupFilesCount = Store.GetFilesCount(BackupDirectory, "*.db");
+                if (myBackupFilesCount > 0)
+                {
+                    string myNewestBackupFileName = Store.GetNewestFileName(BackupDirectory, "*.db");
+                    if (myNewestBackupFileName != myBackupFileName)
+                    {
+                        if (!File.Exists(BackupDirectory + myBackupFileName))
+                        {
+                            File.Copy(Helper.WorkingDirectory + Helper.MyDBFilename, BackupDirectory + myBackupFileName);
+                        }
+
+                        if (myBackupFilesCount > 7)
+                        {
+                            string myOldestBackupFileName = Store.GetOldestFileName(BackupDirectory, "*.db");
+                            if (File.Exists(BackupDirectory + myBackupFileName))
+                            {
+                                File.Delete(BackupDirectory + "\\" + myOldestBackupFileName);
+                            }
+                        }
+                    }
+                }
+            }
+
+            //List<Contract> myContractsList = DbItems.GetAllTotalNumberOfContracts();
+            //Artikelliste einlesen
+            ItemsList = DbItems.GetAllItems();
+            ItemsCount = ItemsList.Count;
+
+            //Kundendaten einlesen
+            DbVendors.GetAllVendors();
+
+            //Postleitzahlen
+            List<ZIPCode> myZipCodes = DbZipCode.GetAllZIPCodes();
+
+            //Programmabbruch wenn 1000 Artikel und keine Lizenz
+            if (ItemsCount >= 1000 && !Licensed)
+            {
+                MessageBox.Show("Senden Sie die Seriennummer: " + SerNo + " für eine kostenlose Lizensierung an info@chairfit.de");
+                //Automatisch mail senden ? über WEB ? Mail Programm öffnen
+            }
+            else  //Datenkonsistenz überprüfen
+            {
+                if (ItemsCount > 0)
+                {
+                    List<int> myItemNumberList = new List<int>();
+                    List<Item> myItemsList = new List<Item>();
+                    //myItemsList = DbItems.GetAllItems();
+                    int val = 0;
+                    foreach (var item in ItemsList)
+                    {
+                        if (Int32.TryParse(item.ItemNumber, out val))
+                            myItemNumberList.Add(val);
+                    }
+                    myItemNumberList.Sort();
+                    aktItemNumber = myItemNumberList.LastOrDefault().ToString();
+                    //List<ItemAllGroupedByItemNumber> myGroupedItemList1 = DbItems.GetAllItemsGroupedByItemNumber();
+                    //aktItemNumber = myGroupedItemList1.Last().ItemNumber;
+                    ////Für den Fall, dass Fehler in ConfigData
+                    LastItemNumber = DbItems.GetLastItemNumber(); //aus configData
+
+                    if (LastItemNumber != aktItemNumber)
+                    {
+                        //LastItemNumber in items ungleich LastItemNumber in configData
+                        MessageBox.Show("Achtung Dateninkonsistenz, LastItemNumber = " + LastItemNumber + " aktItemNumber = " + aktItemNumber + "  Wiederherstellung mit letztem Backup empfohlen");
+                        return;
+                    }
+
+                }
+
+                //Test ob Jahreswechsel
+                if (Store.YearChanged(LastContractID))
+                {
+                    List<ConfigData> myConfigData = DbItems.GetConfigData();
+                    myConfigData[0].LastContractID = DateTime.Today.Year.ToString().Substring(2, 2) + "0000";
+                    myConfigData[0].LastInvoiceID = DateTime.Today.Year.ToString().Substring(2, 2) + "0000";
+                    myConfigData[0].LastItemNumber = DateTime.Today.Year.ToString().Substring(2, 2) + "0000";
+                    DbItems.UpdateConfigDat(myConfigData[0]);
+                }
+                //Aufträge mit Abrechnungsdatum alter als 12 Monate archivieren.
+                string myTestString = DateTime.Today.AddMonths(-12).ToShortDateString();
+                //MessageBox.Show("Datum vor 12 Monaten " + myTestString);
+
+            }
+            //Die Listen mit Artikeleigenschaften füllen (Comboboxen)
+            FillAttributeTables();
+        }
 
         private void Disp()
         {
@@ -724,100 +729,9 @@ namespace ConsignmentShopMainUI
             }
         }
 
-        private void CreateNewContract()
-        {
-            string myAktYear = Convert.ToString(DateTime.Today.Year).Substring(2, 2);
-            myAccountID = AccountIDTextBox.Text; //wird von VendorSearchWindow_Closed oder ComboboxCustomerName gefüllt
-            CustomersList = DbVendors.GetVendorWithAccountID(myAccountID);
-            Contract newContract = new Contract() { AccountID = myAccountID };
-            if ((!Licensed && ItemsCount < 1000) || Licensed)
-            {
-                if (!String.IsNullOrWhiteSpace(AccountIDTextBox.Text) && CustomersList.Count > 0)
-                {
-                    if (!String.IsNullOrEmpty(CustomersList[0].AccountID))
-                    {
-                        //ContractID festlegen
-                        myConfigData = DbItems.GetConfigData();
-                        if (myConfigData.Count > 0)
-                        {
-                            myContractID = myConfigData[0].LastContractID;
-                            myItemNumber = myConfigData[0].LastItemNumber;
-
-                        }
-                        //Neue Vertragsnummer und Itemnummer erzeugen
-                        myContractID = Store.IncrementContractID(myContractID);
-                        myItemNumber = Store.IncrementItemNumber(myItemNumber);
-                        ItemsNumberTextBox.Text = myItemNumber;
-
-                        if (!String.IsNullOrEmpty(myContractID))
-                        {
-                            //Felder mit Daten füllen
-                            _ignoreEvents = true;
-
-                            FullNameTextBox.Text = CustomersList[0].LastName + " " + CustomersList[0].FirstName ;
-                            FullNameTextBox.Visible = true;
-                            ComboBoxVendorName.Visible = false;
-                           
-                            MarginTextBox.Text = string.Format("{0} %", Convert.ToString(CustomersList[0].Margin));
-                            PeriodTextBox.Text = CustomersList[0].Period.ToString();
-                            ContractNumberTextBox.Text = Item.ConvertContractIDToContractNumber(myContractID);
-                            ComboBoxBrand.Text = "";
-                            //ItemNumber festlegen
-
-
-                            ExpirationDateTextBox.Text = DateTime.Today.AddDays(Convert.ToInt32(PeriodTextBox.Text)).ToShortDateString();
-                            //now create new contract Data and save it in contracts
-
-                            newContract = new Contract(myContractID, myAccountID, Convert.ToInt32(MarginTextBox.Text.Split(' ')[0]));
-
-                            newContract.BeginDate = AktDateTextBox.Text;
-                            newContract.EndDate = ExpirationDateTextBox.Text;
-
-                            //neuen Vertrag eintragen
-                            DbItems.InsertContract(newContract);
-
-                            //contract Number in configData eintragen
-                            myConfigData[0].LastContractID = myContractID;
-                            DbItems.UpdateConfigDat(myConfigData[0]);
-
-                            //now create item Data 
-                            myItem.ContractID = Store.ConvertContractNumberToContractID(ContractNumberTextBox.Text);
-                            //myItem.AccountID = AccountIDTextBox.Text;
-                            myItem.BeginDate = AktDateTextBox.Text;
-                            myItem.EndDate = ExpirationDateTextBox.Text;
-                            //Kundeneingabe Buttons disable
-                            ComboBoxVendorName.Enabled = false;
-                            NewCustomerButton.Enabled = false;
-
-                            ComboBoxColor.Enabled = true;
-                            ComboBoxBrand.Enabled = true;
-                            TextBoxProperties.Enabled = true;
-                            ComboBoxSize.Enabled = true;
-
-
-                            SalesPriceTextBox.Enabled = true;
-                            SalesPriceTextBox.ReadOnly = false;
-                            myContractChanged = true;
-                            ClearBtn.Enabled = true;
-                            GoodsInOKButton.Enabled = true;
-                            MarginTextBox.ReadOnly = false;
-                            PeriodTextBox.ReadOnly = false;
-                            ItemDescriptionTextBox_.ReadOnly = false;
-                            //ItemDescriptionTextBox.Focus();
-                            _ignoreEvents = false;
-                           
-                        }
-                    }
-                    myContract = newContract;
-                }
-            }
-            else
-            {
-                MessageBox.Show("Dies ist eine Demo Version, bitte Senden Sie die Seriennummer: " + SerNo + " für eine kostenlose Lizensierung an info@chairfit.de");
-            }
-        }
-
-        //Comboboxen initialisieren
+        /// <summary>
+        /// Alle Comboboxen initialisieren
+        /// </summary>
         private void FillAttributeTables()
         {
             //Alle Artikeleigenschaften einlesen; Beim ersten Aufruf des Programms Tabellen anlegen aus TextFiles
@@ -840,6 +754,19 @@ namespace ConsignmentShopMainUI
                 _ignoreEvents = false;
             }
 
+            // Update List with all Itemdescription for Itemdescription ComboBox
+            bindinglistItemdescription = DbAttribs.GetAllItemDescriptionFromItems();
+            _ignoreEvents = true;
+            try
+            {
+                bindinglistItemdescription.Add("");
+                bSourceItemdescription.DataSource = bindinglistItemdescription;
+                ComboBoxItemDescription.DataSource = bSourceItemdescription;
+            }
+            finally
+            {
+                _ignoreEvents = false;
+            }
 
             //Farben
             bindinglistColor = DbAttribs.GetAllColors();
@@ -893,14 +820,112 @@ namespace ConsignmentShopMainUI
 
         }
 
-        //Button Reaktionen
+        #endregion
+
+        /// <summary>
+        /// Creates a new Contract after selecting a vendor
+        /// </summary>
+        private void CreateNewContract()
+        {
+            string myAktYear = Convert.ToString(DateTime.Today.Year).Substring(2, 2);
+            myAccountID = AccountIDTextBox.Text; //wird von VendorSearchWindow_Closed oder ComboboxCustomerName gefüllt
+            CustomersList = DbVendors.GetVendorWithAccountID(myAccountID);
+            Contract newContract = new Contract() { AccountID = myAccountID };
+            if ((!Licensed && ItemsCount < 1000) || Licensed)
+            {
+                if (!String.IsNullOrWhiteSpace(AccountIDTextBox.Text) && CustomersList.Count > 0)
+                {
+                    if (!String.IsNullOrEmpty(CustomersList[0].AccountID))
+                    {
+                        //ContractID festlegen
+                        myConfigData = DbItems.GetConfigData();
+                        if (myConfigData.Count > 0)
+                        {
+                            myContractID = myConfigData[0].LastContractID;
+                            myItemNumber = myConfigData[0].LastItemNumber;
+
+                        }
+                        //Neue Vertragsnummer und Itemnummer erzeugen
+                        myContractID = Store.IncrementContractID(myContractID);
+                        myItemNumber = Store.IncrementItemNumber(myItemNumber);
+                        ItemsNumberTextBox.Text = myItemNumber;
+
+                        if (!String.IsNullOrEmpty(myContractID))
+                        {
+                            //Felder mit Daten füllen
+                            _ignoreEvents = true;
+
+                            FullNameTextBox.Text = CustomersList[0].LastName + " " + CustomersList[0].FirstName;
+                            FullNameTextBox.Visible = true;
+                            ComboBoxVendorName.Visible = false;
+
+                            MarginTextBox.Text = string.Format("{0} %", Convert.ToString(CustomersList[0].Margin));
+                            PeriodTextBox.Text = CustomersList[0].Period.ToString();
+                            ContractNumberTextBox.Text = Item.ConvertContractIDToContractNumber(myContractID);
+                            ComboBoxBrand.Text = "";
+                            //ItemNumber festlegen
+
+
+                            ExpirationDateTextBox.Text = DateTime.Today.AddDays(Convert.ToInt32(PeriodTextBox.Text)).ToShortDateString();
+                            //now create new contract Data and save it in contracts
+
+                            newContract = new Contract(myContractID, myAccountID, Convert.ToInt32(MarginTextBox.Text.Split(' ')[0]));
+
+                            newContract.BeginDate = AktDateTextBox.Text;
+                            newContract.EndDate = ExpirationDateTextBox.Text;
+
+                            //neuen Vertrag eintragen
+                            DbItems.InsertContract(newContract);
+
+                            //contract Number in configData eintragen
+                            myConfigData[0].LastContractID = myContractID;
+                            DbItems.UpdateConfigDat(myConfigData[0]);
+
+                            //now create item Data 
+                            myItem.ContractID = Store.ConvertContractNumberToContractID(ContractNumberTextBox.Text);
+                            //myItem.AccountID = AccountIDTextBox.Text;
+                            myItem.BeginDate = AktDateTextBox.Text;
+                            myItem.EndDate = ExpirationDateTextBox.Text;
+                            //Kundeneingabe Buttons disable
+                            ComboBoxVendorName.Enabled = false;
+                            NewCustomerButton.Enabled = false;
+
+                            ComboBoxColor.Enabled = true;
+                            ComboBoxBrand.Enabled = true;
+                            TextBoxProperties.Enabled = true;
+                            ComboBoxSize.Enabled = true;
+
+
+                            SalesPriceTextBox.Enabled = true;
+                            SalesPriceTextBox.ReadOnly = false;
+                            myContractChanged = true;
+                            ClearBtn.Enabled = true;
+                            GoodsInOKButton.Enabled = true;
+                            MarginTextBox.ReadOnly = false;
+                            PeriodTextBox.ReadOnly = false;
+                            ComboBoxItemDescription.Enabled = true;
+                            ComboBoxItemDescription.Focus();
+                            _ignoreEvents = false;
+
+                        }
+                    }
+                    myContract = newContract;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Dies ist eine Demo Version, bitte Senden Sie die Seriennummer: " + SerNo + " für eine kostenlose Lizensierung an info@chairfit.de");
+            }
+        }
+
+        #region Button Reaktionen
+
         private void NewCustomerButton_Click(object sender, EventArgs e)
         {
             OpenVendorEditWindow();
             if (NewContract)
             {
                 ComboBoxVendorName.Focus();
-                ItemDescriptionTextBox_.Focus();
             }
         }
 
@@ -912,7 +937,7 @@ namespace ConsignmentShopMainUI
 
             if (!String.IsNullOrEmpty(AccountIDTextBox.Text)) //Prüfen ob AccountID vorhanden
             {
-                if (!String.IsNullOrEmpty(ItemDescriptionTextBox_.Text)) //Prüfen ob ItemBeschreibung eingegeben 
+                if (!String.IsNullOrEmpty(ComboBoxItemDescription.Text)) //Prüfen ob ItemBeschreibung eingegeben 
                 {
                     if (!String.IsNullOrEmpty(SalesPriceTextBox.Text)) //Prüfen ob SalesPrice eingegeben - nur Zahlen erlaubt
                     {
@@ -929,7 +954,7 @@ namespace ConsignmentShopMainUI
                             //updaten der Itemsdaten
                             myItem.AccountID = myAccountID;
                             myItem.ContractID = Store.ConvertContractNumberToContractID(ContractNumberTextBox.Text);
-                            myItem.ItemDescription = ItemDescriptionTextBox_.Text;
+                            myItem.ItemDescription = ComboBoxItemDescription.Text;
                             myItem.SalesPrice = Convert.ToString(mySalesPrice).Replace(",", ".");
                             myItem.CostPrice = Convert.ToString(myCostPrice).Replace(",", ".");
                             myItem.Color = ComboBoxColor.Text;
@@ -942,7 +967,7 @@ namespace ConsignmentShopMainUI
                             {   // Item in Tabelle einfügen
                                 ItemsDataGridView.Rows.Add(
                                     ItemsNumberTextBox.Text,
-                                    ItemDescriptionTextBox_.Text,
+                                    ComboBoxItemDescription.Text,
                                     ComboBoxBrand.Text,
                                     ComboBoxColor.Text,
                                     ComboBoxSize.Text,
@@ -963,7 +988,7 @@ namespace ConsignmentShopMainUI
                             else //vorhandenes Item wurde editiert
                             {
                                 //ItemsDataGridView.SelectedRows[0].Cells[0].Value = ItemsNumberTextBox.Text;
-                                ItemsDataGridView.SelectedRows[0].Cells[1].Value = ItemDescriptionTextBox_.Text;                                
+                                ItemsDataGridView.SelectedRows[0].Cells[1].Value = ComboBoxItemDescription.Text;                                
                                 ItemsDataGridView.SelectedRows[0].Cells[2].Value = ComboBoxBrand.Text;
                                 ItemsDataGridView.SelectedRows[0].Cells[3].Value = ComboBoxColor.Text;
                                 ItemsDataGridView.SelectedRows[0].Cells[4].Value = ComboBoxSize.Text;
@@ -983,7 +1008,7 @@ namespace ConsignmentShopMainUI
                                 ItemsDataGridView.FirstDisplayedScrollingRowIndex = 17 * myIntIndex;
                             myContract.NumberOfItems += 1;
                             DbItems.UpdateContract(myContract);
-                            ItemDescriptionTextBox_.Text = "";
+                            ComboBoxItemDescription.Text = "";
                             SalesPriceTextBox.Text = String.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", 0.0);
                             ComboBoxBrand.SelectedIndex = 0;
                             ComboBoxColor.SelectedIndex = 0;
@@ -992,7 +1017,7 @@ namespace ConsignmentShopMainUI
                             ComboBoxSize.SelectedIndex = 0;
                             ComboBoxSize.Text = "";
                             ContractSaveBtn.Enabled = true;
-                            ItemDescriptionTextBox_.Focus();
+                            ComboBoxItemDescription.Focus();
                             PremiumLbl.Visible = false;
                         }
                         else
@@ -1010,7 +1035,7 @@ namespace ConsignmentShopMainUI
                 else
                 {
                     MessageBox.Show("Bitte Artikelbeschreibung eingeben");
-                    ItemDescriptionTextBox_.Focus();
+                    ComboBoxItemDescription.Focus();
                 }
             }
             else
@@ -1059,10 +1084,10 @@ namespace ConsignmentShopMainUI
             MarginTextBox.Text = string.Format("{0} %", 0);
             PeriodTextBox.Text = "";
             PhoneNumberTextBox.Text = "";
-            ItemDescriptionTextBox_.ReadOnly = true;
+            ComboBoxItemDescription.Enabled = false;
 
             SalesPriceTextBox.ReadOnly = true;
-            ItemDescriptionTextBox_.Text = "";
+            ComboBoxItemDescription.Text = "";
 
             //tabelle leeren
             int itemsCount = ItemsDataGridView.Rows.Count;
@@ -1149,7 +1174,7 @@ namespace ConsignmentShopMainUI
             FullNameTextBox.Visible = false;
             ComboBoxVendorName.Visible = true;
             ComboBoxVendorName.Enabled = true;
-            ItemDescriptionTextBox_.ReadOnly = true;
+            ComboBoxItemDescription.Enabled = false;
             ComboBoxColor.Enabled = false;
             ComboBoxBrand.Enabled = false;
             TextBoxProperties.Enabled = false;
@@ -1176,9 +1201,11 @@ namespace ConsignmentShopMainUI
             //Call the Window to mark the sold Items and show Sum to pay for a specific vendor
             OpenItemOut_Window();
         }
-
+        #endregion
 
         //MainMenu aufrufen
+        #region MainMenu Buttons
+
         private void BackupToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Create a SaveFileDialog to request a path and file name to save to.
@@ -1473,19 +1500,22 @@ namespace ConsignmentShopMainUI
             }
         }
 
-        //Kontextmenu Verträge aufrufen
         private void EtikettDruckenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //MessageBox.Show("Etiketten drucken für not implemented yet");
             //Aufrufen von LabelSelection Window
             LabelSelectionWindow MyLabelSelectionWindow = new LabelSelectionWindow()
             {
-               // MyContractID = myContractID
+                // MyContractID = myContractID
             };
             MyLabelSelectionWindow.Show();
         }
 
+        #endregion
+
+
         //Kontextmenu Item aufrufen
+        #region Kontextmenu Verträge aufrufen
 
         private void ItemDataContextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
@@ -1593,7 +1623,7 @@ namespace ConsignmentShopMainUI
             {
                 GoodsInOKButton.Text = "Speichern";
                 
-                ItemDescriptionTextBox_.Text = ItemsDataGridView.SelectedRows[0].Cells[1].Value.ToString();
+                ComboBoxItemDescription.Text = ItemsDataGridView.SelectedRows[0].Cells[1].Value.ToString();
                 ComboBoxBrand.Text = ItemsDataGridView.SelectedRows[0].Cells[2].Value.ToString();
                 ComboBoxColor.Text = ItemsDataGridView.SelectedRows[0].Cells[3].Value.ToString();
                 ComboBoxSize.Text = ItemsDataGridView.SelectedRows[0].Cells[4].Value.ToString();
@@ -1602,8 +1632,17 @@ namespace ConsignmentShopMainUI
                 updateRecord = true;
             }
         }
+        #endregion
 
         //Reaction on leaving a Textbox
+        //reagiert beim verlassen einer Textbox
+        private void TextBoxProperties_Leave(object sender, EventArgs e)
+        {
+            if (_ignoreEvents) { return; }
+        }
+
+
+        #region Daten für neuen Kunden eingeben
         private void ComboBoxVendorName_Leave(object sender, EventArgs e)
         {
             if (!_ignoreEvents)
@@ -1719,8 +1758,8 @@ namespace ConsignmentShopMainUI
 
         private void ItemNumberTextBox_TextChanged(object sender, EventArgs e)
         {
-            ItemDescriptionTextBox_.Select();
-            ItemDescriptionTextBox_.ReadOnly = false;
+            ComboBoxItemDescription.Select();
+            ComboBoxItemDescription.Enabled = true;
             SalesPriceTextBox.ReadOnly = false;
         }
 
@@ -1770,7 +1809,7 @@ namespace ConsignmentShopMainUI
                 MarginTextBox.Text = string.Format("{0} %", Convert.ToString(value));
             else
                 MarginTextBox.Text = string.Format("{0} %", "0");
-            ItemDescriptionTextBox_.Focus();
+            ComboBoxItemDescription.Focus();
         }
 
         private void PeriodTextBox_Leave(object sender, EventArgs e)
@@ -1783,7 +1822,7 @@ namespace ConsignmentShopMainUI
             }
             else
                 PeriodTextBox.Text = string.Format("{0}", myPeriod);
-            ItemDescriptionTextBox_.Focus();
+            ComboBoxItemDescription.Focus();
         }
 
         private void SalesPriceTextBox_Leave(object sender, EventArgs e)
@@ -1795,23 +1834,79 @@ namespace ConsignmentShopMainUI
                     SalesPriceTextBox.Text = String.Format(CultureInfo.CurrentCulture, "{0:C2}", 0);
         }
 
-        private void ItemDescriptionTextBox_Leave(object sender, EventArgs e)
-        {
-            ItemDescriptionTextBox_.Text = ItemDescriptionTextBox_.Text.Replace(';', ',');
-        }
-
-        private void ItemDescriptionTextBox_EnabledChanged(object sender, EventArgs e)
-        {
-            ComboBoxVendorName.SelectionLength = 0;
-
-        }
-
         private void MarginTextBox_TextChanged(object sender, EventArgs e)
         {
             ComboBoxVendorName.SelectionLength = 0;
         }
+        #endregion
+
+        #region ItemDescription Combobox
+
+        /// <summary>
+        /// Item description has changed test if new text then add to list
+        /// </summary>
+        private void ItemdescriptionChanged()
+        {
+            if (_ignoreEvents) { return; }
+            string myItem = ComboBoxItemDescription.Text;
+
+            if (!String.IsNullOrEmpty(myItem))
+            {
+                //Prüfen ob eingegebene Marke in Liste vorhanden
+                bool itemFound = DbAttribs.FindItemdescription(myItem);
+                if (!itemFound)
+                {
+                    var ret = true; // DbAttribs.InsertItemdscription(temp);
+                    if (!ret)
+                        MessageBox.Show("Speichern der Marke fehlgeschlagen ",
+                           "Warnung", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    else
+                    {
+                        // Update List with all Itemdescriptions
+                        //bindinglistItemdescription = DbAttribs.GetAllItemDescriptionFromItems();
+
+                        bindinglistItemdescription.Add(myItem);
+                        bSourceItemdescription.DataSource = bindinglistItemdescription;
+                        ComboBoxItemDescription.DataSource = bSourceItemdescription;
+                        ComboBoxColor.Focus();
+                        //ConboBoxItemDescription.SelectedText = myItem;
+                        //select the new itemDescription in Combobox list
+                        int index = bSourceItemdescription.IndexOf(myItem);
+                        if (index > -1)
+                            ComboBoxItemDescription.SelectedItem = myItem;
+                    }
+
+                }
+            }
+        }
+
+        /// <summary>
+        /// Called wehen leaving the text box for ItemDescription
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ComboBoxItemDescription_Leave(object sender, EventArgs e)
+        {
+            if (_ignoreEvents || updateRecord && !myItemdescriptionTextChanged) { return; }
+            myItemdescriptionTextChanged = false;
+            // Ungültige Zeichen entfernen
+            ComboBoxItemDescription.Text = ComboBoxItemDescription.Text.Replace(';', ',');
+            //Prüfen ob Itemname bereits vorhanden ohne Abfrage speichern
+            ItemdescriptionChanged();
+        }
+
+        private void ComboBoxItemDescription_EnabledChanged(object sender, EventArgs e)
+        {
+            // Markierung des Kundennamen aufheben
+            ComboBoxVendorName.SelectionLength = 0;
+        }
+
+        #endregion
+
+        #region react to Attribute Comboboxes
 
         //Attribute eingeben
+        // Farben ComboBox
         private void ColorChanged()
         {
             if (_ignoreEvents) { return; }
@@ -1863,6 +1958,7 @@ namespace ConsignmentShopMainUI
             ColorChanged();
         }
 
+        // Marken Marken ComboBox
         private void BrandChanged()
         {
             if (_ignoreEvents) { return; }
@@ -1874,11 +1970,11 @@ namespace ConsignmentShopMainUI
 
             if (!String.IsNullOrEmpty(myBrand))
             {
-                //labels = DbAttribs.GetAllBrands();
                 //Prüfen ob eingegebene Marke in Liste vorhanden
                 brandFound = DbAttribs.FindBrand(myBrand);
                 if (brandFound.Count == 0)
                 {
+                    // Abfragen ob neue Marke gesoeichert werden soll, es werden auch alle Schreibfehler mitgespeichert
                     result = MessageBox.Show("Möchten Sie die neue Marke speichern? ",
                       "Warnung", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     if (result == DialogResult.Yes)
@@ -1898,7 +1994,7 @@ namespace ConsignmentShopMainUI
                                "Warnung", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         else
                         {
-                            //ComboBoxBrand.DataSource = labels;
+                            // Update List with all Brands
                             bindinglistBrand = DbAttribs.GetAllBrands();
                             bSourceBrand.DataSource = bindinglistBrand;
                             ComboBoxBrand.DataSource = bSourceBrand;
@@ -1929,11 +2025,8 @@ namespace ConsignmentShopMainUI
             BrandChanged();
         }
 
-        private void TextBoxProperties_Leave(object sender, EventArgs e)
-        {
-            if(_ignoreEvents) { return; }
-        }
 
+        // Grössen Combobox
         private new void SizeChanged()
         {
             if (_ignoreEvents) { return; }
@@ -1984,10 +2077,12 @@ namespace ConsignmentShopMainUI
             SizeChanged();
         }
 
+        #endregion
+
         //Neuen Vertrag erstellen
 
         //Open other windows
-
+        #region Open the windows
         private void OpenOwnerEdit_Window()
         {
             OwnerEditUI ownerEditWindow = new OwnerEditUI();
@@ -2078,10 +2173,15 @@ namespace ConsignmentShopMainUI
         {
             //ruft neues Fenster auf zur anzeige der Artikel
             myContractID = "180069";
-            DocumentContract documentWindow = new DocumentContract();
-            //documentWindow.FormClosed += new FormClosedEventHandler(VendorEditWindow_Closed);
-            documentWindow.MyContractID = myContractID;
-            documentWindow.Show();
+            //DocumentContract documentWindow = new DocumentContract();
+            ////documentWindow.FormClosed += new FormClosedEventHandler(VendorEditWindow_Closed);
+            //documentWindow.MyContractID = myContractID;
+            //documentWindow.Show();
+
+            ContractUI contractUI = new ContractUI();
+
+            contractUI.Show();
+
         }
 
         private void OpenKeyInput_Window()
@@ -2091,7 +2191,10 @@ namespace ConsignmentShopMainUI
             KeyInputWindow.ShowDialog();
         }
 
+        #endregion
+
         //Reaktion beim Schliessen der aufgerufenen Fenster
+        #region Close the windows
         private void VendorEditWindow_Closed(object sender, EventArgs e)
         {
 
@@ -2262,7 +2365,13 @@ namespace ConsignmentShopMainUI
             }
         }
 
-        //React on Key Down
+        #endregion
+
+        /// <summary>
+        /// //React on Key Down serves a special key combination to show a hidden menu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyData == (Keys.Shift | Keys.Alt | Keys.F9))
@@ -2274,15 +2383,22 @@ namespace ConsignmentShopMainUI
             }
         }
 
+        // TODO: change Datasource list
         private void ComboBoxVendorName_DataSourceChanged(object sender, EventArgs e)
         {
             //MessageBox.Show("Vendor Name DataSource changed");
             // ComboBoxVendorName.Cursor=Cursors.Cross;
         }
 
+        #region Text changed in ComboBoxes Methods
         private void ComboBoxBrand_TextChanged(object sender, EventArgs e)
         {
             myBrandTextChanged = true;
+        }
+
+        private void ConboBoxItemDescription_TextChanged(object sender, EventArgs e)
+        {
+            myItemdescriptionTextChanged = true;
         }
 
         private void ComboBoxColor_TextChanged(object sender, EventArgs e)
@@ -2294,5 +2410,8 @@ namespace ConsignmentShopMainUI
         {
             mySizeTextChanged = true;
         }
+
+
+        #endregion
     }
 }

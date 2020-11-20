@@ -412,9 +412,8 @@ namespace ConsignmentShopLibrary
 		//Anzahl der Dateien eines bestimmten Types in einem Directory
 		public int GetFilesCount(string DirectoryName, string FileMask)
 		{
-			int maxIndex = 0;
 			FileInfo[] Files = (new DirectoryInfo(DirectoryName)).GetFiles(FileMask);
-			return maxIndex =  Files.Length;
+			return Files.Length;
 		}
 		//Feststellen, ob ein Jahreswechsel seit dem letzten Auftrag stattgefunden hat
 		public bool YearChanged(string aLastContractD)
@@ -942,6 +941,11 @@ namespace ConsignmentShopLibrary
 			return sValue;
 		}
 
+		/// <summary>
+		/// Replace in String LINQ konforme Zeichen
+		/// </summary>
+		/// <param name="sValue"></param>
+		/// <returns></returns>
 		public static string DataViewEscape(string sValue)
 		{
 			// LINQ Encoding: einfache Hochkommas

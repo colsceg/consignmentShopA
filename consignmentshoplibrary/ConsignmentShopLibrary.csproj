@@ -167,6 +167,7 @@
     <Compile Include="Contract.cs" />
     <Compile Include="ContractIDComparer.cs" />
     <Compile Include="ContractInt.cs" />
+    <Compile Include="Itemdescription.cs" />
     <Compile Include="Refund.cs" />
     <Compile Include="RefundDataTable.cs" />
     <Compile Include="SqlQueries\DataAccessAttributes.cs" />

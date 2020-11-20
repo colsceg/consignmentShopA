@@ -96,6 +96,7 @@
             this.attribute3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SalesPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ItemInputGroupBox = new System.Windows.Forms.GroupBox();
+            this.ComboBoxItemDescription = new ConsignmentShopLibrary.ComboBoxEnter();
             this.TextBoxProperties = new ConsignmentShopLibrary.TextBoxEnter();
             this.ComboBoxColor = new ConsignmentShopLibrary.ComboBoxEnter();
             this.ComboBoxSize = new ConsignmentShopLibrary.ComboBoxEnter();
@@ -122,7 +123,7 @@
             this.ContractBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.itemBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.toolTipVendorNameCB = new System.Windows.Forms.ToolTip(this.components);
-            this.ItemDescriptionTextBox = new ConsignmentShopLibrary.ComboBoxEnter();
+            this.Button1 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.ItemDataContextMenuStrip.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -680,7 +681,7 @@
             // ItemInputGroupBox
             // 
             this.ItemInputGroupBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(170)))), ((int)(((byte)(255)))));
-            this.ItemInputGroupBox.Controls.Add(this.ItemDescriptionTextBox);
+            this.ItemInputGroupBox.Controls.Add(this.ComboBoxItemDescription);
             this.ItemInputGroupBox.Controls.Add(this.TextBoxProperties);
             this.ItemInputGroupBox.Controls.Add(this.ComboBoxColor);
             this.ItemInputGroupBox.Controls.Add(this.ComboBoxSize);
@@ -707,6 +708,22 @@
             this.ItemInputGroupBox.TabIndex = 29;
             this.ItemInputGroupBox.TabStop = false;
             this.ItemInputGroupBox.Text = "Artikeleingabe";
+            // 
+            // ComboBoxItemDescription
+            // 
+            this.ComboBoxItemDescription.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.ComboBoxItemDescription.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.ComboBoxItemDescription.Enabled = false;
+            this.ComboBoxItemDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ComboBoxItemDescription.FormattingEnabled = true;
+            this.ComboBoxItemDescription.Location = new System.Drawing.Point(8, 41);
+            this.ComboBoxItemDescription.Name = "ComboBoxItemDescription";
+            this.ComboBoxItemDescription.Size = new System.Drawing.Size(361, 23);
+            this.ComboBoxItemDescription.Sorted = true;
+            this.ComboBoxItemDescription.TabIndex = 1;
+            this.ComboBoxItemDescription.EnabledChanged += new System.EventHandler(this.ComboBoxItemDescription_EnabledChanged);
+            this.ComboBoxItemDescription.TextChanged += new System.EventHandler(this.ConboBoxItemDescription_TextChanged);
+            this.ComboBoxItemDescription.Leave += new System.EventHandler(this.ComboBoxItemDescription_Leave);
             // 
             // TextBoxProperties
             // 
@@ -888,7 +905,7 @@
             this.FullNameTextBox.Name = "FullNameTextBox";
             this.FullNameTextBox.ReadOnly = true;
             this.FullNameTextBox.Size = new System.Drawing.Size(256, 21);
-            this.FullNameTextBox.TabIndex = 1;
+            this.FullNameTextBox.TabIndex = 0;
             this.FullNameTextBox.Visible = false;
             // 
             // ComboBoxVendorName
@@ -992,19 +1009,15 @@
             // 
             this.toolTipVendorNameCB.ToolTipTitle = "Falsche Eingabe";
             // 
-            // ItemDescriptionTextBox
+            // Button1
             // 
-            this.ItemDescriptionTextBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.ItemDescriptionTextBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.ItemDescriptionTextBox.Enabled = false;
-            this.ItemDescriptionTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ItemDescriptionTextBox.FormattingEnabled = true;
-            this.ItemDescriptionTextBox.Location = new System.Drawing.Point(8, 41);
-            this.ItemDescriptionTextBox.Name = "ItemDescriptionTextBox";
-            this.ItemDescriptionTextBox.Size = new System.Drawing.Size(361, 23);
-            this.ItemDescriptionTextBox.TabIndex = 1;
-            this.ItemDescriptionTextBox.EnabledChanged += new System.EventHandler(this.ItemDescriptionTextBox_EnabledChanged);
-            this.ItemDescriptionTextBox.Leave += new System.EventHandler(this.ItemDescriptionTextBox_Leave);
+            this.Button1.Location = new System.Drawing.Point(576, 621);
+            this.Button1.Name = "Button1";
+            this.Button1.Size = new System.Drawing.Size(75, 23);
+            this.Button1.TabIndex = 31;
+            this.Button1.Text = "Button1";
+            this.Button1.UseVisualStyleBackColor = true;
+            this.Button1.Click += new System.EventHandler(this.Button1_Click);
             // 
             // MainWindow
             // 
@@ -1012,6 +1025,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.ClientSize = new System.Drawing.Size(1008, 650);
+            this.Controls.Add(this.Button1);
             this.Controls.Add(this.ClearBtn);
             this.Controls.Add(this.ContractSaveBtn);
             this.Controls.Add(this.groupBox1);
@@ -1145,7 +1159,8 @@
         private ConsignmentShopLibrary.TextBoxEnter TextBoxProperties;
         private System.Windows.Forms.ToolStripMenuItem laufwerkFürBackupFestlegenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem RefundToolStripMenuItem;
-        private ConsignmentShopLibrary.ComboBoxEnter ItemDescriptionTextBox;
+        private ConsignmentShopLibrary.ComboBoxEnter ComboBoxItemDescription;
+        private System.Windows.Forms.Button Button1;
     }
 }
 
