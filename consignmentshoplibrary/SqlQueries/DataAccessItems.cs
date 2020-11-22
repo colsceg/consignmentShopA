@@ -521,7 +521,7 @@ namespace ConsignmentShopLibrary
                     {
                         row = myTable.NewRow();
 
-                        row["ContractID"] = item.AccountID;
+                        row["ContractID"] = item.ContractID;
                         row["AccountID"] = item.AccountID;
                         try
                         {

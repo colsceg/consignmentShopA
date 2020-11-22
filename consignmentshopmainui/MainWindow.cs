@@ -105,7 +105,7 @@ namespace ConsignmentShopMainUI
                 // lädt die Tabelle customers aus der SQLite DB
                 Disp();
                 loaded = true;
-                this.Text += " Vers." + Store.AddVersionNumber();
+                this.Text += " Vers." + Store.AddVersionNumber() + " Beta";
             }
         }
 
@@ -1511,6 +1511,11 @@ namespace ConsignmentShopMainUI
             MyLabelSelectionWindow.Show();
         }
 
+        private void VertragDruckenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ContractUI contractUI = new ContractUI();
+            contractUI.Show();
+        }
         #endregion
 
 
@@ -2413,5 +2418,7 @@ namespace ConsignmentShopMainUI
 
 
         #endregion
+
+
     }
 }

@@ -108,13 +108,14 @@ namespace ConsignmentShopMainUI
 
                 // Set the Format property on the "Last Prepared" column to cause
                 // the DateTime to be formatted as "Month, Year".
-                ReportItemsDataGridView.Columns[7].DefaultCellStyle.Format = "C2";
-                ReportItemsDataGridView.Columns[8].DefaultCellStyle.Format = "C2";
+
                 ReportItemsDataGridView.Columns[0].Width = 50;
                 ReportItemsDataGridView.Columns[1].Width = 50;
                 ReportItemsDataGridView.Columns[5].Width = 35;
-                ReportItemsDataGridView.Columns[7].Width = 70;
+                ReportItemsDataGridView.Columns[7].Width = 70; //
                 ReportItemsDataGridView.Columns[8].Width = 60;
+                ReportItemsDataGridView.Columns[7].DefaultCellStyle.Format = "C2";
+                ReportItemsDataGridView.Columns[8].DefaultCellStyle.Format = "C2";
                 ReportItemsDataGridView.Columns[9].Width = 60;
                 ReportItemsDataGridView.Columns[10].Width = 70;
                 ReportItemsDataGridView.Columns[11].Width = 70;
@@ -129,7 +130,7 @@ namespace ConsignmentShopMainUI
                 //Disable the DateTimePickker and the Status ComboBox 
                 dtFrom.Enabled = false;
                 dtTo.Enabled = false;
-                CBPeriod.Enabled = false;
+                CBPeriod.Enabled = true;
 
                 _ignoreEvents = true;
                 CBStatus.SelectedIndex = 0;
@@ -284,23 +285,253 @@ namespace ConsignmentShopMainUI
 
             //CBItemNumber.Text = "";
 
-            if (mySelectedStatus == "alle")
+            if (mySelectedStatus == "alle" || mySelectedStatus == "im Laden")
             {
-                CBPeriod.Enabled = false;
-                _ignoreEvents = true;
-                CBPeriod.SelectedIndex = 0;
-                dtFrom.Enabled = false;
-                dtTo.Enabled = false;
+                CBPeriod.Enabled = true;
+
                 myDateQuery = "";
+                switch (mySelectedPeriod)
+                {
+                    //Gesamt
+                    case 0:
+                        dtFrom.Enabled = false;
+                        dtTo.Enabled = false;
+                        myDateQuery = "";
+                        break;
+                    //Heute
+                    case 1:
+                        dtFrom.Enabled = false;
+                        dtTo.Enabled = false;
+                        myDateQuery = " AND BeginDate = '" + myToday + "' ";
+                        break;
+                    //Monat
+                    case 2:
+                        dtFrom.Enabled = false;
+                        dtTo.Enabled = false;
+                        myFromDate = Convert.ToDateTime("01." + myMonth + "." + myYear).ToShortDateString();
+                        myToDate = Convert.ToDateTime(DateTime.DaysInMonth(myYear, myMonth) + "." + myMonth + "." + myYear).ToShortDateString();
+                        myDateQuery = " AND BeginDate >= '" + myFromDate + "' AND BeginDate <= '" + myToDate + "' ";
+                        break;
+                    //Quartal
+                    case 3:
+                        dtFrom.Enabled = false;
+                        dtTo.Enabled = false;
+                        int myQuartal = 0;
+                        int myDays = 0;
+                        switch (myMonth)
+                        {
+                            case 1:
+                            case 2:
+                            case 3:
+                                myQuartal = 1;
+                                break;
+                            case 4:
+                            case 5:
+                            case 6:
+                                myQuartal = 2;
+                                break;
+                            case 7:
+                            case 8:
+                            case 9:
+                                myQuartal = 3;
+                                break;
+                            case 10:
+                            case 11:
+                            case 12:
+                                myQuartal = 4;
+                                break;
+                        }
+                        switch (myQuartal)
+                        {
+                            case 1:
+                                for (int i = 0; i < 3; i++)
+                                {
+                                    myDays += DateTime.DaysInMonth(myYear, 1 + i);
+                                }
+                                myFromDate = "01.01." + myYear;
+                                myToDate = "31.03." + myYear;
+                                break;
+
+                            case 2:
+                                for (int i = 0; i < 3; i++)
+                                {
+                                    myDays += DateTime.DaysInMonth(myYear, 4 + i);
+                                }
+                                myFromDate = "01.04." + myYear;
+                                myToDate = "30.06." + myYear;
+                                break;
+
+                            case 3:
+                                for (int i = 0; i < 3; i++)
+                                {
+                                    myDays += DateTime.DaysInMonth(myYear, 7 + i);
+                                }
+                                myFromDate = "01.07." + myYear;
+                                myToDate = "30.09." + myYear;
+                                break;
+                            case 4:
+                                for (int i = 0; i < 3; i++)
+                                {
+                                    myDays += DateTime.DaysInMonth(myYear, 10 + i);
+                                }
+                                myFromDate = "01.10." + myYear;
+                                myToDate = "31.12." + myYear;
+                                break;
+                            default:
+                                myFromDate = "01.10." + myYear;
+                                myToDate = "31.12." + myYear;
+                                break;
+                        }
+                        myDateQuery = " AND BeginDate >= '" + myFromDate + "' AND BeginDate <= '" + myToDate + "' ";
+                        break;
+                    //Jahr
+                    case 4:
+                        dtFrom.Enabled = false;
+                        dtTo.Enabled = false;
+                        myFromDate = "01.01." + myYear;
+                        myToDate = "31.12." + myYear;
+                        myDateQuery = " AND BeginDate >= '" + myFromDate + "' AND BeginDate <= '" + myToDate + "' ";
+                        break;
+                    //Benutzerdefiniert
+                    case 5:
+                        dtFrom.Enabled = true;
+                        dtTo.Enabled = true;
+                        myFromDate = dtFrom.Value.ToShortDateString();
+                        myToDate = dtTo.Value.ToShortDateString();
+                        myDateQuery = " AND BeginDate >= '" + myFromDate + "' AND BeginDate <= '" + myToDate + "' ";
+                        break;
+                    default:
+                        dtFrom.Enabled = false;
+                        dtTo.Enabled = false;
+                        myFromDate = dtFrom.Value.ToShortDateString();
+                        myToDate = dtTo.Value.ToShortDateString();
+                        myDateQuery = " AND BeginDate >= '" + myFromDate + "' AND BeginDate <= '" + myToDate + "' ";
+                        break;
+                }
             }
             if (mySelectedStatus == "im Laden")
             {
-                CBPeriod.Enabled = false;
-                CBPeriod.SelectedIndex = 0;
-                _ignoreEvents = true;
-                dtFrom.Enabled = false;
-                dtTo.Enabled = false;
-                myDateQuery = " AND SoldDate IS NULL";
+                CBPeriod.Enabled = true;
+
+                switch (mySelectedPeriod)
+                {
+                    //Gesamt
+                    case 0:
+                        dtFrom.Enabled = false;
+                        dtTo.Enabled = false;
+                        myDateQuery = "";
+                        break;
+                    //Heute
+                    case 1:
+                        dtFrom.Enabled = false;
+                        dtTo.Enabled = false;
+                        myDateQuery = " AND BeginDate = '" + myToday + "' ";
+                        break;
+                    //Monat
+                    case 2:
+                        dtFrom.Enabled = false;
+                        dtTo.Enabled = false;
+                        myFromDate = Convert.ToDateTime("01." + myMonth + "." + myYear).ToShortDateString();
+                        myToDate = Convert.ToDateTime(DateTime.DaysInMonth(myYear, myMonth) + "." + myMonth + "." + myYear).ToShortDateString();
+                        myDateQuery = " AND BeginDate >= '" + myFromDate + "' AND BeginDate <= '" + myToDate + "' ";
+                        break;
+                    //Quartal
+                    case 3:
+                        dtFrom.Enabled = false;
+                        dtTo.Enabled = false;
+                        int myQuartal = 0;
+                        int myDays = 0;
+                        switch (myMonth)
+                        {
+                            case 1:
+                            case 2:
+                            case 3:
+                                myQuartal = 1;
+                                break;
+                            case 4:
+                            case 5:
+                            case 6:
+                                myQuartal = 2;
+                                break;
+                            case 7:
+                            case 8:
+                            case 9:
+                                myQuartal = 3;
+                                break;
+                            case 10:
+                            case 11:
+                            case 12:
+                                myQuartal = 4;
+                                break;
+                        }
+                        switch (myQuartal)
+                        {
+                            case 1:
+                                for (int i = 0; i < 3; i++)
+                                {
+                                    myDays += DateTime.DaysInMonth(myYear, 1 + i);
+                                }
+                                myFromDate = "01.01." + myYear;
+                                myToDate = "31.03." + myYear;
+                                break;
+
+                            case 2:
+                                for (int i = 0; i < 3; i++)
+                                {
+                                    myDays += DateTime.DaysInMonth(myYear, 4 + i);
+                                }
+                                myFromDate = "01.04." + myYear;
+                                myToDate = "30.06." + myYear;
+                                break;
+
+                            case 3:
+                                for (int i = 0; i < 3; i++)
+                                {
+                                    myDays += DateTime.DaysInMonth(myYear, 7 + i);
+                                }
+                                myFromDate = "01.07." + myYear;
+                                myToDate = "30.09." + myYear;
+                                break;
+                            case 4:
+                                for (int i = 0; i < 3; i++)
+                                {
+                                    myDays += DateTime.DaysInMonth(myYear, 10 + i);
+                                }
+                                myFromDate = "01.10." + myYear;
+                                myToDate = "31.12." + myYear;
+                                break;
+                            default:
+                                myFromDate = "01.10." + myYear;
+                                myToDate = "31.12." + myYear;
+                                break;
+                        }
+                        myDateQuery = " AND BeginDate >= '" + myFromDate + "' AND BeginDate <= '" + myToDate + "' ";
+                        break;
+                    //Jahr
+                    case 4:
+                        dtFrom.Enabled = false;
+                        dtTo.Enabled = false;
+                        myFromDate = "01.01." + myYear;
+                        myToDate = "31.12." + myYear;
+                        myDateQuery = " AND BeginDate >= '" + myFromDate + "' AND BeginDate <= '" + myToDate + "' ";
+                        break;
+                    //Benutzerdefiniert
+                    case 5:
+                        dtFrom.Enabled = true;
+                        dtTo.Enabled = true;
+                        myFromDate = dtFrom.Value.ToShortDateString();
+                        myToDate = dtTo.Value.ToShortDateString();
+                        myDateQuery = " AND BeginDate >= '" + myFromDate + "' AND BeginDate <= '" + myToDate + "' ";
+                        break;
+                    default:
+                        dtFrom.Enabled = false;
+                        dtTo.Enabled = false;
+                        myFromDate = dtFrom.Value.ToShortDateString();
+                        myToDate = dtTo.Value.ToShortDateString();
+                        myDateQuery = " AND BeginDate >= '" + myFromDate + "' AND BeginDate <= '" + myToDate + "' ";
+                        break;
+                }
+                myDateQuery += " AND SoldDate IS NULL";
             }
 
             if (mySelectedStatus == "verkauft")
@@ -413,14 +644,14 @@ namespace ConsignmentShopMainUI
                         dtFrom.Enabled = true;
                         dtTo.Enabled = true;
                         myFromDate = dtFrom.Value.ToShortDateString();
-                        myToDate = dtTo.Value.ToShortTimeString();
+                        myToDate = dtTo.Value.ToShortDateString();
                         myDateQuery = " AND SoldDate >= '" + myFromDate + "' AND SoldDate <= '" + myToDate + "' ";
                         break;
                     default:
                         dtFrom.Enabled = false;
                         dtTo.Enabled = false;
                         myFromDate = dtFrom.Value.ToShortDateString();
-                        myToDate = dtTo.Value.ToShortTimeString();
+                        myToDate = dtTo.Value.ToShortDateString();
                         myDateQuery = " AND SoldDate >= '" + myFromDate + "' AND SoldDate <= '" + myToDate + "' ";
                         break;
                 }
@@ -536,14 +767,14 @@ namespace ConsignmentShopMainUI
                         dtFrom.Enabled = true;
                         dtTo.Enabled = true;
                         myFromDate = dtFrom.Value.ToShortDateString();
-                        myToDate = dtTo.Value.ToShortTimeString();
+                        myToDate = dtTo.Value.ToShortDateString();
                         myDateQuery = " AND PayoutDate >= '" + myFromDate + "' AND PayoutDate <= '" + myToDate + "' ";
                         break;
                     default:
                         dtFrom.Enabled = false;
                         dtTo.Enabled = false;
                         myFromDate = dtFrom.Value.ToShortDateString();
-                        myToDate = dtTo.Value.ToShortTimeString();
+                        myToDate = dtTo.Value.ToShortDateString();
                         myDateQuery = " AND PayoutDate >= '" + myFromDate + "' AND PayoutDate <= '" + myToDate + "' ";
                         break;
                 }
@@ -718,39 +949,77 @@ namespace ConsignmentShopMainUI
                     {
                         case 0: //Alle
                                 //PeriodCB auf Gesamt setzen
-                            CurrentItemsLbl.Visible = true;
-                            CurrentItemsTB.Visible = true;
-                            SoldItemsTB.Visible = true;
-                            SoldItemsLbl.Visible = true;
-                            SumPayedTB.Visible = true;
-                            SumPayedLbl.Visible = true;
-                            SumToPayTB.Visible = true;
-                            SumToPayLbl.Visible = true;
-                            SumComissionTB.Visible = true;
-                            SumComissionLbl.Visible = true;
-                            SumSalesVolumeLbl.Visible = true;
-                            SumSalesVolumeTB.Visible = true;
-                            SalesVolumePrintBtn.Visible=false;
-                            _SalesVolume = false;
-                            CBPeriod.Enabled = false;
+                            if (CBPeriod.SelectedIndex == 0)
+                            {
+                                CurrentItemsLbl.Visible = true;
+                                CurrentItemsTB.Visible = true;
+                                SoldItemsTB.Visible = true;
+                                SoldItemsLbl.Visible = true;
+                                SumPayedTB.Visible = true;
+                                SumPayedLbl.Visible = true;
+                                SumToPayTB.Visible = true;
+                                SumToPayLbl.Visible = true;
+                                SumComissionTB.Visible = true;
+                                SumComissionLbl.Visible = true;
+                                SumSalesVolumeLbl.Visible = true;
+                                SumSalesVolumeTB.Visible = true;
+                                SalesVolumePrintBtn.Visible = false;
+                                _SalesVolume = false;
+                            } else
+                            {
+                                CurrentItemsLbl.Visible = true;
+                                CurrentItemsTB.Visible = true;
+                                SoldItemsTB.Visible = false;
+                                SoldItemsLbl.Visible = false;
+                                SumPayedTB.Visible = false;
+                                SumPayedLbl.Visible = false;
+                                SumToPayTB.Visible = false;
+                                SumToPayLbl.Visible = false;
+                                SumComissionTB.Visible = false;
+                                SumComissionLbl.Visible = false;
+                                SumSalesVolumeLbl.Visible = false;
+                                SumSalesVolumeTB.Visible = false;
+                                SalesVolumePrintBtn.Visible = false;
+                                _SalesVolume = false;
+                            }
+                            CBPeriod.Enabled = true;
                             break;
                         case 1: // im Laden
-                            CurrentItemsLbl.Visible = true;
-                            CurrentItemsTB.Visible = true;
-                            SoldItemsTB.Visible = false;
-                            SoldItemsLbl.Visible = false;
-                            SumPayedTB.Visible = false;
-                            SumPayedLbl.Visible = false;
-                            SumToPayTB.Visible = false;
-                            SumToPayLbl.Visible = false;
-                            SumComissionTB.Visible = false;
-                            SumComissionLbl.Visible = false;
-                            SumSalesVolumeLbl.Visible = false;
-                            SumSalesVolumeTB.Visible = false;
-                            SalesVolumePrintBtn.Visible = true;
-                            SalesVolumePrintBtn.Text = "Artikelliste drucken";
-                            _SalesVolume = false;
-                            CBPeriod.Enabled = false;
+                            if (CBPeriod.SelectedIndex == 0)
+                            {
+                                CurrentItemsLbl.Visible = true;
+                                CurrentItemsTB.Visible = true;
+                                SoldItemsTB.Visible = false;
+                                SoldItemsLbl.Visible = false;
+                                SumPayedTB.Visible = false;
+                                SumPayedLbl.Visible = false;
+                                SumToPayTB.Visible = false;
+                                SumToPayLbl.Visible = false;
+                                SumComissionTB.Visible = false;
+                                SumComissionLbl.Visible = false;
+                                SumSalesVolumeLbl.Visible = false;
+                                SumSalesVolumeTB.Visible = false;
+                                SalesVolumePrintBtn.Visible = false;
+                                _SalesVolume = false;
+                            }
+                            else
+                            {
+                                CurrentItemsLbl.Visible = true;
+                                CurrentItemsTB.Visible = true;
+                                SoldItemsTB.Visible = false;
+                                SoldItemsLbl.Visible = false;
+                                SumPayedTB.Visible = false;
+                                SumPayedLbl.Visible = false;
+                                SumToPayTB.Visible = false;
+                                SumToPayLbl.Visible = false;
+                                SumComissionTB.Visible = false;
+                                SumComissionLbl.Visible = false;
+                                SumSalesVolumeLbl.Visible = false;
+                                SumSalesVolumeTB.Visible = false;
+                                SalesVolumePrintBtn.Visible = false;
+                                _SalesVolume = false;
+                            }
+                            CBPeriod.Enabled = true;
                             break;
                         case 2: //verkauft
                             CurrentItemsLbl.Visible = false;
@@ -812,6 +1081,7 @@ namespace ConsignmentShopMainUI
         }
 
         //Events Action
+        #region Events actions
         private void CBAccountID_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (!_ignoreEvents)
@@ -986,8 +1256,10 @@ namespace ConsignmentShopMainUI
 
             }
         }
+        #endregion
 
         //Button Click
+        #region ButtonClick
         private void BtnDeletedItems_Click(object sender, EventArgs e)
         {
             if (_deletedItems)
@@ -1106,6 +1378,7 @@ namespace ConsignmentShopMainUI
             CBItemNumber.Text = "";
             _ignoreEvents = true;
             CBAccountID.Text = "";
+            CBPeriod.SelectedIndex = 0;
             view1.RowFilter = GetFilter(); ;
             source1.DataSource = view1;
             FillAttributeTables();
@@ -1282,6 +1555,7 @@ namespace ConsignmentShopMainUI
             }
             //ReportItemsDataGridView.FirstDisplayedScrollingRowIndex = mySelectedIndex;
         }
+        #endregion
 
         /// <summary>
         /// get the row index for a specified accountID
@@ -1522,11 +1796,6 @@ namespace ConsignmentShopMainUI
                 }
                 ItemEditWindow.FormClosed -= new FormClosedEventHandler(ItemEditWindow_Closed);
             }
-
-        }
-
-        private void ReportItemsDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
 
         }
     }

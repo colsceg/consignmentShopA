@@ -24,8 +24,6 @@ namespace ConsignmentShopMainUI
         private enum Status { alle, Laden, verkauft, ausbezahlt }
 
         private bool _ignoreEvents = true;
-        private bool _deletedItems = false;
-        private bool _SalesVolume = true;
         private string myFilter;
 
         #region Constructor
@@ -41,11 +39,14 @@ namespace ConsignmentShopMainUI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Form2_Load(object sender, EventArgs e)
+        private void ContractUI_Load(object sender, EventArgs e)
         {
             Setup();
         }
 
+        /// <summary>
+        /// Get all items grouped by ContractID
+        /// </summary>
         private void Setup()
         {
             //Get all items in a DataTable
@@ -82,41 +83,43 @@ namespace ConsignmentShopMainUI
                 ReportItemsDataGridView.ColumnHeadersDefaultCellStyle = columnHeaderStyle;
 
                 //All Cells Property
-                ReportItemsDataGridView.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                ReportItemsDataGridView.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                ReportItemsDataGridView.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-                ReportItemsDataGridView.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-                ReportItemsDataGridView.Columns[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-                ReportItemsDataGridView.Columns[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-                ReportItemsDataGridView.Columns[6].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-                ReportItemsDataGridView.Columns[7].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                ReportItemsDataGridView.Columns[8].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                ReportItemsDataGridView.Columns[9].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                ReportItemsDataGridView.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; //ContractID
+                ReportItemsDataGridView.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; //AccountID
+                ReportItemsDataGridView.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; //ItemNumber
+                ReportItemsDataGridView.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; //ItemDescription
+                ReportItemsDataGridView.Columns[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; //Brand
+                ReportItemsDataGridView.Columns[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; //color
+                ReportItemsDataGridView.Columns[6].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; //size
+                ReportItemsDataGridView.Columns[7].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; //prop
+                ReportItemsDataGridView.Columns[8].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight; //CostPrice
+                ReportItemsDataGridView.Columns[9].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight; //SalesPrice
+                ReportItemsDataGridView.Columns[10].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight; //BeginDate
+                ReportItemsDataGridView.Columns[11].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight; //EndDate
 
                 // Automatically resize the visible columns.
                 ReportItemsDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
                 // Set the Format property on the "Last Prepared" column to cause
                 // the DateTime to be formatted as "Month, Year".
-                ReportItemsDataGridView.Columns[7].DefaultCellStyle.Format = "C2";
-                ReportItemsDataGridView.Columns[8].DefaultCellStyle.Format = "C2";
-                ReportItemsDataGridView.Columns[0].Width = 50;
-                ReportItemsDataGridView.Columns[1].Width = 50;
-                ReportItemsDataGridView.Columns[5].Width = 35;
-                ReportItemsDataGridView.Columns[7].Width = 70;
-                ReportItemsDataGridView.Columns[8].Width = 60;
-                ReportItemsDataGridView.Columns[9].Width = 60;
+
+                ReportItemsDataGridView.Columns[0].Width = 70; //ContractID
+                ReportItemsDataGridView.Columns[1].Width = 60; //AccountID
+                ReportItemsDataGridView.Columns[2].Width = 60; //ItemNumber
+                ReportItemsDataGridView.Columns[3].Width = 130; //ItemDescription
+                ReportItemsDataGridView.Columns[4].Width = 120;  //Brannd
+                ReportItemsDataGridView.Columns[5].Width = 90;  //Color/
+                ReportItemsDataGridView.Columns[6].Width = 45;  //Size
+                ReportItemsDataGridView.Columns[7].Width = 120; //prop
+                ReportItemsDataGridView.Columns[8].Width = 60; //CostPrice
+                ReportItemsDataGridView.Columns[9].Width = 60;  //SalesPrice
+                ReportItemsDataGridView.Columns[10].Width = 80; //BeginDate
+                ReportItemsDataGridView.Columns[11].Width = 80; //EndDate
 
                 //Set the Min Max date to the DateTimePicker Component
                 _ignoreEvents = true;
                 dtFrom.Value = queryMin;
                 _ignoreEvents = true;
                 dtTo.Value = queryMax;
-
-                //Disable the DateTimePickker and the Status ComboBox 
-                dtFrom.Enabled = false;
-                dtTo.Enabled = false;
-                CBPeriod.Enabled = false;
 
                 _ignoreEvents = true;
                 CBPeriod.SelectedIndex = 0;
@@ -129,8 +132,13 @@ namespace ConsignmentShopMainUI
                 MessageBox.Show("Keine Daten vorhanden! ");
                 Close();
             }
+
+            _ignoreEvents = false;
         }
 
+        /// <summary>
+        /// Clear filter comboboxes 
+        /// </summary>
         private void ClearAttributesText()
         {
             CBContractID.Text = "";
@@ -155,6 +163,11 @@ namespace ConsignmentShopMainUI
                             select newDescription.Key;
 
                 CBContractID.DataSource = query.ToList();
+                if (CBContractID.Items.Count == 1)
+                    ContractIDPrintBtn.Enabled = true;
+                else
+                    ContractIDPrintBtn.Enabled = false;
+
             }
             finally
             {
@@ -179,6 +192,10 @@ namespace ConsignmentShopMainUI
             }
         }
 
+        /// <summary>
+        /// Reads the filter controls and builds the filter string
+        /// </summary>
+        /// <returns> The filter string </returns>
         private string GetFilter()
         {
             string myDateQuery = "";
@@ -188,24 +205,141 @@ namespace ConsignmentShopMainUI
             int myYear = DateTime.Today.Year;
             int myMonth = DateTime.Today.Month;
             string myContractID = CBContractID.Text;
+            string myAccountID = CBAccountID.Text;
             string myFilter = null;
+            CBPeriod.Enabled = true;
 
-            
-            if (String.IsNullOrEmpty(myContractID))
+            switch (mySelectedPeriod)
             {
-                myFilter = "AccountID LIKE '" + CBAccountID.Text.Trim() + "%' " +
-                             myDateQuery;
+                //Gesamt
+                case 0:
+                    dtFrom.Enabled = false;
+                    dtTo.Enabled = false;
+                    myDateQuery = " AND BeginDate IS NOT NULL";
+                    break;
+                //Heute
+                case 1:
+                    dtFrom.Enabled = false;
+                    dtTo.Enabled = false;
+                    myDateQuery = " AND BeginDate = '" + myToday + "' ";
+                    break;
+                //Monat
+                case 2:
+                    dtFrom.Enabled = false;
+                    dtTo.Enabled = false;
+                    myFromDate = Convert.ToDateTime("01." + myMonth + "." + myYear).ToShortDateString();
+                    myToDate = Convert.ToDateTime(DateTime.DaysInMonth(myYear, myMonth) + "." + myMonth + "." + myYear).ToShortDateString();
+                    myDateQuery = " AND BeginDate >= '" + myFromDate + "' AND BeginDate <= '" + myToDate + "' ";
+                    break;
+                //Quartal
+                case 3:
+                    dtFrom.Enabled = false;
+                    dtTo.Enabled = false;
+                    int myQuartal = 0;
+                    int myDays = 0;
+                    switch (myMonth)
+                    {
+                        case 1:
+                        case 2:
+                        case 3:
+                            myQuartal = 1;
+                            break;
+                        case 4:
+                        case 5:
+                        case 6:
+                            myQuartal = 2;
+                            break;
+                        case 7:
+                        case 8:
+                        case 9:
+                            myQuartal = 3;
+                            break;
+                        case 10:
+                        case 11:
+                        case 12:
+                            myQuartal = 4;
+                            break;
+                    }
+                    switch (myQuartal)
+                    {
+                        case 1:
+                            for (int i = 0; i < 3; i++)
+                            {
+                                myDays += DateTime.DaysInMonth(myYear, 1 + i);
+                            }
+                            myFromDate = "01.01." + myYear;
+                            myToDate = "31.03." + myYear;
+                            break;
+
+                        case 2:
+                            for (int i = 0; i < 3; i++)
+                            {
+                                myDays += DateTime.DaysInMonth(myYear, 4 + i);
+                            }
+                            myFromDate = "01.04." + myYear;
+                            myToDate = "30.06." + myYear;
+                            break;
+
+                        case 3:
+                            for (int i = 0; i < 3; i++)
+                            {
+                                myDays += DateTime.DaysInMonth(myYear, 7 + i);
+                            }
+                            myFromDate = "01.07." + myYear;
+                            myToDate = "30.09." + myYear;
+                            break;
+                        case 4:
+                            for (int i = 0; i < 3; i++)
+                            {
+                                myDays += DateTime.DaysInMonth(myYear, 10 + i);
+                            }
+                            myFromDate = "01.10." + myYear;
+                            myToDate = "31.12." + myYear;
+                            break;
+                        default:
+                            myFromDate = "01.10." + myYear;
+                            myToDate = "31.12." + myYear;
+                            break;
+                    }
+                    myDateQuery = " AND BeginDate >= '" + myFromDate + "' AND BeginDate <= '" + myToDate + "' ";
+                    break;
+                //Jahr
+                case 4:
+                    dtFrom.Enabled = false;
+                    dtTo.Enabled = false;
+                    myFromDate = "01.01." + myYear;
+                    myToDate = "31.12." + myYear;
+                    myDateQuery = " AND BeginDate >= '" + myFromDate + "' AND BeginDate <= '" + myToDate + "' ";
+                    break;
+                //Benutzerdefiniert
+                case 5:
+                    dtFrom.Enabled = true;
+                    dtTo.Enabled = true;
+                    myFromDate = dtFrom.Value.ToShortDateString();
+                    myToDate = dtTo.Value.ToShortDateString();
+                    myDateQuery = " AND BeginDate >= '" + myFromDate + "' AND BeginDate <= '" + myToDate + "' ";
+                    break;
+                default:
+                    dtFrom.Enabled = false;
+                    dtTo.Enabled = false;
+                    myFromDate = dtFrom.Value.ToShortDateString();
+                    myToDate = dtTo.Value.ToShortDateString();
+                    myDateQuery = " AND BeginDate >= '" + myFromDate + "' AND BeginDate <= '" + myToDate + "' ";
+                    break;
             }
-            else
-            {
-                myFilter = "AccountID LIKE '" + CBAccountID.Text.Trim() + "%' " +
-                            " AND ContractID = '" + Convert.ToInt16(CBContractID.Text.Trim()) + " ' " +
-                         myDateQuery;
-            }
+
+
+            myFilter = "ContractID LIKE '" + CBContractID.Text.Trim() + "%' " +
+                 " AND AccountID LIKE '" + CBAccountID.Text.Trim() + "%' " +
+                    myDateQuery;
+
             return myFilter;
 
         }
 
+        /// <summary>
+        /// A filter control has changed
+        /// </summary>
         private void ChangeFilter()
         {
 
@@ -240,49 +374,25 @@ namespace ConsignmentShopMainUI
             CBAccountID.Text = myAccountID;
         }
 
+        /// <summary>
+        /// Gets the count of items in the DataGridView
+        /// </summary>
         private void FillAllFields()
         {
-            int myItemSoldCount = 0;
             int myCurrentItems = 0;
-            double mySumPayed = 0;
-            double mySumSalesVolume = 0.0;
-            double mySumCost = 0.0;
-
-            mySumSalesVolume = (from DataRowView rowView in view1
-                                where rowView.Row.Field<object>("SoldDate") != null
-                                select rowView.Row.Field<double>("SalesPrice")).Sum();
-
-            mySumCost= (from DataRowView rowView in view1
-                          where rowView.Row.Field<object>("SoldDate") != null
-                          select rowView.Row.Field<double>("CostPrice")).Sum();
-
-            mySumPayed = (from DataRowView rowView in view1
-                          where rowView.Row.Field<object>("PayoutDate") != null
-                          select rowView.Row.Field<double>("CostPrice")).Sum();
-
-
-
-            myItemSoldCount = ReportItemsDataGridView.Rows
-                .Cast<DataGridViewRow>()
-                .Select(row => row.Cells[11].Value)
-                .Where(value => value != DBNull.Value)
-                .Count();
 
             myCurrentItems = ReportItemsDataGridView.Rows
                 .Cast<DataGridViewRow>()
-                .Select(row => row.Cells[11].Value)
+                .Select(row => row.Cells[1].Value)
                 .Where(value => value == DBNull.Value)
                 .Count();
 
-
             ItemsFoundTB.Text = Convert.ToString(ReportItemsDataGridView.RowCount);
-
-            //ConvertToCurrency(anItemsList);
         }
 
- 
-
         //Events Action
+        #region Events Action methods
+        
         private void CBAccountID_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (!_ignoreEvents)
@@ -300,7 +410,6 @@ namespace ConsignmentShopMainUI
             }
             _ignoreEvents = false;
         }
-
 
         private void CBContractID_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -326,7 +435,6 @@ namespace ConsignmentShopMainUI
             }
             _ignoreEvents = false;
         }
-
 
         private void CBPeriod_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -375,18 +483,24 @@ namespace ConsignmentShopMainUI
 
             }
         }
+        
+        #endregion
 
         //Button Click
         #region ButtonClick
 
-
-
+        /// <summary>
+        /// Clears all filter controls
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnClear_Click(object sender, EventArgs e)
         {
             _ignoreEvents = true;
             CBContractID.Text = "";
             _ignoreEvents = true;
             CBAccountID.Text = "";
+            CBPeriod.SelectedIndex = 0;
             view1.RowFilter = GetFilter(); ;
             source1.DataSource = view1;
             FillAttributeTables();
@@ -394,48 +508,24 @@ namespace ConsignmentShopMainUI
             ClearAttributesText();
         }
 
+        /// <summary>
+        /// Closes the ContractUI
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CancelBtn_Click(object sender, EventArgs e)
         {
             Close();
         }
 
-        private void SalesVolumePrintBtn_Click(object sender, EventArgs e)
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ContractPrintBtn_Click(object sender, EventArgs e)
         {
-            if (_SalesVolume)
-            {
-                //DocumentContract aufrufen Umsatzliste ausdrucken
-                DocumentSalesVolume SalesVolumeDocumentWindow = new DocumentSalesVolume();
-                SalesVolumeDocumentWindow.FormClosed += new FormClosedEventHandler(SalesVolumeDocumentWindow_Closed);
-
-                //Datumsfelder von bis im Dokument setzen
-                SalesVolumeDocumentWindow.MyFromDate = dtFrom.Text;
-                SalesVolumeDocumentWindow.MyToDate = dtTo.Text;
-
-                //Inhalt des DataGridView in eine Liste schreiben
-                List<ItemReport> myCurrentItemsList = view1.ToTable().Rows.Cast<DataRow>()
-                        .Select(r => new ItemReport()
-                        {
-                            AccountID = r.Field<string>("AccountID"),
-                            ItemNumber = Convert.ToString(r.Field<Int32>("ItemNumber")),
-                            ItemDescription = r.Field<string>("ItemDescription"),
-                            Color = r.Field<string>("Color"),
-                            Brand = r.Field<string>("Brand"),
-                            Size = r.Field<string>("Size"),
-                            Prop = r.Field<string>("Prop"),
-                            SalesPrice = r.Field<double>("SalesPrice").ToString(),
-                            CostPrice = r.Field<double>("CostPrice").ToString(),
-                            SoldDate = (r.Field<object>("SoldDate") == DBNull.Value ? "" : r.Field<DateTime>("SoldDate").ToShortDateString()),
-                            PayoutDate = (r.Field<object>("PayoutDate") == DBNull.Value ? "" : r.Field<DateTime>("PayoutDate").ToShortDateString()),
-                            BeginDate = (r.Field<object>("BeginDate") == DBNull.Value ? "" : r.Field<DateTime>("PayoutDate").ToShortDateString()),
-                            EndDate = (r.Field<object>("EndDate") == DBNull.Value ? "" : r.Field<DateTime>("PayoutDate").ToShortDateString())
-                        }).ToList();
-
-                //Itemsliste an Dokument übergeben
-                SalesVolumeDocumentWindow.MyItemsList = myCurrentItemsList;
-                SalesVolumeDocumentWindow.ShowDialog();
-            }
-            else
-            {
                 //Artikelliste ausdrucken
 
                 //Inhalt des DataGridView in eine Liste schreiben
@@ -443,6 +533,7 @@ namespace ConsignmentShopMainUI
                 List<Item> myCurrentItemsList = view1.ToTable().Rows.Cast<DataRow>()
                         .Select(r => new Item()
                         {
+                            ContractID = r.Field<string>("ContractID"),
                             AccountID = r.Field<string>("AccountID"),
                             ItemNumber = Convert.ToString(r.Field<Int32>("ItemNumber")),
                             ItemDescription = r.Field<string>("ItemDescription"),
@@ -455,33 +546,21 @@ namespace ConsignmentShopMainUI
                             BeginDate =  r.Field<DateTime>("BeginDate").ToShortDateString(),
                             EndDate = r.Field<DateTime>("EndDate").ToShortDateString(),
                         }).ToList();
-                List<Contract> myContractList = DbItems.GetContractWithAccountID(Store.ConvertContractNumberToContractID(myCurrentItemsList[0].AccountID));
-                if (myContractList.Count > 0)
-                    myContractID = myContractList[0].ContractID;
-                else
-                //ContractID festlegen
-                {
-                    List<ConfigData> myConfigData = DbItems.GetConfigData();
-                    if (myConfigData.Count > 0)
-                    {
-                        myContractID = myConfigData[0].LastContractID;
-                        myContractID = Store.IncrementContractID(myContractID);
-                    }
-                }
 
-                for (int i = 0; i < myCurrentItemsList.Count; i++)
-                {
-                    myCurrentItemsList[i].ContractID = myContractID;
-                }
+                myContractID =  myCurrentItemsList[0].ContractID;
 
                 //ruft neues Fenster auf zur Anzeige der Artikel
                 DocumentContract documentWindow = new DocumentContract();
                 documentWindow.FormClosed += new FormClosedEventHandler(DocumentContractWindow_Closed);
                 documentWindow.ContractItemList = myCurrentItemsList;
-                documentWindow.ShowDialog();                
-            }
+                documentWindow.ShowDialog();                       
         }
 
+        /// <summary>
+        /// Clears the document event handler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DocumentContractWindow_Closed(object sender, EventArgs e)
         {
             if (sender is DocumentContract documentContractWindow)
@@ -492,6 +571,11 @@ namespace ConsignmentShopMainUI
 
         }
 
+        /// <summary>
+        /// Exports the DataGridView content to a .csv file
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ExportBtn_Click(object sender, EventArgs e)
             {
                 ExportBtn.UseWaitCursor = true;
@@ -544,28 +628,6 @@ namespace ConsignmentShopMainUI
 
         #endregion
 
-        private void UpdateRow(Item anItem)
-        {
-            int mySelectedIndex;
-            int count = ReportItemsDataGridView.SelectedRows.Count;
-            if (count > 0)
-            {
-                mySelectedIndex = ReportItemsDataGridView.SelectedRows[0].Index;
-                ReportItemsDataGridView.SelectedRows[0].Cells[2].Value = anItem.ItemDescription;
-                ReportItemsDataGridView.SelectedRows[0].Cells[3].Value = anItem.Brand;
-                ReportItemsDataGridView.SelectedRows[0].Cells[4].Value = anItem.Color;
-                ReportItemsDataGridView.SelectedRows[0].Cells[5].Value = anItem.Size;
-                ReportItemsDataGridView.SelectedRows[0].Cells[6].Value = anItem.Prop;
-                ReportItemsDataGridView.SelectedRows[0].Cells[7].Value = anItem.SalesPrice.Replace(".", ",");
-                ReportItemsDataGridView.SelectedRows[0].Cells[8].Value = anItem.CostPrice.Replace(".", ","); 
-            }
-            else
-            {
-                mySelectedIndex = GetIndexForAccountID(anItem.AccountID);
-            }
-            //ReportItemsDataGridView.FirstDisplayedScrollingRowIndex = mySelectedIndex;
-        }
-
         /// <summary>
         /// get the row index for a specified accountID
         /// </summary>
@@ -590,233 +652,12 @@ namespace ConsignmentShopMainUI
             return rowIndex;
         }
 
-        //Menu Click action
-        //On Menu open
-        /// <summary>
-        /// select the menu items that are shown
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ContextMenuStrip1_Opening(object sender, CancelEventArgs e)
-        {
-            bool couldDelete = true;
-            if (ReportItemsDataGridView.SelectedRows.Count > 0)
-            {
-                if (ReportItemsDataGridView.SelectedRows.Count > 1)
-                {    //multiple rows selected test if there is an article that is not sold
-                    for (int i = 0; i < ReportItemsDataGridView.SelectedRows.Count; i++)
-                    {
-
-                        if ((!String.IsNullOrEmpty(ReportItemsDataGridView.SelectedRows[i].Cells[11].Value.ToString())) &&
-                            (!String.IsNullOrEmpty(ReportItemsDataGridView.SelectedRows[i].Cells[12].Value.ToString())) ||
-                            (_deletedItems))
-                        {
-                            couldDelete = false;
-                        }
-                    }
-                    //all items sold or deleted
-                    if (!couldDelete)
-                    {
-                        //delete
-                        contextMenuStrip1.Items[0].Visible = false;
-                        //edit
-                        contextMenuStrip1.Items[1].Visible = false;
-                        //undelete
-                        contextMenuStrip1.Items[2].Visible = false;
-                    }
-                    else
-                    {
-                        //delete
-                        contextMenuStrip1.Items[0].Visible = true;
-                        //edit
-                        contextMenuStrip1.Items[1].Visible = false;
-                        //undelete
-                        contextMenuStrip1.Items[2].Visible = false;
-                    }
-                }
-                else
-                {// one Item selected Menu item delete nur anzeigen wenn nicht verkauft, nicht ausbezahlt und nicht gelöscht
-                    if ((!String.IsNullOrEmpty(ReportItemsDataGridView.SelectedRows[0].Cells[11].Value.ToString())) &&
-                        (!String.IsNullOrEmpty(ReportItemsDataGridView.SelectedRows[0].Cells[12].Value.ToString())) ||
-                        (_deletedItems))
-                    {
-                        //delete
-                        contextMenuStrip1.Items[0].Visible = false;
-                        //edit
-                        contextMenuStrip1.Items[1].Visible = true;
-                        //undelete
-                        contextMenuStrip1.Items[2].Visible = false;
-                    }
-                    else
-                    {
-                        //delete
-                        contextMenuStrip1.Items[0].Visible = true;
-                        //edit
-                        contextMenuStrip1.Items[1].Visible = true;
-                        //undelete
-                        contextMenuStrip1.Items[2].Visible = false;
-                    }
-                }
-
-                //only deleted articles are shon
-                if (_deletedItems)
-                {
-                    //delete
-                    contextMenuStrip1.Items[0].Visible = false;
-                    //edit
-                    contextMenuStrip1.Items[1].Visible = false;
-                    //undelete
-                    contextMenuStrip1.Items[2].Visible = true;
-                }
-            }
-            else
-            {
-                //delete
-                contextMenuStrip1.Items[0].Visible = false;
-                //edit
-                contextMenuStrip1.Items[1].Visible = false;
-                //undelete
-                contextMenuStrip1.Items[2].Visible = false;
-            }
-        }
-       
-        /// <summary>
-        /// set deleteDate = today to an article
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DeleteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DialogResult result = MessageBox.Show("Selektierte Artikel löschen?",
-                                  "Confirmation", MessageBoxButtons.OKCancel);
-            if (result == DialogResult.OK)
-            {
-                foreach (var item in ReportItemsDataGridView.SelectedRows)
-                {
-                    if (String.IsNullOrEmpty(ReportItemsDataGridView.SelectedRows[0].Cells[11].Value.ToString()))
-                    {
-
-                        int myIndex = ReportItemsDataGridView.SelectedRows[0].Index;
-                        string anItemNumber = ReportItemsDataGridView.SelectedRows[0].Cells[1].Value.ToString();
-                        //aktuelles Datum 
-                        string aDeleteDate = DateTime.Today.ToShortDateString();
-                        //Löschdatum  Datenbank eintragen
-                        ReportItemsDataGridView.Rows.RemoveAt(myIndex);
-                        DbItems.UpdateItemDeletedWithItemNumber(anItemNumber, aDeleteDate);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// edit an article
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void BearbeitenToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ItemEditUI ItemEditWindow = new ItemEditUI();
-            //ItemEditWindow.MySelectedItem = ReportItemsDataGridView.SelectedRows[0];
-            string myAccountID = ReportItemsDataGridView.SelectedRows[0].Cells[0].Value.ToString();
-
-            Item myItem = new Item();
-            myItem.AccountID = ReportItemsDataGridView.SelectedRows[0].Cells[0].Value.ToString();
-            myItem.ItemNumber = ReportItemsDataGridView.SelectedRows[0].Cells[1].Value.ToString();
-            myItem.ItemDescription = ReportItemsDataGridView.SelectedRows[0].Cells[2].Value.ToString();
-            myItem.Brand = ReportItemsDataGridView.SelectedRows[0].Cells[3].Value.ToString();
-            myItem.Color = ReportItemsDataGridView.SelectedRows[0].Cells[4].Value.ToString();
-            myItem.Size = ReportItemsDataGridView.SelectedRows[0].Cells[5].Value.ToString();
-            myItem.Prop = ReportItemsDataGridView.SelectedRows[0].Cells[6].Value.ToString();
-            myItem.SalesPrice = ReportItemsDataGridView.SelectedRows[0].Cells[7].Value.ToString();
-            myItem.CostPrice = ReportItemsDataGridView.SelectedRows[0].Cells[8].Value.ToString();
-
-            myItem.BeginDate = (ReportItemsDataGridView.SelectedRows[0].Cells[9].Value.ToString() == "" ?
-                "" : ReportItemsDataGridView.SelectedRows[0].Cells[9].Value.ToString().Substring(0, 10));
-            myItem.EndDate = (ReportItemsDataGridView.SelectedRows[0].Cells[10].Value.ToString() == "" ?
-                "" : ReportItemsDataGridView.SelectedRows[0].Cells[10].Value.ToString().Substring(0, 10));
-            myItem.SoldDate = (ReportItemsDataGridView.SelectedRows[0].Cells[11].Value.ToString() == "" ?
-                "" : ReportItemsDataGridView.SelectedRows[0].Cells[11].Value.ToString().Substring(0, 10));
-            myItem.PayoutDate = (ReportItemsDataGridView.SelectedRows[0].Cells[12].Value.ToString() == "" ?
-                "" : ReportItemsDataGridView.SelectedRows[0].Cells[12].Value.ToString().Substring(0, 10));
-            ItemEditWindow.MySelectedItem = myItem;
-            ItemEditWindow.FormClosed += new FormClosedEventHandler(ItemEditWindow_Closed);
-            ItemEditWindow.ShowDialog();
-        }
-
-        /// <summary>
-        /// option to undelete a deleted article
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void UndeleteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DialogResult result = MessageBox.Show("Für selektierte Artikel Löschung aufheben?",
-                      "Confirmation", MessageBoxButtons.OKCancel);
-            if (result == DialogResult.OK)
-            {
-                foreach (var item in ReportItemsDataGridView.SelectedRows)
-                {
-                    if (String.IsNullOrEmpty(ReportItemsDataGridView.SelectedRows[0].Cells[11].Value.ToString()))
-                    {
-
-                        int myIndex = ReportItemsDataGridView.SelectedRows[0].Index;
-                        string anItemNumber = ReportItemsDataGridView.SelectedRows[0].Cells[1].Value.ToString();
-                        //aktuelles Datum 
-                        string aDeleteDate = DateTime.Today.ToShortDateString();
-                        //Löschdatum in Datenbank löschen
-                        ReportItemsDataGridView.Rows.RemoveAt(myIndex);
-                        DbItems.UpdateItemDeletedWithItemNumber(anItemNumber, "");
-                    }
-                }
-            }
-        }
-
-        //Windows schliessen
-        /// <summary>
-        /// after printing the Umsatzliste the Document window is closed
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SalesVolumeDocumentWindow_Closed(object sender, EventArgs e)
-        {
-            if (sender is DocumentSalesVolume SalesVolumeDocumentWindow)
-            {
-                bool mySalesVolumeDocumentPrinted = false;
-                mySalesVolumeDocumentPrinted = SalesVolumeDocumentWindow.MyContractPrinted;
-                SalesVolumeDocumentWindow.FormClosed -= new FormClosedEventHandler(SalesVolumeDocumentWindow_Closed);
-            }
-        }
-
-        /// <summary>
-        /// after edit an article close the edit window
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ItemEditWindow_Closed(object sender, FormClosedEventArgs e)
-        {
-            if (sender is ItemEditUI ItemEditWindow)
-            {
-                bool myItemEdited = false;
-                myItemEdited = ItemEditWindow.MyItemEdited;
-                Item myEditedItem = ItemEditWindow.MySelectedItem;
-                if (myItemEdited)
-                {
-                    UpdateRow(myEditedItem);
-                }
-                ItemEditWindow.FormClosed -= new FormClosedEventHandler(ItemEditWindow_Closed);
-            }
-
-        }
-
-        private void ReportItemsDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
 
         private void itemBindingSource_CurrentChanged(object sender, EventArgs e)
         {
 
         }
+
 
     }
 }
