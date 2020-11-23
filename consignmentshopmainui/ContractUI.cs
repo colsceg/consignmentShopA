@@ -20,6 +20,7 @@ namespace ConsignmentShopMainUI
 
         private Store Store = new Store();
         private DataAccessItems DbItems = new DataAccessItems();
+        private DataAccessVendors DbVendors = new DataAccessVendors();
         private BindingList<Item> itemListItemNumber = new BindingList<Item>();
         private enum Status { alle, Laden, verkauft, ausbezahlt }
 
@@ -42,6 +43,7 @@ namespace ConsignmentShopMainUI
         private void ContractUI_Load(object sender, EventArgs e)
         {
             Setup();
+
         }
 
         /// <summary>
@@ -114,6 +116,8 @@ namespace ConsignmentShopMainUI
                 ReportItemsDataGridView.Columns[9].Width = 60;  //SalesPrice
                 ReportItemsDataGridView.Columns[10].Width = 80; //BeginDate
                 ReportItemsDataGridView.Columns[11].Width = 80; //EndDate
+
+
 
                 //Set the Min Max date to the DateTimePicker Component
                 _ignoreEvents = true;
@@ -483,7 +487,30 @@ namespace ConsignmentShopMainUI
 
             }
         }
-        
+
+        // Sets the ToolTip text for cells in the Rating column.
+        private void ReportItemsDataGridView_CellFormatting(object sender,
+            DataGridViewCellFormattingEventArgs e)
+        {
+            if ((e.ColumnIndex == this.ReportItemsDataGridView.Columns["AccountID"].Index)
+                && e.Value != null)
+            {
+                DataGridViewCell cell =
+                    this.ReportItemsDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                // get Full info for this AccountID (e.Value)
+                List<Vendor> myVendor = DbVendors.GetVendorWithAccountID(e.Value.ToString());
+
+                if (myVendor.Count > 0)
+                {
+                    cell.ToolTipText = myVendor[0].FullAddress;
+                }
+                else
+                {
+                    cell.ToolTipText = "";
+                }
+            }
+        }
+
         #endregion
 
         //Button Click
@@ -657,7 +684,6 @@ namespace ConsignmentShopMainUI
         {
 
         }
-
 
     }
 }

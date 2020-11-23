@@ -29,22 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.ReportItemsDataGridView = new System.Windows.Forms.DataGridView();
             this.contractIDDataGridViewTextBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.accountID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.itemNumberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.itemDescriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.brandDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sizeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.propDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CostPriceDataGridTextBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.salesPriceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.beginDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EndDateDtaGridTextBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.itemBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btnClear = new System.Windows.Forms.Button();
             this.lblKdNr = new System.Windows.Forms.Label();
             this.lblItemDescription = new System.Windows.Forms.Label();
@@ -56,18 +46,28 @@
             this.ItemsFoundLbl = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.CBAccountID = new ConsignmentShopLibrary.ComboBoxEnter();
-            this.CBContractID = new ConsignmentShopLibrary.ComboBoxEnter();
             this.dtTo = new System.Windows.Forms.DateTimePicker();
             this.lblPeriod = new System.Windows.Forms.Label();
             this.dtFrom = new System.Windows.Forms.DateTimePicker();
             this.lblDateFrom = new System.Windows.Forms.Label();
             this.lblDateTo = new System.Windows.Forms.Label();
             this.CBPeriod = new System.Windows.Forms.ComboBox();
+            this.accountID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.itemNumberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.itemDescriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.brandDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sizeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.propDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.salesPriceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.beginDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.itemBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.CBAccountID = new ConsignmentShopLibrary.ComboBoxEnter();
+            this.CBContractID = new ConsignmentShopLibrary.ComboBoxEnter();
             ((System.ComponentModel.ISupportInitialize)(this.ReportItemsDataGridView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.itemBindingSource)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.itemBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // ReportItemsDataGridView
@@ -101,6 +101,7 @@
             this.ReportItemsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.ReportItemsDataGridView.Size = new System.Drawing.Size(996, 459);
             this.ReportItemsDataGridView.TabIndex = 0;
+            this.ReportItemsDataGridView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.ReportItemsDataGridView_CellFormatting);
             // 
             // contractIDDataGridViewTextBox
             // 
@@ -111,103 +112,17 @@
             this.contractIDDataGridViewTextBox.ReadOnly = true;
             this.contractIDDataGridViewTextBox.Width = 50;
             // 
-            // accountID
-            // 
-            this.accountID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.accountID.DataPropertyName = "AccountID";
-            this.accountID.HeaderText = "KdNr";
-            this.accountID.Name = "accountID";
-            this.accountID.ReadOnly = true;
-            this.accountID.Width = 50;
-            // 
-            // itemNumberDataGridViewTextBoxColumn
-            // 
-            this.itemNumberDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.itemNumberDataGridViewTextBoxColumn.DataPropertyName = "ItemNumber";
-            this.itemNumberDataGridViewTextBoxColumn.HeaderText = "ArtNr";
-            this.itemNumberDataGridViewTextBoxColumn.Name = "itemNumberDataGridViewTextBoxColumn";
-            this.itemNumberDataGridViewTextBoxColumn.ReadOnly = true;
-            this.itemNumberDataGridViewTextBoxColumn.Width = 50;
-            // 
-            // itemDescriptionDataGridViewTextBoxColumn
-            // 
-            this.itemDescriptionDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.itemDescriptionDataGridViewTextBoxColumn.DataPropertyName = "ItemDescription";
-            this.itemDescriptionDataGridViewTextBoxColumn.HeaderText = "Artikel";
-            this.itemDescriptionDataGridViewTextBoxColumn.MinimumWidth = 80;
-            this.itemDescriptionDataGridViewTextBoxColumn.Name = "itemDescriptionDataGridViewTextBoxColumn";
-            this.itemDescriptionDataGridViewTextBoxColumn.ReadOnly = true;
-            this.itemDescriptionDataGridViewTextBoxColumn.Width = 80;
-            // 
-            // brandDataGridViewTextBoxColumn
-            // 
-            this.brandDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.brandDataGridViewTextBoxColumn.DataPropertyName = "Brand";
-            this.brandDataGridViewTextBoxColumn.HeaderText = "Marke";
-            this.brandDataGridViewTextBoxColumn.Name = "brandDataGridViewTextBoxColumn";
-            this.brandDataGridViewTextBoxColumn.ReadOnly = true;
-            this.brandDataGridViewTextBoxColumn.Width = 62;
-            // 
-            // colorDataGridViewTextBoxColumn
-            // 
-            this.colorDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colorDataGridViewTextBoxColumn.DataPropertyName = "Color";
-            this.colorDataGridViewTextBoxColumn.HeaderText = "Farbe";
-            this.colorDataGridViewTextBoxColumn.Name = "colorDataGridViewTextBoxColumn";
-            this.colorDataGridViewTextBoxColumn.ReadOnly = true;
-            this.colorDataGridViewTextBoxColumn.Width = 50;
-            // 
-            // sizeDataGridViewTextBoxColumn
-            // 
-            this.sizeDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.sizeDataGridViewTextBoxColumn.DataPropertyName = "Size";
-            this.sizeDataGridViewTextBoxColumn.HeaderText = "Gr.";
-            this.sizeDataGridViewTextBoxColumn.Name = "sizeDataGridViewTextBoxColumn";
-            this.sizeDataGridViewTextBoxColumn.ReadOnly = true;
-            this.sizeDataGridViewTextBoxColumn.Width = 30;
-            // 
-            // propDataGridViewTextBoxColumn
-            // 
-            this.propDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.propDataGridViewTextBoxColumn.DataPropertyName = "Prop";
-            this.propDataGridViewTextBoxColumn.HeaderText = "Sonst.";
-            this.propDataGridViewTextBoxColumn.Name = "propDataGridViewTextBoxColumn";
-            this.propDataGridViewTextBoxColumn.ReadOnly = true;
-            this.propDataGridViewTextBoxColumn.Width = 60;
-            // 
             // CostPriceDataGridTextBox
             // 
             this.CostPriceDataGridTextBox.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.CostPriceDataGridTextBox.DataPropertyName = "CostPrice";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Format = "C2";
-            this.CostPriceDataGridTextBox.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle1.Format = "C2";
+            this.CostPriceDataGridTextBox.DefaultCellStyle = dataGridViewCellStyle1;
             this.CostPriceDataGridTextBox.HeaderText = "EK-Preis";
             this.CostPriceDataGridTextBox.Name = "CostPriceDataGridTextBox";
             this.CostPriceDataGridTextBox.ReadOnly = true;
             this.CostPriceDataGridTextBox.Width = 60;
-            // 
-            // salesPriceDataGridViewTextBoxColumn
-            // 
-            this.salesPriceDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.salesPriceDataGridViewTextBoxColumn.DataPropertyName = "SalesPrice";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle4.Format = "C2";
-            dataGridViewCellStyle4.NullValue = null;
-            this.salesPriceDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle4;
-            this.salesPriceDataGridViewTextBoxColumn.HeaderText = "VK-Preis";
-            this.salesPriceDataGridViewTextBoxColumn.Name = "salesPriceDataGridViewTextBoxColumn";
-            this.salesPriceDataGridViewTextBoxColumn.ReadOnly = true;
-            this.salesPriceDataGridViewTextBoxColumn.Width = 60;
-            // 
-            // beginDateDataGridViewTextBoxColumn
-            // 
-            this.beginDateDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.beginDateDataGridViewTextBoxColumn.DataPropertyName = "BeginDate";
-            this.beginDateDataGridViewTextBoxColumn.HeaderText = "Annahme";
-            this.beginDateDataGridViewTextBoxColumn.Name = "beginDateDataGridViewTextBoxColumn";
-            this.beginDateDataGridViewTextBoxColumn.ReadOnly = true;
-            this.beginDateDataGridViewTextBoxColumn.Width = 60;
             // 
             // EndDateDtaGridTextBox
             // 
@@ -217,11 +132,6 @@
             this.EndDateDtaGridTextBox.Name = "EndDateDtaGridTextBox";
             this.EndDateDtaGridTextBox.ReadOnly = true;
             this.EndDateDtaGridTextBox.Width = 60;
-            // 
-            // itemBindingSource
-            // 
-            this.itemBindingSource.DataSource = typeof(ConsignmentShopLibrary.Item);
-            this.itemBindingSource.CurrentChanged += new System.EventHandler(this.itemBindingSource_CurrentChanged);
             // 
             // btnClear
             // 
@@ -339,6 +249,166 @@
             this.panel2.Size = new System.Drawing.Size(996, 45);
             this.panel2.TabIndex = 103;
             // 
+            // dtTo
+            // 
+            this.dtTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtTo.Location = new System.Drawing.Point(785, 20);
+            this.dtTo.Name = "dtTo";
+            this.dtTo.Size = new System.Drawing.Size(94, 20);
+            this.dtTo.TabIndex = 7;
+            this.dtTo.ValueChanged += new System.EventHandler(this.DtTo_ValueChanged);
+            this.dtTo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DtTo_KeyDown);
+            // 
+            // lblPeriod
+            // 
+            this.lblPeriod.AutoSize = true;
+            this.lblPeriod.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(230)))), ((int)(((byte)(255)))));
+            this.lblPeriod.Location = new System.Drawing.Point(888, 3);
+            this.lblPeriod.Name = "lblPeriod";
+            this.lblPeriod.Size = new System.Drawing.Size(48, 13);
+            this.lblPeriod.TabIndex = 25;
+            this.lblPeriod.Text = "Zeitraum";
+            // 
+            // dtFrom
+            // 
+            this.dtFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtFrom.Location = new System.Drawing.Point(785, -3);
+            this.dtFrom.Name = "dtFrom";
+            this.dtFrom.Size = new System.Drawing.Size(94, 20);
+            this.dtFrom.TabIndex = 6;
+            this.dtFrom.ValueChanged += new System.EventHandler(this.DtFrom_ValueChanged);
+            this.dtFrom.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DtFrom_KeyDown);
+            // 
+            // lblDateFrom
+            // 
+            this.lblDateFrom.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.lblDateFrom.AutoSize = true;
+            this.lblDateFrom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(230)))), ((int)(((byte)(255)))));
+            this.lblDateFrom.Location = new System.Drawing.Point(725, 3);
+            this.lblDateFrom.Name = "lblDateFrom";
+            this.lblDateFrom.Size = new System.Drawing.Size(59, 13);
+            this.lblDateFrom.TabIndex = 19;
+            this.lblDateFrom.Text = "Datum von";
+            // 
+            // lblDateTo
+            // 
+            this.lblDateTo.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.lblDateTo.AutoSize = true;
+            this.lblDateTo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(230)))), ((int)(((byte)(255)))));
+            this.lblDateTo.Location = new System.Drawing.Point(725, 22);
+            this.lblDateTo.Name = "lblDateTo";
+            this.lblDateTo.Size = new System.Drawing.Size(54, 13);
+            this.lblDateTo.TabIndex = 20;
+            this.lblDateTo.Text = "Datum bis";
+            // 
+            // CBPeriod
+            // 
+            this.CBPeriod.FormattingEnabled = true;
+            this.CBPeriod.Items.AddRange(new object[] {
+            "Gesamt",
+            "Heute",
+            "Monat",
+            "Quartal",
+            "Jahr",
+            "Benutzerdefiniert"});
+            this.CBPeriod.Location = new System.Drawing.Point(885, 19);
+            this.CBPeriod.Name = "CBPeriod";
+            this.CBPeriod.Size = new System.Drawing.Size(107, 21);
+            this.CBPeriod.TabIndex = 21;
+            this.CBPeriod.TabStop = false;
+            this.CBPeriod.SelectedIndexChanged += new System.EventHandler(this.CBPeriod_SelectedIndexChanged);
+            // 
+            // accountID
+            // 
+            this.accountID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.accountID.DataPropertyName = "AccountID";
+            this.accountID.HeaderText = "KdNr";
+            this.accountID.Name = "accountID";
+            this.accountID.ReadOnly = true;
+            this.accountID.Width = 50;
+            // 
+            // itemNumberDataGridViewTextBoxColumn
+            // 
+            this.itemNumberDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.itemNumberDataGridViewTextBoxColumn.DataPropertyName = "ItemNumber";
+            this.itemNumberDataGridViewTextBoxColumn.HeaderText = "ArtNr";
+            this.itemNumberDataGridViewTextBoxColumn.Name = "itemNumberDataGridViewTextBoxColumn";
+            this.itemNumberDataGridViewTextBoxColumn.ReadOnly = true;
+            this.itemNumberDataGridViewTextBoxColumn.Width = 50;
+            // 
+            // itemDescriptionDataGridViewTextBoxColumn
+            // 
+            this.itemDescriptionDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.itemDescriptionDataGridViewTextBoxColumn.DataPropertyName = "ItemDescription";
+            this.itemDescriptionDataGridViewTextBoxColumn.HeaderText = "Artikel";
+            this.itemDescriptionDataGridViewTextBoxColumn.MinimumWidth = 80;
+            this.itemDescriptionDataGridViewTextBoxColumn.Name = "itemDescriptionDataGridViewTextBoxColumn";
+            this.itemDescriptionDataGridViewTextBoxColumn.ReadOnly = true;
+            this.itemDescriptionDataGridViewTextBoxColumn.Width = 80;
+            // 
+            // brandDataGridViewTextBoxColumn
+            // 
+            this.brandDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.brandDataGridViewTextBoxColumn.DataPropertyName = "Brand";
+            this.brandDataGridViewTextBoxColumn.HeaderText = "Marke";
+            this.brandDataGridViewTextBoxColumn.Name = "brandDataGridViewTextBoxColumn";
+            this.brandDataGridViewTextBoxColumn.ReadOnly = true;
+            this.brandDataGridViewTextBoxColumn.Width = 62;
+            // 
+            // colorDataGridViewTextBoxColumn
+            // 
+            this.colorDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colorDataGridViewTextBoxColumn.DataPropertyName = "Color";
+            this.colorDataGridViewTextBoxColumn.HeaderText = "Farbe";
+            this.colorDataGridViewTextBoxColumn.Name = "colorDataGridViewTextBoxColumn";
+            this.colorDataGridViewTextBoxColumn.ReadOnly = true;
+            this.colorDataGridViewTextBoxColumn.Width = 50;
+            // 
+            // sizeDataGridViewTextBoxColumn
+            // 
+            this.sizeDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.sizeDataGridViewTextBoxColumn.DataPropertyName = "Size";
+            this.sizeDataGridViewTextBoxColumn.HeaderText = "Gr.";
+            this.sizeDataGridViewTextBoxColumn.Name = "sizeDataGridViewTextBoxColumn";
+            this.sizeDataGridViewTextBoxColumn.ReadOnly = true;
+            this.sizeDataGridViewTextBoxColumn.Width = 30;
+            // 
+            // propDataGridViewTextBoxColumn
+            // 
+            this.propDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.propDataGridViewTextBoxColumn.DataPropertyName = "Prop";
+            this.propDataGridViewTextBoxColumn.HeaderText = "Sonst.";
+            this.propDataGridViewTextBoxColumn.Name = "propDataGridViewTextBoxColumn";
+            this.propDataGridViewTextBoxColumn.ReadOnly = true;
+            this.propDataGridViewTextBoxColumn.Width = 60;
+            // 
+            // salesPriceDataGridViewTextBoxColumn
+            // 
+            this.salesPriceDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.salesPriceDataGridViewTextBoxColumn.DataPropertyName = "SalesPrice";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Format = "C2";
+            dataGridViewCellStyle2.NullValue = null;
+            this.salesPriceDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            this.salesPriceDataGridViewTextBoxColumn.HeaderText = "VK-Preis";
+            this.salesPriceDataGridViewTextBoxColumn.Name = "salesPriceDataGridViewTextBoxColumn";
+            this.salesPriceDataGridViewTextBoxColumn.ReadOnly = true;
+            this.salesPriceDataGridViewTextBoxColumn.Width = 60;
+            // 
+            // beginDateDataGridViewTextBoxColumn
+            // 
+            this.beginDateDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.beginDateDataGridViewTextBoxColumn.DataPropertyName = "BeginDate";
+            this.beginDateDataGridViewTextBoxColumn.HeaderText = "Annahme";
+            this.beginDateDataGridViewTextBoxColumn.Name = "beginDateDataGridViewTextBoxColumn";
+            this.beginDateDataGridViewTextBoxColumn.ReadOnly = true;
+            this.beginDateDataGridViewTextBoxColumn.Width = 60;
+            // 
+            // itemBindingSource
+            // 
+            this.itemBindingSource.DataSource = typeof(ConsignmentShopLibrary.Item);
+            this.itemBindingSource.CurrentChanged += new System.EventHandler(this.itemBindingSource_CurrentChanged);
+            // 
             // CBAccountID
             // 
             this.CBAccountID.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
@@ -363,75 +433,6 @@
             this.CBContractID.SelectedIndexChanged += new System.EventHandler(this.CBContractID_SelectedIndexChanged);
             this.CBContractID.Leave += new System.EventHandler(this.CBContractID_Leave);
             // 
-            // dtTo
-            // 
-            this.dtTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtTo.Location = new System.Drawing.Point(301, 22);
-            this.dtTo.Name = "dtTo";
-            this.dtTo.Size = new System.Drawing.Size(94, 20);
-            this.dtTo.TabIndex = 7;
-            this.dtTo.ValueChanged += new System.EventHandler(this.DtTo_ValueChanged);
-            this.dtTo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DtTo_KeyDown);
-            // 
-            // lblPeriod
-            // 
-            this.lblPeriod.AutoSize = true;
-            this.lblPeriod.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(230)))), ((int)(((byte)(255)))));
-            this.lblPeriod.Location = new System.Drawing.Point(404, 5);
-            this.lblPeriod.Name = "lblPeriod";
-            this.lblPeriod.Size = new System.Drawing.Size(48, 13);
-            this.lblPeriod.TabIndex = 25;
-            this.lblPeriod.Text = "Zeitraum";
-            // 
-            // dtFrom
-            // 
-            this.dtFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtFrom.Location = new System.Drawing.Point(301, -1);
-            this.dtFrom.Name = "dtFrom";
-            this.dtFrom.Size = new System.Drawing.Size(94, 20);
-            this.dtFrom.TabIndex = 6;
-            this.dtFrom.ValueChanged += new System.EventHandler(this.DtFrom_ValueChanged);
-            this.dtFrom.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DtFrom_KeyDown);
-            // 
-            // lblDateFrom
-            // 
-            this.lblDateFrom.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.lblDateFrom.AutoSize = true;
-            this.lblDateFrom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(230)))), ((int)(((byte)(255)))));
-            this.lblDateFrom.Location = new System.Drawing.Point(241, 5);
-            this.lblDateFrom.Name = "lblDateFrom";
-            this.lblDateFrom.Size = new System.Drawing.Size(59, 13);
-            this.lblDateFrom.TabIndex = 19;
-            this.lblDateFrom.Text = "Datum von";
-            // 
-            // lblDateTo
-            // 
-            this.lblDateTo.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.lblDateTo.AutoSize = true;
-            this.lblDateTo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(230)))), ((int)(((byte)(255)))));
-            this.lblDateTo.Location = new System.Drawing.Point(241, 24);
-            this.lblDateTo.Name = "lblDateTo";
-            this.lblDateTo.Size = new System.Drawing.Size(54, 13);
-            this.lblDateTo.TabIndex = 20;
-            this.lblDateTo.Text = "Datum bis";
-            // 
-            // CBPeriod
-            // 
-            this.CBPeriod.FormattingEnabled = true;
-            this.CBPeriod.Items.AddRange(new object[] {
-            "Gesamt",
-            "Heute",
-            "Monat",
-            "Quartal",
-            "Jahr",
-            "Benutzerdefiniert"});
-            this.CBPeriod.Location = new System.Drawing.Point(401, 21);
-            this.CBPeriod.Name = "CBPeriod";
-            this.CBPeriod.Size = new System.Drawing.Size(107, 21);
-            this.CBPeriod.TabIndex = 21;
-            this.CBPeriod.TabStop = false;
-            this.CBPeriod.SelectedIndexChanged += new System.EventHandler(this.CBPeriod_SelectedIndexChanged);
-            // 
             // ContractUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -451,11 +452,11 @@
             this.Text = "Auswertung";
             this.Load += new System.EventHandler(this.ContractUI_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ReportItemsDataGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.itemBindingSource)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.itemBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -18,14 +18,12 @@ namespace ConsignmentShopMainUI
         private DataView view1;
         private DataTable dt = new DataTable();
 
-        private Store Store = new Store();
         private DataAccessItems DbItems = new DataAccessItems();
-        private BindingList<Item> itemListItemNumber = new BindingList<Item>();
+        private DataAccessVendors DbVendors = new DataAccessVendors();
         private enum Status { alle, Laden, verkauft, ausbezahlt }
 
         private bool _ignoreEvents = true;
         private bool _deletedItems = false;
-        private bool _SalesVolume = true;
         private string myFilter;
 
         public ReportUI()
@@ -283,7 +281,10 @@ namespace ConsignmentShopMainUI
             string myItemNumber = CBItemNumber.Text;
             string myFilter = null;
 
-            //CBItemNumber.Text = "";
+            if (_deletedItems)
+            {
+                showDeletedItems();
+            }
 
             if (mySelectedStatus == "alle" || mySelectedStatus == "im Laden")
             {
@@ -949,77 +950,56 @@ namespace ConsignmentShopMainUI
                     {
                         case 0: //Alle
                                 //PeriodCB auf Gesamt setzen
-                            if (CBPeriod.SelectedIndex == 0)
+                            if (CBPeriod.SelectedIndex == 5)
                             {
-                                CurrentItemsLbl.Visible = true;
-                                CurrentItemsTB.Visible = true;
-                                SoldItemsTB.Visible = true;
-                                SoldItemsLbl.Visible = true;
-                                SumPayedTB.Visible = true;
-                                SumPayedLbl.Visible = true;
-                                SumToPayTB.Visible = true;
-                                SumToPayLbl.Visible = true;
-                                SumComissionTB.Visible = true;
-                                SumComissionLbl.Visible = true;
-                                SumSalesVolumeLbl.Visible = true;
-                                SumSalesVolumeTB.Visible = true;
-                                SalesVolumePrintBtn.Visible = false;
-                                _SalesVolume = false;
-                            } else
-                            {
-                                CurrentItemsLbl.Visible = true;
-                                CurrentItemsTB.Visible = true;
-                                SoldItemsTB.Visible = false;
-                                SoldItemsLbl.Visible = false;
-                                SumPayedTB.Visible = false;
-                                SumPayedLbl.Visible = false;
-                                SumToPayTB.Visible = false;
-                                SumToPayLbl.Visible = false;
-                                SumComissionTB.Visible = false;
-                                SumComissionLbl.Visible = false;
-                                SumSalesVolumeLbl.Visible = false;
-                                SumSalesVolumeTB.Visible = false;
-                                SalesVolumePrintBtn.Visible = false;
-                                _SalesVolume = false;
-                            }
-                            CBPeriod.Enabled = true;
-                            break;
-                        case 1: // im Laden
-                            if (CBPeriod.SelectedIndex == 0)
-                            {
-                                CurrentItemsLbl.Visible = true;
-                                CurrentItemsTB.Visible = true;
-                                SoldItemsTB.Visible = false;
-                                SoldItemsLbl.Visible = false;
-                                SumPayedTB.Visible = false;
-                                SumPayedLbl.Visible = false;
-                                SumToPayTB.Visible = false;
-                                SumToPayLbl.Visible = false;
-                                SumComissionTB.Visible = false;
-                                SumComissionLbl.Visible = false;
-                                SumSalesVolumeLbl.Visible = false;
-                                SumSalesVolumeTB.Visible = false;
-                                SalesVolumePrintBtn.Visible = false;
-                                _SalesVolume = false;
+                                dtFrom.Enabled = true;
+                                dtTo.Enabled = true;
                             }
                             else
                             {
-                                CurrentItemsLbl.Visible = true;
-                                CurrentItemsTB.Visible = true;
-                                SoldItemsTB.Visible = false;
-                                SoldItemsLbl.Visible = false;
-                                SumPayedTB.Visible = false;
-                                SumPayedLbl.Visible = false;
-                                SumToPayTB.Visible = false;
-                                SumToPayLbl.Visible = false;
-                                SumComissionTB.Visible = false;
-                                SumComissionLbl.Visible = false;
-                                SumSalesVolumeLbl.Visible = false;
-                                SumSalesVolumeTB.Visible = false;
-                                SalesVolumePrintBtn.Visible = false;
-                                _SalesVolume = false;
+                                dtFrom.Enabled = false;
+                                dtTo.Enabled = false;
                             }
-                            CBPeriod.Enabled = true;
+                            CurrentItemsLbl.Visible = true;
+                            CurrentItemsTB.Visible = true;
+                            SoldItemsTB.Visible = false;
+                            SoldItemsLbl.Visible = false;
+                            SumPayedTB.Visible = false;
+                            SumPayedLbl.Visible = false;
+                            SumToPayTB.Visible = false;
+                            SumToPayLbl.Visible = false;
+                            SumComissionTB.Visible = false;
+                            SumComissionLbl.Visible = false;
+                            SumSalesVolumeLbl.Visible = false;
+                            SumSalesVolumeTB.Visible = false;
+                            SalesVolumePrintBtn.Visible = true;
+                            SalesVolumePrintBtn.Text = "Artikel ausdrucken";
+                            break;
+                        case 1: // im Laden
+                            if (CBPeriod.SelectedIndex == 5)
+                            {
+                                dtFrom.Enabled = true;
+                                dtTo.Enabled = true;
+                            }
+                            else
+                            {
+                                dtFrom.Enabled = false;
+                                dtTo.Enabled = false;
+                            }
+                            CurrentItemsLbl.Visible = true;
+                            CurrentItemsTB.Visible = true;
+                            SoldItemsTB.Visible = false;
+                            SoldItemsLbl.Visible = false;
+                            SumPayedTB.Visible = false;
+                            SumPayedLbl.Visible = false;
+                            SumToPayTB.Visible = false;
+                            SumToPayLbl.Visible = false;
+                            SumComissionTB.Visible = false;
+                            SumComissionLbl.Visible = false;
+                            SumSalesVolumeLbl.Visible = false;
+                            SumSalesVolumeTB.Visible = false;
+                            SalesVolumePrintBtn.Visible = true;
+                            SalesVolumePrintBtn.Text = "Artikel ausdrucken";
                             break;
                         case 2: //verkauft
                             CurrentItemsLbl.Visible = false;
@@ -1035,9 +1015,7 @@ namespace ConsignmentShopMainUI
                             SumSalesVolumeLbl.Visible = true;
                             SumSalesVolumeTB.Visible = true;
                             SalesVolumePrintBtn.Visible = true;
-                            SalesVolumePrintBtn.Text = "Umsatzliste drucken";
-                            _SalesVolume = true;
-                            CBPeriod.Enabled = true;
+                            SalesVolumePrintBtn.Text = "Umsatz ausdrucken";
                             break;
                         case 3:  //ausbezahlt
                             CurrentItemsLbl.Visible = false;
@@ -1052,8 +1030,8 @@ namespace ConsignmentShopMainUI
                             SumComissionLbl.Visible = false;
                             SumSalesVolumeLbl.Visible = false;
                             SumSalesVolumeTB.Visible = false;
-                            _SalesVolume = true;
-                            CBPeriod.Enabled = true;
+                            SalesVolumePrintBtn.Visible = true;
+                            SalesVolumePrintBtn.Text = "Auszahlungen ausdrucken";
                             break;
                         default:
                             break;
@@ -1073,10 +1051,9 @@ namespace ConsignmentShopMainUI
                 SumComissionTB.Visible = false;
                 SumComissionLbl.Visible = false;
                 SumSalesVolumeLbl.Visible = false;
-                SumSalesVolumeTB.Visible = false;
+                SumSalesVolumeTB.Visible = true;
+                SalesVolumePrintBtn.Visible = true;
                 SalesVolumePrintBtn.Text = "Artikelliste drucken";
-                _SalesVolume = false;
-                CBPeriod.Enabled = false;
             }
         }
 
@@ -1256,6 +1233,29 @@ namespace ConsignmentShopMainUI
 
             }
         }
+
+        // Sets the ToolTip text for cells in the Rating column.
+        private void ReportItemsDataGridView_CellFormatting(object sender,
+            DataGridViewCellFormattingEventArgs e)
+        {
+            if ((e.ColumnIndex == this.ReportItemsDataGridView.Columns["AccountID"].Index)
+                && e.Value != null)
+            {
+                DataGridViewCell cell =
+                    this.ReportItemsDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                // get Full info for this AccountID (e.Value)
+                List<Vendor> myVendor = DbVendors.GetVendorWithAccountID(e.Value.ToString());
+
+                if (myVendor.Count > 0)
+                {
+                    cell.ToolTipText = myVendor[0].FullAddress;
+                }
+                else
+                {
+                    cell.ToolTipText = "";
+                }
+            }
+        }
         #endregion
 
         //Button Click
@@ -1311,57 +1311,44 @@ namespace ConsignmentShopMainUI
             }
             else
             {
-                //gelöschte Artikel anzeigen
-                _deletedItems = true;
-
-                //Get all deleted items in a DataTable
-                dt = DbItems.GetAllItemsReportDeleted();
-                //Bind all items in a DataTable to a DataView
-                view1 = new DataView(dt);
-                //Bind the DataView to a DataSource
-                source1.DataSource = view1;
-                //Bind a DataSource to a DataGridView  (ds.Tables[0]);
-                ReportItemsDataGridView.DataSource = source1;
-                ItemsFoundTB.Text = view1.Count.ToString();
-                //query the DataView for the itemDescription ordered and get the Min date
-                var queryMin = (from DataRowView rowView in view1
-                                select rowView.Row.Field<DateTime>("BeginDate")).Min();
-
-                //query the DataView for the itemDescription ordered and get the Max date
-                var queryMax = (from DataRowView rowView in view1
-                                select rowView.Row.Field<DateTime>("BeginDate")).Max();
-                //Set the Min Max date to the DateTimePicker Component
-                //_ignoreEvents = true;
-                //dtFrom.Value = queryMin;
-                //_ignoreEvents = true;
-                //dtTo.Value = queryMax;
-
-                FillAttributeTables();
-                FillAllFields();
-                ClearAttributesText();
-                BtnDeletedItems.Text = "Aktuelle Artikel anzeigen";
-                CBPeriod.Visible = false;
-                CBStatus.Visible = false;
-                lblPeriod.Visible = false;
-                lblStatus.Visible = false;
-                SalesVolumePrintBtn.Visible = false;
-                CurrentItemsLbl.Visible = false;
-                CurrentItemsTB.Visible = false;
-                SoldItemsTB.Visible = false;
-                SoldItemsLbl.Visible = false;
-                SumPayedTB.Visible = false;
-                SumPayedLbl.Visible = false;
-                SumToPayTB.Visible = false;
-                SumToPayLbl.Visible = false;
-                SumComissionTB.Visible = false;
-                SumComissionLbl.Visible = false;
-                SumSalesVolumeLbl.Visible = false;
-                SumSalesVolumeTB.Visible = false;
-                SalesVolumePrintBtn.Visible = false;
-                SalesVolumePrintBtn.Enabled = false;
-                lblFilter.Text = "gelöschte Artikel";
-
+                showDeletedItems();
             }
+        }
+
+        private void showDeletedItems()
+        {
+            //gelöschte Artikel anzeigen
+            _deletedItems = true;
+
+            //Get all deleted items in a DataTable
+            dt = DbItems.GetAllItemsReportDeleted();
+            //Bind all items in a DataTable to a DataView
+            view1 = new DataView(dt);
+            //Bind the DataView to a DataSource
+            source1.DataSource = view1;
+            //Bind a DataSource to a DataGridView  (ds.Tables[0]);
+            ReportItemsDataGridView.DataSource = source1;
+            ItemsFoundTB.Text = view1.Count.ToString();
+            //query the DataView for the itemDescription ordered and get the Min date
+            var queryMin = (from DataRowView rowView in view1
+                            select rowView.Row.Field<DateTime>("BeginDate")).Min();
+
+            //query the DataView for the itemDescription ordered and get the Max date
+            var queryMax = (from DataRowView rowView in view1
+                            select rowView.Row.Field<DateTime>("BeginDate")).Max();
+
+            FillAttributeTables();
+            FillAllFields();
+            ClearAttributesText();
+            //Button Text auf aktuell ändern
+            BtnDeletedItems.Text = "Aktuelle Artikel anzeigen";
+            CBPeriod.Visible = true;
+            CBPeriod.Enabled = true;
+            CBStatus.Visible = false;
+            lblPeriod.Visible = true;
+            lblStatus.Visible = false;
+            //Überschrift auf gelöschet ändern
+            lblFilter.Text = "gelöschte Artikel";
         }
 
         private void BtnClear_Click(object sender, EventArgs e)
@@ -1393,9 +1380,8 @@ namespace ConsignmentShopMainUI
 
         private void SalesVolumePrintBtn_Click(object sender, EventArgs e)
         {
-            if (_SalesVolume)
-            {
-                //DocumentContract aufrufen Umsatzliste ausdrucken
+
+                //DocumentSalesVolume aufrufen Umsatzliste ausdrucken
                 DocumentSalesVolume SalesVolumeDocumentWindow = new DocumentSalesVolume();
                 SalesVolumeDocumentWindow.FormClosed += new FormClosedEventHandler(SalesVolumeDocumentWindow_Closed);
 
@@ -1407,6 +1393,7 @@ namespace ConsignmentShopMainUI
                 List<ItemReport> myCurrentItemsList = view1.ToTable().Rows.Cast<DataRow>()
                         .Select(r => new ItemReport()
                         {
+                            //ContractID = (r.Field<object>("ContractID") == DBNull.Value ? "" : r.Field<string>("ContractID")),
                             AccountID = r.Field<string>("AccountID"),
                             ItemNumber = Convert.ToString(r.Field<Int32>("ItemNumber")),
                             ItemDescription = r.Field<string>("ItemDescription"),
@@ -1416,62 +1403,57 @@ namespace ConsignmentShopMainUI
                             Prop = r.Field<string>("Prop"),
                             SalesPrice = r.Field<double>("SalesPrice").ToString(),
                             CostPrice = r.Field<double>("CostPrice").ToString(),
-                            SoldDate = (r.Field<object>("SoldDate") == DBNull.Value ? "" : r.Field<DateTime>("SoldDate").ToShortDateString()),
-                            PayoutDate = (r.Field<object>("PayoutDate") == DBNull.Value ? "" : r.Field<DateTime>("PayoutDate").ToShortDateString()),
-                            BeginDate = (r.Field<object>("BeginDate") == DBNull.Value ? "" : r.Field<DateTime>("PayoutDate").ToShortDateString()),
-                            EndDate = (r.Field<object>("EndDate") == DBNull.Value ? "" : r.Field<DateTime>("PayoutDate").ToShortDateString())
+                            SoldDate =  r.Field<object>("SoldDate") == null ? "" : r.Field<DateTime>("SoldDate").ToShortDateString(),
+                            //PayoutDate = (r.Field<object>("PayoutDate") == DBNull.Value ? "" : r.Field<DateTime>("PayoutDate").ToShortDateString()),
+                            //BeginDate = (r.Field<object>("BeginDate") == DBNull.Value ? "" : r.Field<DateTime>("PayoutDate").ToShortDateString()),
+                            //EndDate = (r.Field<object>("EndDate") == DBNull.Value ? "" : r.Field<DateTime>("PayoutDate").ToShortDateString())
                         }).ToList();
 
-                //Itemsliste an Dokument übergeben
-                SalesVolumeDocumentWindow.MyItemsList = myCurrentItemsList;
-                SalesVolumeDocumentWindow.ShowDialog();
-            }
-            else
+            //Itemsliste an Dokument übergeben
+            int myStatusIndex = CBStatus.SelectedIndex;
+            if (myStatusIndex != -1)
             {
-                //Artikelliste ausdrucken
-
-                //Inhalt des DataGridView in eine Liste schreiben
-                string myContractID ="0000";
-                List<Item> myCurrentItemsList = view1.ToTable().Rows.Cast<DataRow>()
-                        .Select(r => new Item()
-                        {
-                            AccountID = r.Field<string>("AccountID"),
-                            ItemNumber = Convert.ToString(r.Field<Int32>("ItemNumber")),
-                            ItemDescription = r.Field<string>("ItemDescription"),
-                            Color = r.Field<string>("Color"),
-                            Brand = r.Field<string>("Brand"),
-                            Size = r.Field<string>("Size"),
-                            Prop = r.Field<string>("Prop"),
-                            SalesPrice = r.Field<double>("SalesPrice").ToString(),
-                            CostPrice = r.Field<double>("CostPrice").ToString(),
-                            BeginDate =  r.Field<DateTime>("BeginDate").ToShortDateString(),
-                            EndDate = r.Field<DateTime>("EndDate").ToShortDateString(),
-                        }).ToList();
-                List<Contract> myContractList = DbItems.GetContractWithAccountID(Store.ConvertContractNumberToContractID(myCurrentItemsList[0].AccountID));
-                if (myContractList.Count > 0)
-                    myContractID = myContractList[0].ContractID;
-                else
-                //ContractID festlegen
+                switch (myStatusIndex)
                 {
-                    List<ConfigData> myConfigData = DbItems.GetConfigData();
-                    if (myConfigData.Count > 0)
-                    {
-                        myContractID = myConfigData[0].LastContractID;
-                        myContractID = Store.IncrementContractID(myContractID);
-                    }
-                }
+                    case 0:
+                        if(String.IsNullOrEmpty(CBAccountID.Text))
+                            SalesVolumeDocumentWindow.MyTitle = "Artikel alle Annahme vom: ";
+                        else
+                            SalesVolumeDocumentWindow.MyTitle = $"Artikelliste für Kunde {CBAccountID.Text}";
+                        SalesVolumeDocumentWindow.MyDateHeader = "Verkauft";
+                        break;
+                    case 1:
+                        if (String.IsNullOrEmpty(CBAccountID.Text))
+                            SalesVolumeDocumentWindow.MyTitle = "Artikel im Laden";
+                        else
+                            SalesVolumeDocumentWindow.MyTitle = $"Artikel im Laden für Kunde {CBAccountID.Text}";
+                        SalesVolumeDocumentWindow.MyDateHeader = "Annahme";
+                        break;
+                    case 2:
+                        if (String.IsNullOrEmpty(CBAccountID.Text))
+                            SalesVolumeDocumentWindow.MyTitle = "Umsatz";
+                        else
+                            SalesVolumeDocumentWindow.MyTitle = $"Umsatz für Kunde {CBAccountID.Text}";
+                        SalesVolumeDocumentWindow.MyDateHeader = "Verkauft";
+                        break;
+                    case 3:
+                        if (String.IsNullOrEmpty(CBAccountID.Text))
+                            SalesVolumeDocumentWindow.MyTitle = "Auszahlungen";
+                        else
+                            SalesVolumeDocumentWindow.MyTitle = $"Auszahlungen für Kunde {CBAccountID.Text}"; ;
+                        SalesVolumeDocumentWindow.MyDateHeader = "Verkauft";
+                        break;
 
-                for (int i = 0; i < myCurrentItemsList.Count; i++)
-                {
-                    myCurrentItemsList[i].ContractID = myContractID;
+                    default:
+                        SalesVolumeDocumentWindow.MyTitle = "Artikelliste";
+                        SalesVolumeDocumentWindow.MyDateHeader = "Verkauft";
+                        break;
                 }
-
-                //ruft neues Fenster auf zur Anzeige der Artikel
-                DocumentContract documentWindow = new DocumentContract();
-                documentWindow.FormClosed += new FormClosedEventHandler(DocumentContractWindow_Closed);
-                documentWindow.ContractItemList = myCurrentItemsList;
-                documentWindow.ShowDialog();                
             }
+            SalesVolumeDocumentWindow.MyItemsList = myCurrentItemsList;
+            SalesVolumeDocumentWindow.ShowDialog();
+            
+
         }
 
         private void DocumentContractWindow_Closed(object sender, EventArgs e)

@@ -23,6 +23,8 @@ namespace ConsignmentShopMainUI
         public string MyFromDate { get; set; }
         public string MyToDate { get; set; }
         public List<ItemReport> MyItemsList { get; set; }
+        public string MyTitle { get; set; }
+        public string MyDateHeader { get; set; }
 
         public DocumentSalesVolume()
         {
@@ -77,7 +79,7 @@ namespace ConsignmentShopMainUI
             int[] tabs = {150, 500 };
             myRichTextBoxEx.SelectionTabs = tabs;
             //Header setzen
-            string header = "\tUmsatzliste " ;
+            string header = $"\t{MyTitle}  " ;
             myRichTextBoxEx.Font = new Font("Arial", 14f, FontStyle.Bold);
             myRichTextBoxEx.SelectionAlignment = HorizontalAlignment.Center;
             myRichTextBoxEx.AppendText(header);
@@ -101,7 +103,7 @@ namespace ConsignmentShopMainUI
             myRichTextBoxEx.SelectionFont = new Font("Arial", 9f, FontStyle.Bold);
             myRichTextBoxEx.SelectedText = underline + "\n";
             myRichTextBoxEx.SelectionFont = new Font("Arial", 9f, FontStyle.Bold);
-            myRichTextBoxEx.SelectedText = "ArtikelNr" + "\t" + "Artikel" + "\t" + "Verkauft" + "\t" + "Prov. %" + "\t" + "VK-Preis" + "\t" + "Auszahlung" + "\t" + "Provision" + "\n";
+            myRichTextBoxEx.SelectedText = $"ArtikelNr\tArtikel\t{MyDateHeader}\tProv. %\tVK-Preis\tAuszahlung\tProvision\n";
             myRichTextBoxEx.SelectionFont = new Font("Arial", 9f, FontStyle.Bold);
             myRichTextBoxEx.SelectedText = underline + "\n";
 
@@ -119,6 +121,7 @@ namespace ConsignmentShopMainUI
                 string mySoldPriceString;
                 string myCostPriceString;
                 string myItemNumber;
+                string myItemDescription;
                 int myMarge = 0;
 
                 int[] tabs2 = { 90, 235, 330, 405, 520, 620 };
@@ -136,12 +139,12 @@ namespace ConsignmentShopMainUI
 
                         myItemNumber = item.ItemNumber;
                         myMarge = Convert.ToInt32((mySoldPrice - myCostPrice) * 100 / mySoldPrice);
-
+                        myItemDescription = item.ItemDescription.Substring(0, item.ItemDescription.Length < 16 ? item.ItemDescription.Length : 15);
                         myComissionString = Store.SetStringLengthToTen(String.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", myComission));
                         mySoldPriceString = Store.SetStringLengthToTen(String.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", mySoldPrice));
                         myCostPriceString = Store.SetStringLengthToTen(String.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", myCostPrice));
                         myRichTextBoxEx.SelectionFont = new Font("Arial", 10f, FontStyle.Regular);
-                        myRichTextBoxEx.SelectedText = myItemNumber + "\t" + item.ItemDescription + "\t" + item.SoldDate + "\t" + Store.SetStringLengthToFour(Convert.ToString(myMarge)) + "\t" + mySoldPriceString + "\t" + myCostPriceString + "\t" + myComissionString + "\n";
+                        myRichTextBoxEx.SelectedText = myItemNumber + "\t" + myItemDescription + "\t" + item.SoldDate + "\t" + Store.SetStringLengthToFour(Convert.ToString(myMarge)) + "\t" + mySoldPriceString + "\t" + myCostPriceString + "\t" + myComissionString + "\n";
                     }
                 }
             }

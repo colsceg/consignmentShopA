@@ -24,6 +24,7 @@ namespace ConsignmentShopLibrary
 
         public string FullInfo => $"{ LastName } ; { FirstName } ; { AccountID }";
         public string FullName => $"{ LastName } { FirstName }";
+        public string FullAddress => $"{LastName} {FirstName} \n {Street} \n {Plz} {Town}  ";
 
 
         public int CompareTo(Object o)

@@ -133,6 +133,7 @@
             this.ReportItemsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.ReportItemsDataGridView.Size = new System.Drawing.Size(996, 459);
             this.ReportItemsDataGridView.TabIndex = 0;
+            this.ReportItemsDataGridView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.ReportItemsDataGridView_CellFormatting);
             // 
             // accountID
             // 
