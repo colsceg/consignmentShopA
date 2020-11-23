@@ -137,13 +137,13 @@ namespace ConsignmentShopLibrary
             // Add the Column to the DataColumnCollection.
             table.Columns.Add(column);
 
-            //column = new DataColumn();
-            //column.DataType = System.Type.GetType("System.DateTime");
-            //column.ColumnName = "DeleteDate";
-            //column.ReadOnly = true;
-            //column.Unique = false;
-            //// Add the Column to the DataColumnCollection.
-            //table.Columns.Add(column);
+            column = new DataColumn();
+            column.DataType = System.Type.GetType("System.DateTime");
+            column.ColumnName = "DeleteDate";
+            column.ReadOnly = true;
+            column.Unique = false;
+            // Add the Column to the DataColumnCollection.
+            table.Columns.Add(column);
 
             return table;
         }

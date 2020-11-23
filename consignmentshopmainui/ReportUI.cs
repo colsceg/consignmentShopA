@@ -280,11 +280,160 @@ namespace ConsignmentShopMainUI
             int myMonth = DateTime.Today.Month;
             string myItemNumber = CBItemNumber.Text;
             string myFilter = null;
+            string newBrand, newDescription, newColor, newSize = "";
+
 
             if (_deletedItems)
             {
-                showDeletedItems();
+                myDateQuery = "";
+                switch (mySelectedPeriod)
+                {
+                    //Gesamt
+                    case 0:
+                        dtFrom.Enabled = false;
+                        dtTo.Enabled = false;
+                        myDateQuery = "";
+                        break;
+                    //Heute
+                    case 1:
+                        dtFrom.Enabled = false;
+                        dtTo.Enabled = false;
+                        myDateQuery = " AND DeleteDate = '" + myToday + "' ";
+                        break;
+                    //Monat
+                    case 2:
+                        dtFrom.Enabled = false;
+                        dtTo.Enabled = false;
+                        myFromDate = Convert.ToDateTime("01." + myMonth + "." + myYear).ToShortDateString();
+                        myToDate = Convert.ToDateTime(DateTime.DaysInMonth(myYear, myMonth) + "." + myMonth + "." + myYear).ToShortDateString();
+                        myDateQuery = " AND DeleteDate >= '" + myFromDate + "' AND DeleteDate <= '" + myToDate + "' ";
+                        break;
+                    //Quartal
+                    case 3:
+                        dtFrom.Enabled = false;
+                        dtTo.Enabled = false;
+                        int myQuartal = 0;
+                        int myDays = 0;
+                        switch (myMonth)
+                        {
+                            case 1:
+                            case 2:
+                            case 3:
+                                myQuartal = 1;
+                                break;
+                            case 4:
+                            case 5:
+                            case 6:
+                                myQuartal = 2;
+                                break;
+                            case 7:
+                            case 8:
+                            case 9:
+                                myQuartal = 3;
+                                break;
+                            case 10:
+                            case 11:
+                            case 12:
+                                myQuartal = 4;
+                                break;
+                        }
+                        switch (myQuartal)
+                        {
+                            case 1:
+                                for (int i = 0; i < 3; i++)
+                                {
+                                    myDays += DateTime.DaysInMonth(myYear, 1 + i);
+                                }
+                                myFromDate = "01.01." + myYear;
+                                myToDate = "31.03." + myYear;
+                                break;
+
+                            case 2:
+                                for (int i = 0; i < 3; i++)
+                                {
+                                    myDays += DateTime.DaysInMonth(myYear, 4 + i);
+                                }
+                                myFromDate = "01.04." + myYear;
+                                myToDate = "30.06." + myYear;
+                                break;
+
+                            case 3:
+                                for (int i = 0; i < 3; i++)
+                                {
+                                    myDays += DateTime.DaysInMonth(myYear, 7 + i);
+                                }
+                                myFromDate = "01.07." + myYear;
+                                myToDate = "30.09." + myYear;
+                                break;
+                            case 4:
+                                for (int i = 0; i < 3; i++)
+                                {
+                                    myDays += DateTime.DaysInMonth(myYear, 10 + i);
+                                }
+                                myFromDate = "01.10." + myYear;
+                                myToDate = "31.12." + myYear;
+                                break;
+                            default:
+                                myFromDate = "01.10." + myYear;
+                                myToDate = "31.12." + myYear;
+                                break;
+                        }
+                        myDateQuery = " AND DeleteDate >= '" + myFromDate + "' AND DeleteDate <= '" + myToDate + "' ";
+                        break;
+                    //Jahr
+                    case 4:
+                        dtFrom.Enabled = false;
+                        dtTo.Enabled = false;
+                        myFromDate = "01.01." + myYear;
+                        myToDate = "31.12." + myYear;
+                        myDateQuery = " AND DeleteDate >= '" + myFromDate + "' AND DeleteDate <= '" + myToDate + "' ";
+                        break;
+                    //Benutzerdefiniert
+                    case 5:
+                        dtFrom.Enabled = true;
+                        dtTo.Enabled = true;
+                        myFromDate = dtFrom.Value.ToShortDateString();
+                        myToDate = dtTo.Value.ToShortDateString();
+                        myDateQuery = " AND DeleteDate >= '" + myFromDate + "' AND DeleteDate <= '" + myToDate + "' ";
+                        break;
+                    default:
+                        dtFrom.Enabled = false;
+                        dtTo.Enabled = false;
+                        myFromDate = dtFrom.Value.ToShortDateString();
+                        myToDate = dtTo.Value.ToShortDateString();
+                        myDateQuery = " AND DeleteDate >= '" + myFromDate + "' AND DeleteDate <= '" + myToDate + "' ";
+                        break;
+                }
+
+
+                newBrand = Store.DataViewEscape(CBBrand.Text.Trim());
+                newDescription = Store.DataViewEscape(CBItemDescription.Text.Trim());
+                newColor = Store.DataViewEscape(CBColor.Text.Trim());
+                newSize = Store.DataViewEscape(CBSize.Text.Trim());
+
+
+                if (String.IsNullOrEmpty(myItemNumber))
+                {
+                    myFilter = "AccountID LIKE '" + CBAccountID.Text.Trim() + "%' " +
+                                 " AND ItemDescription LIKE '" + newDescription + "%' " +
+                                 " AND Brand LIKE '" + newBrand + "%' " +
+                                 " AND Color LIKE '" + newColor + "%' " +
+                                 " AND Size LIKE '" + newSize + "%' " +
+                                 myDateQuery;
+                }
+                else
+                {
+                    myFilter = "AccountID LIKE '" + CBAccountID.Text.Trim() + "%' " +
+                                " AND ItemNumber = '" + Convert.ToInt16(CBItemNumber.Text.Trim()) + " ' " +
+                                " AND ItemDescription LIKE '" + newDescription + "%' " +
+                                " AND Brand LIKE '" + newBrand + "%' " +
+                                " AND Color LIKE '" + newColor + "%' " +
+                                " AND Size LIKE '" + newSize + "%' " +
+                             myDateQuery;
+                }
+                return myFilter;
             }
+
 
             if (mySelectedStatus == "alle" || mySelectedStatus == "im Laden")
             {
@@ -781,8 +930,6 @@ namespace ConsignmentShopMainUI
                 }
             }
 
-            string newBrand, newDescription, newColor, newSize = "";
-
             newBrand = Store.DataViewEscape(CBBrand.Text.Trim());
             newDescription = Store.DataViewEscape(CBItemDescription.Text.Trim());
             newColor = Store.DataViewEscape(CBColor.Text.Trim());
@@ -1265,6 +1412,7 @@ namespace ConsignmentShopMainUI
             if (_deletedItems)
             {
                 //Aktuelle Artikel anzeigen
+
                 _deletedItems = false;
                 BtnDeletedItems.Text = "Gelöschte Artikel anzeigen";
                 //Get all actual items in a DataTable
@@ -1315,42 +1463,6 @@ namespace ConsignmentShopMainUI
             }
         }
 
-        private void showDeletedItems()
-        {
-            //gelöschte Artikel anzeigen
-            _deletedItems = true;
-
-            //Get all deleted items in a DataTable
-            dt = DbItems.GetAllItemsReportDeleted();
-            //Bind all items in a DataTable to a DataView
-            view1 = new DataView(dt);
-            //Bind the DataView to a DataSource
-            source1.DataSource = view1;
-            //Bind a DataSource to a DataGridView  (ds.Tables[0]);
-            ReportItemsDataGridView.DataSource = source1;
-            ItemsFoundTB.Text = view1.Count.ToString();
-            //query the DataView for the itemDescription ordered and get the Min date
-            var queryMin = (from DataRowView rowView in view1
-                            select rowView.Row.Field<DateTime>("BeginDate")).Min();
-
-            //query the DataView for the itemDescription ordered and get the Max date
-            var queryMax = (from DataRowView rowView in view1
-                            select rowView.Row.Field<DateTime>("BeginDate")).Max();
-
-            FillAttributeTables();
-            FillAllFields();
-            ClearAttributesText();
-            //Button Text auf aktuell ändern
-            BtnDeletedItems.Text = "Aktuelle Artikel anzeigen";
-            CBPeriod.Visible = true;
-            CBPeriod.Enabled = true;
-            CBStatus.Visible = false;
-            lblPeriod.Visible = true;
-            lblStatus.Visible = false;
-            //Überschrift auf gelöschet ändern
-            lblFilter.Text = "gelöschte Artikel";
-        }
-
         private void BtnClear_Click(object sender, EventArgs e)
         {
             _ignoreEvents = true;
@@ -1381,33 +1493,40 @@ namespace ConsignmentShopMainUI
         private void SalesVolumePrintBtn_Click(object sender, EventArgs e)
         {
 
-                //DocumentSalesVolume aufrufen Umsatzliste ausdrucken
-                DocumentSalesVolume SalesVolumeDocumentWindow = new DocumentSalesVolume();
-                SalesVolumeDocumentWindow.FormClosed += new FormClosedEventHandler(SalesVolumeDocumentWindow_Closed);
+            //DocumentSalesVolume aufrufen Umsatzliste ausdrucken
+            DocumentSalesVolume SalesVolumeDocumentWindow = new DocumentSalesVolume();
+            SalesVolumeDocumentWindow.FormClosed += new FormClosedEventHandler(SalesVolumeDocumentWindow_Closed);
 
-                //Datumsfelder von bis im Dokument setzen
-                SalesVolumeDocumentWindow.MyFromDate = dtFrom.Text;
-                SalesVolumeDocumentWindow.MyToDate = dtTo.Text;
+            //Datumsfelder von bis im Dokument setzen
+            SalesVolumeDocumentWindow.MyFromDate = dtFrom.Text;
+            SalesVolumeDocumentWindow.MyToDate = dtTo.Text;
 
-                //Inhalt des DataGridView in eine Liste schreiben
-                List<ItemReport> myCurrentItemsList = view1.ToTable().Rows.Cast<DataRow>()
-                        .Select(r => new ItemReport()
-                        {
-                            //ContractID = (r.Field<object>("ContractID") == DBNull.Value ? "" : r.Field<string>("ContractID")),
-                            AccountID = r.Field<string>("AccountID"),
-                            ItemNumber = Convert.ToString(r.Field<Int32>("ItemNumber")),
-                            ItemDescription = r.Field<string>("ItemDescription"),
-                            Color = r.Field<string>("Color"),
-                            Brand = r.Field<string>("Brand"),
-                            Size = r.Field<string>("Size"),
-                            Prop = r.Field<string>("Prop"),
-                            SalesPrice = r.Field<double>("SalesPrice").ToString(),
-                            CostPrice = r.Field<double>("CostPrice").ToString(),
-                            SoldDate =  r.Field<object>("SoldDate") == null ? "" : r.Field<DateTime>("SoldDate").ToShortDateString(),
-                            //PayoutDate = (r.Field<object>("PayoutDate") == DBNull.Value ? "" : r.Field<DateTime>("PayoutDate").ToShortDateString()),
-                            //BeginDate = (r.Field<object>("BeginDate") == DBNull.Value ? "" : r.Field<DateTime>("PayoutDate").ToShortDateString()),
-                            //EndDate = (r.Field<object>("EndDate") == DBNull.Value ? "" : r.Field<DateTime>("PayoutDate").ToShortDateString())
-                        }).ToList();
+            //Inhalt des DataGridView in eine Liste schreiben
+            List<ItemReport> myCurrentItemsList = view1.ToTable().Rows.Cast<DataRow>()
+                    .Select(r => new ItemReport()
+                    {
+                        //ContractID = (r.Field<object>("ContractID") == DBNull.Value ? "" : r.Field<string>("ContractID")),
+                        AccountID = r.Field<string>("AccountID"),
+                        ItemNumber = Convert.ToString(r.Field<Int32>("ItemNumber")),
+                        ItemDescription = r.Field<string>("ItemDescription"),
+                        Color = r.Field<string>("Color"),
+                        Brand = r.Field<string>("Brand"),
+                        Size = r.Field<string>("Size"),
+                        Prop = r.Field<string>("Prop"),
+                        SalesPrice = r.Field<double>("SalesPrice").ToString(),
+                        CostPrice = r.Field<double>("CostPrice").ToString(),
+                        SoldDate =  r.Field<object>("SoldDate") == null ? "" : r.Field<DateTime>("SoldDate").ToShortDateString(),
+                        PayoutDate = r.Field<object>("PayoutDate") == null ? "" : r.Field<DateTime>("PayoutDate").ToShortDateString(),
+                        BeginDate = r.Field<object>("BeginDate") == null ? "" : r.Field<DateTime>("BeginDate").ToShortDateString(),
+                        DeleteDate = (r.Field<object>("DeleteDate") == DBNull.Value ? "" : r.Field<DateTime>("DeleteDate").ToShortDateString())
+                    }).ToList();
+
+            if (_deletedItems)
+            {
+                SalesVolumeDocumentWindow.MyTitle = $"gelöschte Artikel ";
+                SalesVolumeDocumentWindow.MyDateHeader = "gelöscht";
+                return;
+            }
 
             //Itemsliste an Dokument übergeben
             int myStatusIndex = CBStatus.SelectedIndex;
@@ -1441,7 +1560,7 @@ namespace ConsignmentShopMainUI
                             SalesVolumeDocumentWindow.MyTitle = "Auszahlungen";
                         else
                             SalesVolumeDocumentWindow.MyTitle = $"Auszahlungen für Kunde {CBAccountID.Text}"; ;
-                        SalesVolumeDocumentWindow.MyDateHeader = "Verkauft";
+                        SalesVolumeDocumentWindow.MyDateHeader = "Ausbezahlt";
                         break;
 
                     default:
@@ -1493,7 +1612,8 @@ namespace ConsignmentShopMainUI
                         //Add the Data rows.
 
                         string myCell = (cell.Value != null) ? cell.Value.ToString().Replace("€", "") + ';' : "" + ';';
-                        csv.Append(myCell);
+                        myCell =myCell.Replace(",", "");
+                    csv.Append(myCell);
                     }
                     //Add new line.               
                     csv.Append("\r\n");
@@ -1506,15 +1626,22 @@ namespace ConsignmentShopMainUI
                 //Exporting to CSV.
                 string folderPath = Store.GetPersonalFolder() + "\\2ndHandWare";
 
-                // Determine if the user selected a file name from the saveFileDialog.
-                if (saveFile1.ShowDialog() == System.Windows.Forms.DialogResult.OK &&
-                   saveFile1.FileName.Length > 0)
+            // Determine if the user selected a file name from the saveFileDialog.
+            if (saveFile1.ShowDialog() == System.Windows.Forms.DialogResult.OK &&
+               saveFile1.FileName.Length > 0)
+            {
+                try
                 {
                     // Save the contents of the RichTextBox into the file.
                     File.WriteAllText(saveFile1.FileName, csv.ToString());
                 }
-
+                catch (Exception ee)
+                {
+                    MessageBox.Show($"Fehler, Datei {saveFile1.FileName} kann nicht erstellt werden, {ee} ");
+                }
             }
+  
+        }
 
         private void UpdateRow(Item anItem)
         {
@@ -1631,7 +1758,7 @@ namespace ConsignmentShopMainUI
                     }
                 }
 
-                //only deleted articles are shon
+                //only deleted articles are shown
                 if (_deletedItems)
                 {
                     //delete
@@ -1780,5 +1907,46 @@ namespace ConsignmentShopMainUI
             }
 
         }
+
+        #region Methods 
+        private void showDeletedItems()
+        {
+            //gelöschte Artikel anzeigen
+            _deletedItems = true;
+
+            //Get all deleted items in a DataTable
+            dt = DbItems.GetAllItemsReportDeleted();
+            //Bind all items in a DataTable to a DataView
+            view1 = new DataView(dt);
+            //Bind the DataView to a DataSource
+            source1.DataSource = view1;
+            //Bind a DataSource to a DataGridView  (ds.Tables[0]);
+            ReportItemsDataGridView.DataSource = source1;
+            ItemsFoundTB.Text = view1.Count.ToString();
+            //query the DataView for the itemDescription ordered and get the Min date
+            var queryMin = (from DataRowView rowView in view1
+                            select rowView.Row.Field<DateTime>("DeleteDate")).Min();
+
+            //query the DataView for the itemDescription ordered and get the Max date
+            var queryMax = (from DataRowView rowView in view1
+                            select rowView.Row.Field<DateTime>("DeleteDate")).Max();
+
+            FillAttributeTables();
+            FillAllFields();
+            ClearAttributesText();
+
+            //Button Text auf aktuell ändern
+            BtnDeletedItems.Text = "Aktuelle Artikel anzeigen";
+
+            CBPeriod.Visible = true;
+            CBPeriod.Enabled = true;
+            CBStatus.Visible = false;
+            lblPeriod.Visible = true;
+            lblStatus.Visible = false;
+
+            //Überschrift auf gelöscht ändern
+            lblFilter.Text = "gelöschte Artikel";
+        }
+        #endregion
     }
 }

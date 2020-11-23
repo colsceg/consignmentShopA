@@ -316,7 +316,7 @@ namespace ConsignmentShopLibrary
                 using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
                 {
                     //return connection.Query<Person>("SELECT * FROM customers WHERE name = '{ name }'").ToList();
-                    var output = connection.Query<Brand>($"SELECT itemDescription FROM items WHERE itemDescription = '{ anItemdescription }' GROUP BY itemDescription ORDER BY itemDescription ASC ").ToList();
+                    var output = connection.Query<Brand>($"SELECT itemDescription FROM items WHERE itemDescription = '{Store.SQLEscape( anItemdescription) }' GROUP BY itemDescription ORDER BY itemDescription ASC ").ToList();
                     foreach (var item in output)
                     {
                         i++;

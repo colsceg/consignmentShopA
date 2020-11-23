@@ -122,6 +122,7 @@ namespace ConsignmentShopMainUI
                 string myCostPriceString;
                 string myItemNumber;
                 string myItemDescription;
+                string myDate;
                 int myMarge = 0;
 
                 int[] tabs2 = { 90, 235, 330, 405, 520, 620 };
@@ -137,6 +138,18 @@ namespace ConsignmentShopMainUI
                         myTotalSumCostPrice += myCostPrice;
                         myTotalSumSoldPrice += mySoldPrice;
 
+                        // Datum je nach Status auswählen
+                        if (MyDateHeader == "Annahme")
+                        {
+                            myDate = item.BeginDate;
+                        }
+                        else if(MyDateHeader == "Verkauft")
+                        {
+                            myDate = item.SoldDate;
+                        }
+                        else
+                            myDate = item.PayoutDate;
+
                         myItemNumber = item.ItemNumber;
                         myMarge = Convert.ToInt32((mySoldPrice - myCostPrice) * 100 / mySoldPrice);
                         myItemDescription = item.ItemDescription.Substring(0, item.ItemDescription.Length < 16 ? item.ItemDescription.Length : 15);
@@ -144,7 +157,7 @@ namespace ConsignmentShopMainUI
                         mySoldPriceString = Store.SetStringLengthToTen(String.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", mySoldPrice));
                         myCostPriceString = Store.SetStringLengthToTen(String.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", myCostPrice));
                         myRichTextBoxEx.SelectionFont = new Font("Arial", 10f, FontStyle.Regular);
-                        myRichTextBoxEx.SelectedText = myItemNumber + "\t" + myItemDescription + "\t" + item.SoldDate + "\t" + Store.SetStringLengthToFour(Convert.ToString(myMarge)) + "\t" + mySoldPriceString + "\t" + myCostPriceString + "\t" + myComissionString + "\n";
+                        myRichTextBoxEx.SelectedText = myItemNumber + "\t" + myItemDescription + "\t" + myDate + "\t" + Store.SetStringLengthToFour(Convert.ToString(myMarge)) + "\t" + mySoldPriceString + "\t" + myCostPriceString + "\t" + myComissionString + "\n";
                     }
                 }
             }

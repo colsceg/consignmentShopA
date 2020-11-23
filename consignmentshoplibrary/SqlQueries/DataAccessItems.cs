@@ -582,7 +582,7 @@ namespace ConsignmentShopLibrary
                 try
                 {
                     var output = connection.Query<Item>($"SELECT AccountID, itemNumber, itemDescription, brand, color, size, prop, salesPrice, costPrice, beginDate, " +
-                               "endDate, soldDate, payoutDate  FROM items WHERE DeleteDate != '' ").ToList();
+                               "endDate, soldDate, payoutDate, DeleteDate  FROM items WHERE DeleteDate != '' ").ToList();
                     foreach (var item in output)
                     {
                         row = myTable.NewRow();
@@ -622,10 +622,10 @@ namespace ConsignmentShopLibrary
                         else
                             row["PayoutDate"] = DBNull.Value;
 
-                        //if (!String.IsNullOrEmpty(item.DeleteDate))
-                        //    row["DeleteDate"] = item.DeleteDate;
-                        //else
-                        //    row["DeleteDate"] = DBNull.Value;
+                        if (!String.IsNullOrEmpty(item.DeleteDate))
+                            row["DeleteDate"] = item.DeleteDate;
+                        else
+                            row["DeleteDate"] = DBNull.Value;
 
                         myTable.Rows.Add(row);
                     }

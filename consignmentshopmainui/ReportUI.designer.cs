@@ -93,6 +93,7 @@
             this.CBItemNumber = new ConsignmentShopLibrary.ComboBoxEnter();
             this.CBItemDescription = new ConsignmentShopLibrary.ComboBoxEnter();
             this.lblDatum = new System.Windows.Forms.Label();
+            this.DeleteDateDataGridViewTextBox = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.ReportItemsDataGridView)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.itemBindingSource)).BeginInit();
@@ -122,7 +123,8 @@
             this.beginDateDataGridViewTextBoxColumn,
             this.endDateDataGridViewTextBoxColumn,
             this.soldDateDataGridViewTextBoxColumn,
-            this.payoutDateDataGridViewTextBoxColumn});
+            this.payoutDateDataGridViewTextBoxColumn,
+            this.DeleteDateDataGridViewTextBox});
             this.ReportItemsDataGridView.ContextMenuStrip = this.contextMenuStrip1;
             this.ReportItemsDataGridView.DataSource = this.itemBindingSource;
             this.ReportItemsDataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
@@ -747,6 +749,15 @@
             this.lblDatum.TabIndex = 33;
             this.lblDatum.Text = "Annahmedatum";
             // 
+            // DeleteDateDataGridViewTextBox
+            // 
+            this.DeleteDateDataGridViewTextBox.DataPropertyName = "DeleteDate";
+            this.DeleteDateDataGridViewTextBox.HeaderText = "DeleteDate";
+            this.DeleteDateDataGridViewTextBox.Name = "DeleteDateDataGridViewTextBox";
+            this.DeleteDateDataGridViewTextBox.ReadOnly = true;
+            this.DeleteDateDataGridViewTextBox.Visible = false;
+            this.DeleteDateDataGridViewTextBox.Width = 86;
+            // 
             // ReportUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -852,5 +863,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn endDateDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn soldDateDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn payoutDateDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DeleteDateDataGridViewTextBox;
     }
 }
