@@ -26,6 +26,8 @@ namespace ConsignmentShopMainUI
         private bool _deletedItems = false;
         private string myFilter;
 
+        private string myFromDate, myToDate;
+
         public ReportUI()
         {
             InitializeComponent();
@@ -275,14 +277,16 @@ namespace ConsignmentShopMainUI
             string mySelectedStatus = CBStatus.SelectedItem.ToString();
             int mySelectedPeriod = CBPeriod.SelectedIndex;
             string myToday = DateTime.Now.ToShortDateString();
-            string myFromDate, myToDate;
+            myFromDate = DateTime.Now.ToShortDateString();
+            myToDate = DateTime.Now.ToShortDateString();
+            //string myFromDate, myToDate;
             int myYear = DateTime.Today.Year;
             int myMonth = DateTime.Today.Month;
             string myItemNumber = CBItemNumber.Text;
             string myFilter = null;
             string newBrand, newDescription, newColor, newSize = "";
 
-
+            //Anzeige Liste gelöschte Artikel
             if (_deletedItems)
             {
                 myDateQuery = "";
@@ -968,68 +972,98 @@ namespace ConsignmentShopMainUI
             string myAccountID = CBAccountID.Text;
             string myItemNumber = CBItemNumber.Text;
 
+            DateTime queryMin, queryMax;
+            DateTimeConverter dateTimeConverter = new DateTimeConverter();
+
             myFilter = GetFilter();
             view1.RowFilter = myFilter;
             source1.DataSource = view1;
+            source1.ResetBindings(true);
+
             FillAttributeTables();
             FillAllFields();
 
             if (source1.Count > 0)
             {
-                int myIndex = CBStatus.SelectedIndex;
-                //query the DataView for the itemDescription ordered
-                var queryMin = (from DataRowView rowView in view1
+                int myIndex = CBPeriod.SelectedIndex;
+                if(myIndex == 0 && !_deletedItems)
+                {
+                    //query the DataView for the itemDescription ordered
+                    queryMin = (from DataRowView rowView in view1
                                 select rowView.Row.Field<DateTime>("BeginDate")).Min();
 
-                //query the DataView for the Brand ordered
-                var queryMax = (from DataRowView rowView in view1
+
+
+                    //query the DataView for the Brand ordered
+                    queryMax = (from DataRowView rowView in view1
                                 select rowView.Row.Field<DateTime>("BeginDate")).Max();
 
-                //Date for from to Datefields ermitteln
-                switch (myIndex)
-                {
-                    //Alle und im Laden BeginDatum Min und Max
-                    case 0:
-                    case 1:
-                        break;
+                    myFromDate = (string)dateTimeConverter.ConvertToString(queryMin);
+                    myToDate = (string)dateTimeConverter.ConvertToString(queryMax);
 
-                    //verkauft SoldDate Min un Max
-                    case 2:
-                        //query the DataView for the itemDescription ordered
-                        queryMin = (from DataRowView rowView in view1
-                                    select rowView.Row.Field<DateTime>("SoldDate")).Min();
-
-                        //query the DataView for the Brand ordered
-                        queryMax = (from DataRowView rowView in view1
-                                    select rowView.Row.Field<DateTime>("SoldDate")).Max();
-                        break;
-
-                    //ausbezahlt PayoutDate Min und Max
-                    case 3:
-                        //query the DataView for the itemDescription ordered
-                        queryMin = (from DataRowView rowView in view1
-                                    select rowView.Row.Field<DateTime>("PayoutDate")).Min();
-
-                        //query the DataView for the Brand ordered
-                        queryMax = (from DataRowView rowView in view1
-                                    select rowView.Row.Field<DateTime>("PayoutDate")).Max();
-                        break;
-
-                    default:
-                        //query the DataView for the itemDescription ordered
-                        queryMin = (from DataRowView rowView in view1
-                                    select rowView.Row.Field<DateTime>("BeginDate")).Min();
-
-                        //query the DataView for the Brand ordered
-                        queryMax = (from DataRowView rowView in view1
-                                    select rowView.Row.Field<DateTime>("BeginDate")).Max();
-                        break;
                 }
-                _ignoreEvents = true;
-                dtFrom.Value = queryMin;
-                _ignoreEvents = true;
-                dtTo.Value = queryMax;
+
+                if (myIndex == 0 && _deletedItems)
+                {
+                    //query the DataView for the itemDescription ordered
+                    queryMin = (from DataRowView rowView in view1
+                                select rowView.Row.Field<DateTime>("DeleteDate")).Min();
+
+                    //query the DataView for the Brand ordered
+                    queryMax = (from DataRowView rowView in view1
+                                select rowView.Row.Field<DateTime>("DeleteDate")).Max();
+
+                    myFromDate = (string)dateTimeConverter.ConvertToString(queryMin);
+                    myToDate = (string)dateTimeConverter.ConvertToString(queryMax);
+                }
+
+                ////Date for from to Datefields ermitteln
+                //switch (myIndex)
+                //{
+                //    //Alle und im Laden BeginDatum Min und Max
+                //    case 0:
+                //    case 1:
+                //        break;
+
+                //    //verkauft SoldDate Min un Max
+                //    case 2:
+                //        //query the DataView for the itemDescription ordered
+                //        queryMin = (from DataRowView rowView in view1
+                //                    select rowView.Row.Field<DateTime>("SoldDate")).Min();
+
+                //        //query the DataView for the Brand ordered
+                //        queryMax = (from DataRowView rowView in view1
+                //                    select rowView.Row.Field<DateTime>("SoldDate")).Max();
+                //        break;
+
+                //    //ausbezahlt PayoutDate Min und Max
+                //    case 3:
+                //        //query the DataView for the itemDescription ordered
+                //        queryMin = (from DataRowView rowView in view1
+                //                    select rowView.Row.Field<DateTime>("PayoutDate")).Min();
+
+                //        //query the DataView for the Brand ordered
+                //        queryMax = (from DataRowView rowView in view1
+                //                    select rowView.Row.Field<DateTime>("PayoutDate")).Max();
+                //        break;
+
+                //    default:
+                //        //query the DataView for the itemDescription ordered
+                //        queryMin = (from DataRowView rowView in view1
+                //                    select rowView.Row.Field<DateTime>("BeginDate")).Min();
+
+                //        //query the DataView for the Brand ordered
+                //        queryMax = (from DataRowView rowView in view1
+                //                    select rowView.Row.Field<DateTime>("BeginDate")).Max();
+                //        break;
+                //}
             }
+            _ignoreEvents = true;
+
+            dtFrom.Value = (DateTime)dateTimeConverter.ConvertFromString(myFromDate);
+
+            _ignoreEvents = true;
+            dtTo.Value = (DateTime)dateTimeConverter.ConvertFromString(myToDate);
 
             CBItemDescription.Text = myItemDescription;
             CBBrand.Text = myBrand;
@@ -1093,6 +1127,8 @@ namespace ConsignmentShopMainUI
                 int myStatusIndex = CBStatus.SelectedIndex;
                 if (myStatusIndex != -1)
                 {
+                    CBStatus.Enabled = true;
+                    CBStatus.Visible = true;
                     switch (myStatusIndex)
                     {
                         case 0: //Alle
@@ -1187,6 +1223,8 @@ namespace ConsignmentShopMainUI
             }
             else
             {
+                CBStatus.Enabled = false;
+                CBStatus.Visible = false;
                 CurrentItemsLbl.Visible = false;
                 CurrentItemsTB.Visible = false;
                 SoldItemsTB.Visible = false;
@@ -1407,55 +1445,14 @@ namespace ConsignmentShopMainUI
 
         //Button Click
         #region ButtonClick
+
         private void BtnDeletedItems_Click(object sender, EventArgs e)
         {
             if (_deletedItems)
             {
                 //Aktuelle Artikel anzeigen
+                showActualItems();
 
-                _deletedItems = false;
-                BtnDeletedItems.Text = "Gelöschte Artikel anzeigen";
-                //Get all actual items in a DataTable
-                dt = DbItems.GetAllItemsReport();
-                //Bind all items in a DataTable to a DataView
-                view1 = new DataView(dt);
-                //Bind the DataView to a DataSource
-                source1.DataSource = view1;
-                //Bind a DataSource to a DataGridView  (ds.Tables[0]);
-                ReportItemsDataGridView.DataSource = source1;
-                ItemsFoundTB.Text = view1.Count.ToString();
-                //query the DataView for the itemDescription ordered and get the Min date
-                var queryMin = (from DataRowView rowView in view1
-                                select rowView.Row.Field<DateTime>("BeginDate")).Min();
-
-                //query the DataView for the itemDescription ordered and get the Max date
-                var queryMax = (from DataRowView rowView in view1
-                                select rowView.Row.Field<DateTime>("BeginDate")).Max();
-
-                FillAttributeTables();
-                FillAllFields();
-                ClearAttributesText();
-
-                CBPeriod.Visible = true;
-                CBStatus.Visible = true;
-                lblPeriod.Visible = true;
-                lblStatus.Visible = true;
-                SalesVolumePrintBtn.Visible = true;
-                CurrentItemsLbl.Visible = true;
-                CurrentItemsTB.Visible = true;
-                SoldItemsTB.Visible = true;
-                SoldItemsLbl.Visible = true;
-                SumPayedTB.Visible = true;
-                SumPayedLbl.Visible = true;
-                SumToPayTB.Visible = true;
-                SumToPayLbl.Visible = true;
-                SumComissionTB.Visible = true;
-                SumComissionLbl.Visible = true;
-                SumSalesVolumeLbl.Visible = true;
-                SumSalesVolumeTB.Visible = true;
-                SalesVolumePrintBtn.Visible = true;
-                SalesVolumePrintBtn.Enabled = true;
-                lblFilter.Text = "Aktuelle Artikel";
             }
             else
             {
@@ -1518,15 +1515,10 @@ namespace ConsignmentShopMainUI
                         SoldDate =  r.Field<object>("SoldDate") == null ? "" : r.Field<DateTime>("SoldDate").ToShortDateString(),
                         PayoutDate = r.Field<object>("PayoutDate") == null ? "" : r.Field<DateTime>("PayoutDate").ToShortDateString(),
                         BeginDate = r.Field<object>("BeginDate") == null ? "" : r.Field<DateTime>("BeginDate").ToShortDateString(),
-                        DeleteDate = (r.Field<object>("DeleteDate") == DBNull.Value ? "" : r.Field<DateTime>("DeleteDate").ToShortDateString())
+                        DeleteDate = (r.Field<object>("DeleteDate") == null? "" : r.Field<DateTime>("DeleteDate").ToShortDateString())
                     }).ToList();
 
-            if (_deletedItems)
-            {
-                SalesVolumeDocumentWindow.MyTitle = $"gelöschte Artikel ";
-                SalesVolumeDocumentWindow.MyDateHeader = "gelöscht";
-                return;
-            }
+
 
             //Itemsliste an Dokument übergeben
             int myStatusIndex = CBStatus.SelectedIndex;
@@ -1535,11 +1527,23 @@ namespace ConsignmentShopMainUI
                 switch (myStatusIndex)
                 {
                     case 0:
-                        if(String.IsNullOrEmpty(CBAccountID.Text))
-                            SalesVolumeDocumentWindow.MyTitle = "Artikel alle Annahme vom: ";
+                        string mydateTitel = "";
+                        if (_deletedItems)
+                        {
+                            SalesVolumeDocumentWindow.MyTitle = "gelöschte Artikel ";
+                            SalesVolumeDocumentWindow.MyDateHeader = "Gelöscht";
+                            mydateTitel = "";
+                        }
                         else
-                            SalesVolumeDocumentWindow.MyTitle = $"Artikelliste für Kunde {CBAccountID.Text}";
-                        SalesVolumeDocumentWindow.MyDateHeader = "Verkauft";
+                        {
+                            SalesVolumeDocumentWindow.MyTitle = "Artikel ";
+                            SalesVolumeDocumentWindow.MyDateHeader = "Verkauft";
+                            mydateTitel = "Annahme";
+                        }
+                        if (String.IsNullOrEmpty(CBAccountID.Text))
+                            SalesVolumeDocumentWindow.MyTitle = $"{SalesVolumeDocumentWindow.MyTitle}  {mydateTitel} vom: ";
+                        else
+                            SalesVolumeDocumentWindow.MyTitle = $"{SalesVolumeDocumentWindow.MyTitle} für Kunde {CBAccountID.Text}";
                         break;
                     case 1:
                         if (String.IsNullOrEmpty(CBAccountID.Text))
@@ -1913,7 +1917,6 @@ namespace ConsignmentShopMainUI
         {
             //gelöschte Artikel anzeigen
             _deletedItems = true;
-
             //Get all deleted items in a DataTable
             dt = DbItems.GetAllItemsReportDeleted();
             //Bind all items in a DataTable to a DataView
@@ -1922,14 +1925,16 @@ namespace ConsignmentShopMainUI
             source1.DataSource = view1;
             //Bind a DataSource to a DataGridView  (ds.Tables[0]);
             ReportItemsDataGridView.DataSource = source1;
-            ItemsFoundTB.Text = view1.Count.ToString();
-            //query the DataView for the itemDescription ordered and get the Min date
-            var queryMin = (from DataRowView rowView in view1
-                            select rowView.Row.Field<DateTime>("DeleteDate")).Min();
 
-            //query the DataView for the itemDescription ordered and get the Max date
-            var queryMax = (from DataRowView rowView in view1
-                            select rowView.Row.Field<DateTime>("DeleteDate")).Max();
+            ItemsFoundTB.Text = view1.Count.ToString();
+
+            ////query the DataView for the itemDescription ordered and get the Min date
+            //dtFrom.Value = (from DataRowView rowView in view1
+            //                select rowView.Row.Field<DateTime>("DeleteDate")).Min();
+
+            ////query the DataView for the itemDescription ordered and get the Max date
+            //dtTo.Value = (from DataRowView rowView in view1
+            //                select rowView.Row.Field<DateTime>("DeleteDate")).Max();
 
             FillAttributeTables();
             FillAllFields();
@@ -1938,14 +1943,59 @@ namespace ConsignmentShopMainUI
             //Button Text auf aktuell ändern
             BtnDeletedItems.Text = "Aktuelle Artikel anzeigen";
 
-            CBPeriod.Visible = true;
-            CBPeriod.Enabled = true;
+            _ignoreEvents = true;
             CBStatus.Visible = false;
+            CBPeriod.SelectedIndex = 0;
+            _ignoreEvents = false;
             lblPeriod.Visible = true;
             lblStatus.Visible = false;
-
+            ChangeFilter();
             //Überschrift auf gelöscht ändern
             lblFilter.Text = "gelöschte Artikel";
+        }
+
+        private void showActualItems()
+        {
+            _deletedItems = false;
+            BtnDeletedItems.Text = "Gelöschte Artikel anzeigen";
+            //Get all actual items in a DataTable
+            dt = DbItems.GetAllItemsReport();
+            //Bind all items in a DataTable to a DataView
+            view1 = new DataView(dt);
+            //Bind the DataView to a DataSource
+            source1.DataSource = view1;
+            //Bind a DataSource to a DataGridView  (ds.Tables[0]);
+            ReportItemsDataGridView.DataSource = source1;
+            ItemsFoundTB.Text = view1.Count.ToString();
+
+            FillAttributeTables();
+            FillAllFields();
+            ClearAttributesText();
+
+            CBPeriod.Visible = true;
+            CBStatus.Visible = true;
+            lblPeriod.Visible = true;
+            lblStatus.Visible = true;
+            SalesVolumePrintBtn.Visible = true;
+            CurrentItemsLbl.Visible = true;
+            CurrentItemsTB.Visible = true;
+            SoldItemsTB.Visible = true;
+            SoldItemsLbl.Visible = true;
+            SumPayedTB.Visible = true;
+            SumPayedLbl.Visible = true;
+            SumToPayTB.Visible = true;
+            SumToPayLbl.Visible = true;
+            SumComissionTB.Visible = true;
+            SumComissionLbl.Visible = true;
+            SumSalesVolumeLbl.Visible = true;
+            SumSalesVolumeTB.Visible = true;
+            SalesVolumePrintBtn.Visible = true;
+            SalesVolumePrintBtn.Enabled = true;
+            _ignoreEvents = true;
+            CBPeriod.SelectedIndex = 0;
+            _ignoreEvents = false;
+            ChangeFilter();
+            lblFilter.Text = "Aktuelle Artikel";
         }
         #endregion
     }

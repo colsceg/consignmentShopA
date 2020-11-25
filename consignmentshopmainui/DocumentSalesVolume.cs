@@ -143,10 +143,12 @@ namespace ConsignmentShopMainUI
                         {
                             myDate = item.BeginDate;
                         }
-                        else if(MyDateHeader == "Verkauft")
+                        else if (MyDateHeader == "Verkauft")
                         {
                             myDate = item.SoldDate;
                         }
+                        else if (MyDateHeader == "Gelöscht")
+                            myDate = item.DeleteDate;
                         else
                             myDate = item.PayoutDate;
 
@@ -165,23 +167,26 @@ namespace ConsignmentShopMainUI
             myRichTextBoxEx.SelectedText = underline + "\n";
 
             //Summe aller Verkäufe
-            int[] tabs3 = { 10, 460, 620 };
-            myRichTextBoxEx.SelectionTabs = tabs3;
-            myRichTextBoxEx.SelectionFont = new Font("Arial", 10f, FontStyle.Bold);
-            myRichTextBoxEx.SelectedText = "Zusammenfassung\t" + "Gesamtumsatz\t" + Store.SetStringLengthToTen(String.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", myTotalSumSoldPrice)) + "\n";
-            //Summe aller Provisionen
-            myRichTextBoxEx.SelectionFont = new Font("Arial", 10f, FontStyle.Bold);
-            //myRichTextBoxEx.SelectionTabs = tabs4;
-            myRichTextBoxEx.SelectedText = "\t\t" + "Summe Auszahlungen\t" + Store.SetStringLengthToTen(String.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", myTotalSumCostPrice)) + "\n";
-            //Bereits ausgezahlt
-            myRichTextBoxEx.SelectionFont = new Font("Arial", 10f, FontStyle.Bold);
-            //myRichTextBoxEx.SelectionTabs = tabs4;
-            myRichTextBoxEx.SelectedText = "\t\t" + "Summe Kommission\t" + Store.SetStringLengthToTen(String.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", myTotalSumComission)) + "\n";
-            myRichTextBoxEx.SelectionFont = new Font("Arial", 9f, FontStyle.Bold);
-            myRichTextBoxEx.SelectedText = underline + "\n";
-            myRichTextBoxEx.SelectionFont = new Font("Arial", 10f, FontStyle.Regular);
-            //myRichTextBoxEx.SelectionTabs = tabs4;
-            myRichTextBoxEx.SelectedText = "Bei den Auszahlungen handelt es sich um die im Kommissionsvertrag vorgesehenen Summen";
+            if (MyDateHeader != "Gelöscht")
+            {
+                int[] tabs3 = { 10, 460, 620 };
+                myRichTextBoxEx.SelectionTabs = tabs3;
+                myRichTextBoxEx.SelectionFont = new Font("Arial", 10f, FontStyle.Bold);
+                myRichTextBoxEx.SelectedText = "Zusammenfassung\t" + "Gesamtumsatz\t" + Store.SetStringLengthToTen(String.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", myTotalSumSoldPrice)) + "\n";
+                //Summe aller Provisionen
+                myRichTextBoxEx.SelectionFont = new Font("Arial", 10f, FontStyle.Bold);
+                //myRichTextBoxEx.SelectionTabs = tabs4;
+                myRichTextBoxEx.SelectedText = "\t\t" + "Summe Auszahlungen\t" + Store.SetStringLengthToTen(String.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", myTotalSumCostPrice)) + "\n";
+                //Bereits ausgezahlt
+                myRichTextBoxEx.SelectionFont = new Font("Arial", 10f, FontStyle.Bold);
+                //myRichTextBoxEx.SelectionTabs = tabs4;
+                myRichTextBoxEx.SelectedText = "\t\t" + "Summe Kommission\t" + Store.SetStringLengthToTen(String.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", myTotalSumComission)) + "\n";
+                myRichTextBoxEx.SelectionFont = new Font("Arial", 9f, FontStyle.Bold);
+                myRichTextBoxEx.SelectedText = underline + "\n";
+                myRichTextBoxEx.SelectionFont = new Font("Arial", 10f, FontStyle.Regular);
+                //myRichTextBoxEx.SelectionTabs = tabs4;
+                myRichTextBoxEx.SelectedText = "Bei den Auszahlungen handelt es sich um die im Kommissionsvertrag vorgesehenen Summen";
+            }
         }
 
         private void PrintButton_Click(object sender, EventArgs e)
