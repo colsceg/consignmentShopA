@@ -71,7 +71,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(657, 651);
+            this.ClientSize = new System.Drawing.Size(659, 781);
             this.Controls.Add(this.CancelBtn);
             this.Controls.Add(this.myRichTextBoxEx);
             this.Controls.Add(this.PrintButton);

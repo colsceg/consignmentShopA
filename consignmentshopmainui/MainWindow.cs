@@ -105,7 +105,7 @@ namespace ConsignmentShopMainUI
                 // lädt die Tabelle customers aus der SQLite DB
                 Disp();
                 loaded = true;
-                this.Text += " Vers." + Store.AddVersionNumber() + " Beta";
+                this.Text += " Vers." + Store.AddVersionNumber();
             }
         }
 
@@ -657,7 +657,7 @@ namespace ConsignmentShopMainUI
             //Programmabbruch wenn 1000 Artikel und keine Lizenz
             if (ItemsCount >= 1000 && !Licensed)
             {
-                MessageBox.Show("Senden Sie die Seriennummer: " + SerNo + " für eine kostenlose Lizensierung an info@chairfit.de");
+                MessageBox.Show("Senden Sie die Seriennummer: " + SerNo + " für eine Lizensierung an info@chairfit.de \n Lebenslange Lizenz € 150,- (auf bis zu 3 Geräten)");
                 //Automatisch mail senden ? über WEB ? Mail Programm öffnen
             }
             else  //Datenkonsistenz überprüfen

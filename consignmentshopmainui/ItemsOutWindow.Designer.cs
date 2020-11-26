@@ -48,16 +48,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.LastnameTextBox = new System.Windows.Forms.TextBox();
             this.ItemsDataGridView = new System.Windows.Forms.DataGridView();
-            this.itemNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.itemDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.brand = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.color = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.size = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.prop = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.soldDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.soldPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.beginDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CostPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ItemDataContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.SoldToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.NotSoldToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,6 +63,16 @@
             this.CloseBtn = new System.Windows.Forms.Button();
             this.VendorNameComboBox = new ConsignmentShopLibrary.ComboBoxEnter();
             this.AccountIDComboBox = new ConsignmentShopLibrary.NumComboBox();
+            this.itemNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.itemDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.brand = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.color = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.size = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.prop = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.soldDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.soldPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.beginDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CostPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -282,87 +282,6 @@
             this.ItemsDataGridView.DataSourceChanged += new System.EventHandler(this.ItemsDataGridView_DataSourceChanged);
             this.ItemsDataGridView.SelectionChanged += new System.EventHandler(this.ItemsDataGridView_SelectionChanged);
             // 
-            // itemNumber
-            // 
-            this.itemNumber.DataPropertyName = "ItemNumber";
-            this.itemNumber.HeaderText = "ArtNr";
-            this.itemNumber.Name = "itemNumber";
-            this.itemNumber.ReadOnly = true;
-            this.itemNumber.Width = 50;
-            // 
-            // itemDescription
-            // 
-            this.itemDescription.DataPropertyName = "ItemDescription";
-            this.itemDescription.HeaderText = "Beschreibung";
-            this.itemDescription.Name = "itemDescription";
-            this.itemDescription.ReadOnly = true;
-            this.itemDescription.Width = 130;
-            // 
-            // brand
-            // 
-            this.brand.DataPropertyName = "brand";
-            this.brand.HeaderText = "Marke";
-            this.brand.Name = "brand";
-            this.brand.ReadOnly = true;
-            this.brand.Width = 120;
-            // 
-            // color
-            // 
-            this.color.DataPropertyName = "color";
-            this.color.HeaderText = "Farbe";
-            this.color.Name = "color";
-            this.color.ReadOnly = true;
-            this.color.Width = 90;
-            // 
-            // size
-            // 
-            this.size.DataPropertyName = "size";
-            this.size.HeaderText = "Grösse";
-            this.size.Name = "size";
-            this.size.ReadOnly = true;
-            this.size.Width = 60;
-            // 
-            // prop
-            // 
-            this.prop.DataPropertyName = "Prop";
-            this.prop.HeaderText = "Sonstiges";
-            this.prop.Name = "prop";
-            this.prop.ReadOnly = true;
-            this.prop.Width = 95;
-            // 
-            // soldDate
-            // 
-            this.soldDate.DataPropertyName = "SoldDate";
-            this.soldDate.HeaderText = "verkauft";
-            this.soldDate.Name = "soldDate";
-            this.soldDate.ReadOnly = true;
-            this.soldDate.Width = 80;
-            // 
-            // soldPrice
-            // 
-            this.soldPrice.DataPropertyName = "SalesPrice";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle2.Format = "C2";
-            dataGridViewCellStyle2.NullValue = null;
-            this.soldPrice.DefaultCellStyle = dataGridViewCellStyle2;
-            this.soldPrice.HeaderText = "Preis";
-            this.soldPrice.Name = "soldPrice";
-            this.soldPrice.ReadOnly = true;
-            // 
-            // beginDate
-            // 
-            this.beginDate.DataPropertyName = "BeginDate";
-            this.beginDate.HeaderText = "BeginDate";
-            this.beginDate.Name = "beginDate";
-            this.beginDate.ReadOnly = true;
-            // 
-            // CostPrice
-            // 
-            this.CostPrice.DataPropertyName = "CostPrice";
-            this.CostPrice.HeaderText = "CostPrice";
-            this.CostPrice.Name = "CostPrice";
-            this.CostPrice.ReadOnly = true;
-            // 
             // ItemDataContextMenuStrip
             // 
             this.ItemDataContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -501,6 +420,88 @@
             this.AccountIDComboBox.TabIndex = 19;
             this.AccountIDComboBox.SelectedIndexChanged += new System.EventHandler(this.AccountIDComboBox_SelectedIndexChanged);
             this.AccountIDComboBox.Leave += new System.EventHandler(this.AccountIDComboBox_Leave);
+            // 
+            // itemNumber
+            // 
+            this.itemNumber.DataPropertyName = "ItemNumber";
+            this.itemNumber.HeaderText = "ArtNr";
+            this.itemNumber.Name = "itemNumber";
+            this.itemNumber.ReadOnly = true;
+            this.itemNumber.Width = 50;
+            // 
+            // itemDescription
+            // 
+            this.itemDescription.DataPropertyName = "ItemDescription";
+            this.itemDescription.HeaderText = "Beschreibung";
+            this.itemDescription.Name = "itemDescription";
+            this.itemDescription.ReadOnly = true;
+            this.itemDescription.Width = 130;
+            // 
+            // brand
+            // 
+            this.brand.DataPropertyName = "brand";
+            this.brand.HeaderText = "Marke";
+            this.brand.Name = "brand";
+            this.brand.ReadOnly = true;
+            this.brand.Width = 120;
+            // 
+            // color
+            // 
+            this.color.DataPropertyName = "color";
+            this.color.HeaderText = "Farbe";
+            this.color.Name = "color";
+            this.color.ReadOnly = true;
+            this.color.Width = 90;
+            // 
+            // size
+            // 
+            this.size.DataPropertyName = "size";
+            this.size.HeaderText = "Grösse";
+            this.size.Name = "size";
+            this.size.ReadOnly = true;
+            this.size.Width = 60;
+            // 
+            // prop
+            // 
+            this.prop.DataPropertyName = "Prop";
+            this.prop.HeaderText = "Sonstiges";
+            this.prop.Name = "prop";
+            this.prop.ReadOnly = true;
+            this.prop.Width = 95;
+            // 
+            // soldDate
+            // 
+            this.soldDate.DataPropertyName = "SoldDate";
+            this.soldDate.HeaderText = "verkauft";
+            this.soldDate.Name = "soldDate";
+            this.soldDate.ReadOnly = true;
+            this.soldDate.Width = 80;
+            // 
+            // soldPrice
+            // 
+            this.soldPrice.DataPropertyName = "SalesPrice";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Format = "C2";
+            dataGridViewCellStyle2.NullValue = null;
+            this.soldPrice.DefaultCellStyle = dataGridViewCellStyle2;
+            this.soldPrice.HeaderText = "Preis";
+            this.soldPrice.Name = "soldPrice";
+            this.soldPrice.ReadOnly = true;
+            // 
+            // beginDate
+            // 
+            this.beginDate.DataPropertyName = "BeginDate";
+            this.beginDate.HeaderText = "BeginDate";
+            this.beginDate.Name = "beginDate";
+            this.beginDate.ReadOnly = true;
+            // 
+            // CostPrice
+            // 
+            this.CostPrice.DataPropertyName = "CostPrice";
+            this.CostPrice.HeaderText = "CostPrice";
+            this.CostPrice.Name = "CostPrice";
+            this.CostPrice.ReadOnly = true;
+            this.CostPrice.Width = 80;
             // 
             // ItemsOutWindow
             // 
