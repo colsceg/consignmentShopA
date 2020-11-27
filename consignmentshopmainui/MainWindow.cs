@@ -9,7 +9,7 @@ using System.Collections;
 using System.Text;
 using System.Globalization;
 using System.ComponentModel;
-
+using System.Threading.Tasks;
 
 namespace ConsignmentShopMainUI
 {
@@ -96,6 +96,15 @@ namespace ConsignmentShopMainUI
             Load += new EventHandler(MainWindow_Load);
 
         }
+
+        //UpdateManager needs Framework 4.8
+        //private async Task CheckForUpdatesASync()
+        //{
+        //    using (var manager = new UpdateManager(@" "))
+        //    {
+        //        await manager.UpdateApp();
+        //    }
+        //}
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
