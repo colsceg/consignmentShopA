@@ -81,7 +81,7 @@ namespace ConsignmentShopMainUI
             _ignoreEvents = true;
             VendorNameCB.Text = " ";
             _ignoreEvents = true;
-            AccountIDCB.Focus();
+            VendorNameCB.Focus();
             _ignoreEvents = false;
         }
 

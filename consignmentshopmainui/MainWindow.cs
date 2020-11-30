@@ -9,11 +9,12 @@ using System.Collections;
 using System.Text;
 using System.Globalization;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 
 namespace ConsignmentShopMainUI
 {
-    public partial class MainWindow : Form
+    public partial class MainWindow : Form, ISharpUpdatable
     {
 
         private Store Store = new Store();
@@ -85,9 +86,28 @@ namespace ConsignmentShopMainUI
         List<string> sizes = new List<string>();
         List<string> vendors = new List<string>();
 
+        #region Public Properties SharpUpdate
+        private SharpUpdater updater;
+
+        public string ApplicationName => "ConsignmentShopApp";
+
+        public string ApplicationID => "ConsignmentShopApp";
+
+        public Assembly ApplicationAssembly => Assembly.GetExecutingAssembly();
+
+        public Icon ApplicationIcon => this.Icon;
+
+        public Uri UpdateXmlLocation => new Uri("https://www.chairfit.de/Software/update.xml");
+
+        public Form Context => this;
+
+        #endregion
+
         public MainWindow()
         {
             InitializeComponent();
+            updater = new SharpUpdater(this);
+
             KeyPreview = true;
             KeyDown +=
                 new KeyEventHandler(MainWindow_KeyDown);
@@ -2305,7 +2325,9 @@ namespace ConsignmentShopMainUI
                     if (myContractChanged)
                     {
                         DialogResult dr = MessageBox.Show("Diesen Vertrag mit allen Artikel löschen?", "Sicherung",
-                            MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+                            MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+
+                        //Alle eingegeben Artikel löschen
                         if (dr == DialogResult.Yes)
                         {
                             //Contract und items löschen 
@@ -2329,6 +2351,12 @@ namespace ConsignmentShopMainUI
                                 DbItems.UpdateConfigDat(myConfigData[0]);
                             }
                             myContractChanged = false;
+                        }
+
+                        if(dr == DialogResult.Cancel)
+                        {
+                            // Cancel the Closing event from closing the form.
+                            e.Cancel = true;
                         }
                     }
                 }
@@ -2417,8 +2445,7 @@ namespace ConsignmentShopMainUI
         }
 
 
+
         #endregion
-
-
     }
 }

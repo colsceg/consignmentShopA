@@ -51,6 +51,7 @@
             this.KassenabschlussToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UmsätzeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RefundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.VertragDruckenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hilfeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.HandbuchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SchlüsselEingebenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -87,7 +88,22 @@
             this.EditMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ItemsDataGridView = new ConsignmentShopMainUI.DataGridViewEx();
+            this.PosNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.itemDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.attribute2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.attribute1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.attribute4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.attribute3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SalesPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ItemInputGroupBox = new System.Windows.Forms.GroupBox();
+            this.ComboBoxItemDescription = new ConsignmentShopLibrary.ComboBoxEnter();
+            this.TextBoxProperties = new ConsignmentShopLibrary.TextBoxEnter();
+            this.ComboBoxColor = new ConsignmentShopLibrary.ComboBoxEnter();
+            this.ComboBoxSize = new ConsignmentShopLibrary.ComboBoxEnter();
+            this.ComboBoxBrand = new ConsignmentShopLibrary.ComboBoxEnter();
+            this.KeyTextBox = new ConsignmentShopLibrary.TextBoxEnter();
+            this.SalesPriceTextBox = new ConsignmentShopLibrary.NumTextBox();
             this.PremiumLbl = new System.Windows.Forms.Label();
             this.contractIDLabel = new System.Windows.Forms.Label();
             this.ItemsNumberTextBox = new System.Windows.Forms.TextBox();
@@ -97,6 +113,9 @@
             this.NewCustomerButton = new System.Windows.Forms.Button();
             this.VendorGroupBox = new System.Windows.Forms.GroupBox();
             this.FullNameTextBox = new System.Windows.Forms.TextBox();
+            this.ComboBoxVendorName = new ConsignmentShopLibrary.ComboBoxEnter();
+            this.PeriodTextBox = new ConsignmentShopLibrary.NumTextBox();
+            this.MarginTextBox = new ConsignmentShopLibrary.TextBoxEnter();
             this.PeriodLabel = new System.Windows.Forms.Label();
             this.ClearBtn = new System.Windows.Forms.Button();
             this.BtnItemsOut = new System.Windows.Forms.Button();
@@ -106,33 +125,14 @@
             this.itemBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.toolTipVendorNameCB = new System.Windows.Forms.ToolTip(this.components);
             this.Button1 = new System.Windows.Forms.Button();
-            this.ComboBoxItemDescription = new ConsignmentShopLibrary.ComboBoxEnter();
-            this.TextBoxProperties = new ConsignmentShopLibrary.TextBoxEnter();
-            this.ComboBoxColor = new ConsignmentShopLibrary.ComboBoxEnter();
-            this.ComboBoxSize = new ConsignmentShopLibrary.ComboBoxEnter();
-            this.ComboBoxBrand = new ConsignmentShopLibrary.ComboBoxEnter();
-            this.KeyTextBox = new ConsignmentShopLibrary.TextBoxEnter();
-            this.SalesPriceTextBox = new ConsignmentShopLibrary.NumTextBox();
-            this.ComboBoxVendorName = new ConsignmentShopLibrary.ComboBoxEnter();
-            this.PeriodTextBox = new ConsignmentShopLibrary.NumTextBox();
-            this.MarginTextBox = new ConsignmentShopLibrary.TextBoxEnter();
-            this.VertragDruckenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ItemsDataGridView = new ConsignmentShopMainUI.DataGridViewEx();
-            this.PosNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.itemDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.attribute2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.attribute1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.attribute4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.attribute3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SalesPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             this.ItemDataContextMenuStrip.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ItemsDataGridView)).BeginInit();
             this.ItemInputGroupBox.SuspendLayout();
             this.VendorGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ContractBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.itemBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ItemsDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -266,35 +266,42 @@
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(158, 6);
             // 
             // AuswertungToolStripMenuItem
             // 
             this.AuswertungToolStripMenuItem.Name = "AuswertungToolStripMenuItem";
-            this.AuswertungToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.AuswertungToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.AuswertungToolStripMenuItem.Text = "Auswertung";
             this.AuswertungToolStripMenuItem.Click += new System.EventHandler(this.AuswertungToolStripMenuItem_Click);
             // 
             // KassenabschlussToolStripMenuItem
             // 
             this.KassenabschlussToolStripMenuItem.Name = "KassenabschlussToolStripMenuItem";
-            this.KassenabschlussToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.KassenabschlussToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.KassenabschlussToolStripMenuItem.Text = "Kassenabschluss";
             this.KassenabschlussToolStripMenuItem.Click += new System.EventHandler(this.KassenabschlussToolStripMenuItem_Click);
             // 
             // UmsätzeToolStripMenuItem
             // 
             this.UmsätzeToolStripMenuItem.Name = "UmsätzeToolStripMenuItem";
-            this.UmsätzeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.UmsätzeToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.UmsätzeToolStripMenuItem.Text = "Umsätze";
             this.UmsätzeToolStripMenuItem.Click += new System.EventHandler(this.UmsätzeToolStripMenuItem_Click);
             // 
             // RefundToolStripMenuItem
             // 
             this.RefundToolStripMenuItem.Name = "RefundToolStripMenuItem";
-            this.RefundToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.RefundToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.RefundToolStripMenuItem.Text = "Rückgabe";
             this.RefundToolStripMenuItem.Click += new System.EventHandler(this.RefundToolStripMenuItem_Click);
+            // 
+            // VertragDruckenToolStripMenuItem
+            // 
+            this.VertragDruckenToolStripMenuItem.Name = "VertragDruckenToolStripMenuItem";
+            this.VertragDruckenToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.VertragDruckenToolStripMenuItem.Text = "Vertrag drucken";
+            this.VertragDruckenToolStripMenuItem.Click += new System.EventHandler(this.VertragDruckenToolStripMenuItem_Click);
             // 
             // hilfeToolStripMenuItem
             // 
@@ -600,6 +607,86 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Positionen";
             // 
+            // ItemsDataGridView
+            // 
+            this.ItemsDataGridView.AllowUserToAddRows = false;
+            this.ItemsDataGridView.AllowUserToDeleteRows = false;
+            this.ItemsDataGridView.AllowUserToResizeColumns = false;
+            this.ItemsDataGridView.AllowUserToResizeRows = false;
+            this.ItemsDataGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.ItemsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ItemsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.PosNumber,
+            this.itemDescription,
+            this.attribute2,
+            this.attribute1,
+            this.attribute4,
+            this.attribute3,
+            this.SalesPrice});
+            this.ItemsDataGridView.ContextMenuStrip = this.ItemDataContextMenuStrip;
+            this.ItemsDataGridView.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.ItemsDataGridView.Location = new System.Drawing.Point(8, 20);
+            this.ItemsDataGridView.MultiSelect = false;
+            this.ItemsDataGridView.Name = "ItemsDataGridView";
+            this.ItemsDataGridView.ReadOnly = true;
+            this.ItemsDataGridView.RowHeadersVisible = false;
+            this.ItemsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.ItemsDataGridView.Size = new System.Drawing.Size(972, 332);
+            this.ItemsDataGridView.TabIndex = 0;
+            this.ItemsDataGridView.TabStop = false;
+            // 
+            // PosNumber
+            // 
+            this.PosNumber.HeaderText = "ArtikelNr";
+            this.PosNumber.Name = "PosNumber";
+            this.PosNumber.ReadOnly = true;
+            this.PosNumber.Width = 80;
+            // 
+            // itemDescription
+            // 
+            this.itemDescription.HeaderText = "ArtikelBeschreibung";
+            this.itemDescription.Name = "itemDescription";
+            this.itemDescription.ReadOnly = true;
+            this.itemDescription.Width = 300;
+            // 
+            // attribute2
+            // 
+            this.attribute2.HeaderText = "Marke";
+            this.attribute2.Name = "attribute2";
+            this.attribute2.ReadOnly = true;
+            this.attribute2.Width = 140;
+            // 
+            // attribute1
+            // 
+            this.attribute1.HeaderText = "Farbe";
+            this.attribute1.Name = "attribute1";
+            this.attribute1.ReadOnly = true;
+            this.attribute1.Width = 80;
+            // 
+            // attribute4
+            // 
+            this.attribute4.HeaderText = "Grösse";
+            this.attribute4.Name = "attribute4";
+            this.attribute4.ReadOnly = true;
+            this.attribute4.Width = 110;
+            // 
+            // attribute3
+            // 
+            this.attribute3.HeaderText = "Eigensch.";
+            this.attribute3.Name = "attribute3";
+            this.attribute3.ReadOnly = true;
+            this.attribute3.Width = 140;
+            // 
+            // SalesPrice
+            // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle1.Format = "C2";
+            dataGridViewCellStyle1.NullValue = null;
+            this.SalesPrice.DefaultCellStyle = dataGridViewCellStyle1;
+            this.SalesPrice.HeaderText = "VK-Preis";
+            this.SalesPrice.Name = "SalesPrice";
+            this.SalesPrice.ReadOnly = true;
+            // 
             // ItemInputGroupBox
             // 
             this.ItemInputGroupBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(170)))), ((int)(((byte)(255)))));
@@ -630,6 +717,98 @@
             this.ItemInputGroupBox.TabIndex = 29;
             this.ItemInputGroupBox.TabStop = false;
             this.ItemInputGroupBox.Text = "Artikeleingabe";
+            // 
+            // ComboBoxItemDescription
+            // 
+            this.ComboBoxItemDescription.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.ComboBoxItemDescription.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.ComboBoxItemDescription.Enabled = false;
+            this.ComboBoxItemDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ComboBoxItemDescription.FormattingEnabled = true;
+            this.ComboBoxItemDescription.Location = new System.Drawing.Point(8, 41);
+            this.ComboBoxItemDescription.Name = "ComboBoxItemDescription";
+            this.ComboBoxItemDescription.Size = new System.Drawing.Size(361, 23);
+            this.ComboBoxItemDescription.Sorted = true;
+            this.ComboBoxItemDescription.TabIndex = 1;
+            this.ComboBoxItemDescription.EnabledChanged += new System.EventHandler(this.ComboBoxItemDescription_EnabledChanged);
+            this.ComboBoxItemDescription.TextChanged += new System.EventHandler(this.ConboBoxItemDescription_TextChanged);
+            this.ComboBoxItemDescription.Leave += new System.EventHandler(this.ComboBoxItemDescription_Leave);
+            // 
+            // TextBoxProperties
+            // 
+            this.TextBoxProperties.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TextBoxProperties.Location = new System.Drawing.Point(8, 133);
+            this.TextBoxProperties.Name = "TextBoxProperties";
+            this.TextBoxProperties.Size = new System.Drawing.Size(123, 21);
+            this.TextBoxProperties.TabIndex = 4;
+            this.TextBoxProperties.Leave += new System.EventHandler(this.TextBoxProperties_Leave);
+            // 
+            // ComboBoxColor
+            // 
+            this.ComboBoxColor.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.ComboBoxColor.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.ComboBoxColor.Enabled = false;
+            this.ComboBoxColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ComboBoxColor.FormattingEnabled = true;
+            this.ComboBoxColor.Location = new System.Drawing.Point(8, 84);
+            this.ComboBoxColor.Name = "ComboBoxColor";
+            this.ComboBoxColor.Size = new System.Drawing.Size(121, 23);
+            this.ComboBoxColor.TabIndex = 2;
+            this.ComboBoxColor.SelectedIndexChanged += new System.EventHandler(this.ComboBoxColor_SelectedIndexChanged);
+            this.ComboBoxColor.TextChanged += new System.EventHandler(this.ComboBoxColor_TextChanged);
+            this.ComboBoxColor.Leave += new System.EventHandler(this.ComboBoxColor_Leave);
+            // 
+            // ComboBoxSize
+            // 
+            this.ComboBoxSize.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.ComboBoxSize.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.ComboBoxSize.Enabled = false;
+            this.ComboBoxSize.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ComboBoxSize.FormattingEnabled = true;
+            this.ComboBoxSize.Location = new System.Drawing.Point(149, 131);
+            this.ComboBoxSize.Name = "ComboBoxSize";
+            this.ComboBoxSize.Size = new System.Drawing.Size(121, 23);
+            this.ComboBoxSize.TabIndex = 5;
+            this.ComboBoxSize.SelectedIndexChanged += new System.EventHandler(this.ComboBoxSize_SelectedIndexChanged);
+            this.ComboBoxSize.TextChanged += new System.EventHandler(this.ComboBoxSize_TextChanged);
+            this.ComboBoxSize.Leave += new System.EventHandler(this.ComboBoxSize_Leave);
+            // 
+            // ComboBoxBrand
+            // 
+            this.ComboBoxBrand.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.ComboBoxBrand.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.ComboBoxBrand.Enabled = false;
+            this.ComboBoxBrand.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ComboBoxBrand.FormattingEnabled = true;
+            this.ComboBoxBrand.Location = new System.Drawing.Point(149, 84);
+            this.ComboBoxBrand.Name = "ComboBoxBrand";
+            this.ComboBoxBrand.Size = new System.Drawing.Size(220, 23);
+            this.ComboBoxBrand.TabIndex = 3;
+            this.ComboBoxBrand.SelectedIndexChanged += new System.EventHandler(this.ComboBoxBrand_SelectedIndexChanged);
+            this.ComboBoxBrand.TextChanged += new System.EventHandler(this.ComboBoxBrand_TextChanged);
+            this.ComboBoxBrand.Leave += new System.EventHandler(this.ComboBoxBrand_Leave);
+            // 
+            // KeyTextBox
+            // 
+            this.KeyTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.KeyTextBox.Location = new System.Drawing.Point(520, 86);
+            this.KeyTextBox.Name = "KeyTextBox";
+            this.KeyTextBox.Size = new System.Drawing.Size(100, 21);
+            this.KeyTextBox.TabIndex = 0;
+            this.KeyTextBox.TabStop = false;
+            this.KeyTextBox.Visible = false;
+            this.KeyTextBox.Leave += new System.EventHandler(this.KeyTextBox_Leave);
+            // 
+            // SalesPriceTextBox
+            // 
+            this.SalesPriceTextBox.Enabled = false;
+            this.SalesPriceTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SalesPriceTextBox.Location = new System.Drawing.Point(291, 131);
+            this.SalesPriceTextBox.Name = "SalesPriceTextBox";
+            this.SalesPriceTextBox.Size = new System.Drawing.Size(78, 21);
+            this.SalesPriceTextBox.TabIndex = 6;
+            this.SalesPriceTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.SalesPriceTextBox.Leave += new System.EventHandler(this.SalesPriceTextBox_Leave);
             // 
             // PremiumLbl
             // 
@@ -738,6 +917,45 @@
             this.FullNameTextBox.TabIndex = 0;
             this.FullNameTextBox.Visible = false;
             // 
+            // ComboBoxVendorName
+            // 
+            this.ComboBoxVendorName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.ComboBoxVendorName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.ComboBoxVendorName.FormattingEnabled = true;
+            this.ComboBoxVendorName.Location = new System.Drawing.Point(14, 44);
+            this.ComboBoxVendorName.Name = "ComboBoxVendorName";
+            this.ComboBoxVendorName.Size = new System.Drawing.Size(256, 23);
+            this.ComboBoxVendorName.TabIndex = 0;
+            this.ComboBoxVendorName.TabStop = false;
+            this.ComboBoxVendorName.SelectedIndexChanged += new System.EventHandler(this.ComboBoxVendorName_SelectedIndexChanged);
+            this.ComboBoxVendorName.DataSourceChanged += new System.EventHandler(this.ComboBoxVendorName_DataSourceChanged);
+            this.ComboBoxVendorName.Leave += new System.EventHandler(this.ComboBoxVendorName_Leave);
+            // 
+            // PeriodTextBox
+            // 
+            this.PeriodTextBox.Location = new System.Drawing.Point(159, 87);
+            this.PeriodTextBox.Name = "PeriodTextBox";
+            this.PeriodTextBox.ReadOnly = true;
+            this.PeriodTextBox.Size = new System.Drawing.Size(47, 21);
+            this.PeriodTextBox.TabIndex = 0;
+            this.PeriodTextBox.TabStop = false;
+            this.PeriodTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.PeriodTextBox.Leave += new System.EventHandler(this.PeriodTextBox_Leave);
+            // 
+            // MarginTextBox
+            // 
+            this.MarginTextBox.Enabled = false;
+            this.MarginTextBox.Location = new System.Drawing.Point(92, 87);
+            this.MarginTextBox.Name = "MarginTextBox";
+            this.MarginTextBox.ReadOnly = true;
+            this.MarginTextBox.Size = new System.Drawing.Size(48, 21);
+            this.MarginTextBox.TabIndex = 0;
+            this.MarginTextBox.TabStop = false;
+            this.MarginTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.MarginTextBox.TextChanged += new System.EventHandler(this.MarginTextBox_TextChanged);
+            this.MarginTextBox.Leave += new System.EventHandler(this.MarginTextBox_Leave);
+            this.MarginTextBox.Validated += new System.EventHandler(this.MarginTextBox_Validated);
+            // 
             // PeriodLabel
             // 
             this.PeriodLabel.AutoSize = true;
@@ -812,224 +1030,6 @@
             this.Button1.Visible = false;
             this.Button1.Click += new System.EventHandler(this.Button1_Click);
             // 
-            // ComboBoxItemDescription
-            // 
-            this.ComboBoxItemDescription.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.ComboBoxItemDescription.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.ComboBoxItemDescription.Enabled = false;
-            this.ComboBoxItemDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ComboBoxItemDescription.FormattingEnabled = true;
-            this.ComboBoxItemDescription.Location = new System.Drawing.Point(8, 41);
-            this.ComboBoxItemDescription.Name = "ComboBoxItemDescription";
-            this.ComboBoxItemDescription.Size = new System.Drawing.Size(361, 23);
-            this.ComboBoxItemDescription.Sorted = true;
-            this.ComboBoxItemDescription.TabIndex = 1;
-            this.ComboBoxItemDescription.EnabledChanged += new System.EventHandler(this.ComboBoxItemDescription_EnabledChanged);
-            this.ComboBoxItemDescription.TextChanged += new System.EventHandler(this.ConboBoxItemDescription_TextChanged);
-            this.ComboBoxItemDescription.Leave += new System.EventHandler(this.ComboBoxItemDescription_Leave);
-            // 
-            // TextBoxProperties
-            // 
-            this.TextBoxProperties.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TextBoxProperties.Location = new System.Drawing.Point(8, 133);
-            this.TextBoxProperties.Name = "TextBoxProperties";
-            this.TextBoxProperties.Size = new System.Drawing.Size(123, 21);
-            this.TextBoxProperties.TabIndex = 4;
-            this.TextBoxProperties.Leave += new System.EventHandler(this.TextBoxProperties_Leave);
-            // 
-            // ComboBoxColor
-            // 
-            this.ComboBoxColor.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.ComboBoxColor.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.ComboBoxColor.Enabled = false;
-            this.ComboBoxColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ComboBoxColor.FormattingEnabled = true;
-            this.ComboBoxColor.Location = new System.Drawing.Point(8, 84);
-            this.ComboBoxColor.Name = "ComboBoxColor";
-            this.ComboBoxColor.Size = new System.Drawing.Size(121, 23);
-            this.ComboBoxColor.TabIndex = 2;
-            this.ComboBoxColor.SelectedIndexChanged += new System.EventHandler(this.ComboBoxColor_SelectedIndexChanged);
-            this.ComboBoxColor.TextChanged += new System.EventHandler(this.ComboBoxColor_TextChanged);
-            this.ComboBoxColor.Leave += new System.EventHandler(this.ComboBoxColor_Leave);
-            // 
-            // ComboBoxSize
-            // 
-            this.ComboBoxSize.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.ComboBoxSize.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.ComboBoxSize.Enabled = false;
-            this.ComboBoxSize.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ComboBoxSize.FormattingEnabled = true;
-            this.ComboBoxSize.Location = new System.Drawing.Point(149, 131);
-            this.ComboBoxSize.Name = "ComboBoxSize";
-            this.ComboBoxSize.Size = new System.Drawing.Size(121, 23);
-            this.ComboBoxSize.TabIndex = 5;
-            this.ComboBoxSize.SelectedIndexChanged += new System.EventHandler(this.ComboBoxSize_SelectedIndexChanged);
-            this.ComboBoxSize.TextChanged += new System.EventHandler(this.ComboBoxSize_TextChanged);
-            this.ComboBoxSize.Leave += new System.EventHandler(this.ComboBoxSize_Leave);
-            // 
-            // ComboBoxBrand
-            // 
-            this.ComboBoxBrand.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.ComboBoxBrand.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.ComboBoxBrand.Enabled = false;
-            this.ComboBoxBrand.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ComboBoxBrand.FormattingEnabled = true;
-            this.ComboBoxBrand.Location = new System.Drawing.Point(149, 84);
-            this.ComboBoxBrand.Name = "ComboBoxBrand";
-            this.ComboBoxBrand.Size = new System.Drawing.Size(220, 23);
-            this.ComboBoxBrand.TabIndex = 3;
-            this.ComboBoxBrand.SelectedIndexChanged += new System.EventHandler(this.ComboBoxBrand_SelectedIndexChanged);
-            this.ComboBoxBrand.TextChanged += new System.EventHandler(this.ComboBoxBrand_TextChanged);
-            this.ComboBoxBrand.Leave += new System.EventHandler(this.ComboBoxBrand_Leave);
-            // 
-            // KeyTextBox
-            // 
-            this.KeyTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.KeyTextBox.Location = new System.Drawing.Point(520, 86);
-            this.KeyTextBox.Name = "KeyTextBox";
-            this.KeyTextBox.Size = new System.Drawing.Size(100, 21);
-            this.KeyTextBox.TabIndex = 0;
-            this.KeyTextBox.TabStop = false;
-            this.KeyTextBox.Visible = false;
-            this.KeyTextBox.Leave += new System.EventHandler(this.KeyTextBox_Leave);
-            // 
-            // SalesPriceTextBox
-            // 
-            this.SalesPriceTextBox.Enabled = false;
-            this.SalesPriceTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SalesPriceTextBox.Location = new System.Drawing.Point(291, 131);
-            this.SalesPriceTextBox.Name = "SalesPriceTextBox";
-            this.SalesPriceTextBox.Size = new System.Drawing.Size(78, 21);
-            this.SalesPriceTextBox.TabIndex = 6;
-            this.SalesPriceTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.SalesPriceTextBox.Leave += new System.EventHandler(this.SalesPriceTextBox_Leave);
-            // 
-            // ComboBoxVendorName
-            // 
-            this.ComboBoxVendorName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.ComboBoxVendorName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.ComboBoxVendorName.FormattingEnabled = true;
-            this.ComboBoxVendorName.Location = new System.Drawing.Point(14, 44);
-            this.ComboBoxVendorName.Name = "ComboBoxVendorName";
-            this.ComboBoxVendorName.Size = new System.Drawing.Size(256, 23);
-            this.ComboBoxVendorName.TabIndex = 0;
-            this.ComboBoxVendorName.TabStop = false;
-            this.ComboBoxVendorName.SelectedIndexChanged += new System.EventHandler(this.ComboBoxVendorName_SelectedIndexChanged);
-            this.ComboBoxVendorName.DataSourceChanged += new System.EventHandler(this.ComboBoxVendorName_DataSourceChanged);
-            this.ComboBoxVendorName.Leave += new System.EventHandler(this.ComboBoxVendorName_Leave);
-            // 
-            // PeriodTextBox
-            // 
-            this.PeriodTextBox.Location = new System.Drawing.Point(159, 87);
-            this.PeriodTextBox.Name = "PeriodTextBox";
-            this.PeriodTextBox.ReadOnly = true;
-            this.PeriodTextBox.Size = new System.Drawing.Size(47, 21);
-            this.PeriodTextBox.TabIndex = 0;
-            this.PeriodTextBox.TabStop = false;
-            this.PeriodTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.PeriodTextBox.Leave += new System.EventHandler(this.PeriodTextBox_Leave);
-            // 
-            // MarginTextBox
-            // 
-            this.MarginTextBox.Enabled = false;
-            this.MarginTextBox.Location = new System.Drawing.Point(92, 87);
-            this.MarginTextBox.Name = "MarginTextBox";
-            this.MarginTextBox.ReadOnly = true;
-            this.MarginTextBox.Size = new System.Drawing.Size(48, 21);
-            this.MarginTextBox.TabIndex = 0;
-            this.MarginTextBox.TabStop = false;
-            this.MarginTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.MarginTextBox.TextChanged += new System.EventHandler(this.MarginTextBox_TextChanged);
-            this.MarginTextBox.Leave += new System.EventHandler(this.MarginTextBox_Leave);
-            this.MarginTextBox.Validated += new System.EventHandler(this.MarginTextBox_Validated);
-            // 
-            // VertragDruckenToolStripMenuItem
-            // 
-            this.VertragDruckenToolStripMenuItem.Name = "VertragDruckenToolStripMenuItem";
-            this.VertragDruckenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.VertragDruckenToolStripMenuItem.Text = "Vertrag drucken";
-            this.VertragDruckenToolStripMenuItem.Click += new System.EventHandler(this.VertragDruckenToolStripMenuItem_Click);
-            // 
-            // ItemsDataGridView
-            // 
-            this.ItemsDataGridView.AllowUserToAddRows = false;
-            this.ItemsDataGridView.AllowUserToDeleteRows = false;
-            this.ItemsDataGridView.AllowUserToResizeColumns = false;
-            this.ItemsDataGridView.AllowUserToResizeRows = false;
-            this.ItemsDataGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.ItemsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ItemsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.PosNumber,
-            this.itemDescription,
-            this.attribute2,
-            this.attribute1,
-            this.attribute4,
-            this.attribute3,
-            this.SalesPrice});
-            this.ItemsDataGridView.ContextMenuStrip = this.ItemDataContextMenuStrip;
-            this.ItemsDataGridView.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.ItemsDataGridView.Location = new System.Drawing.Point(8, 20);
-            this.ItemsDataGridView.MultiSelect = false;
-            this.ItemsDataGridView.Name = "ItemsDataGridView";
-            this.ItemsDataGridView.ReadOnly = true;
-            this.ItemsDataGridView.RowHeadersVisible = false;
-            this.ItemsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.ItemsDataGridView.Size = new System.Drawing.Size(972, 332);
-            this.ItemsDataGridView.TabIndex = 0;
-            this.ItemsDataGridView.TabStop = false;
-            // 
-            // PosNumber
-            // 
-            this.PosNumber.HeaderText = "ArtikelNr";
-            this.PosNumber.Name = "PosNumber";
-            this.PosNumber.ReadOnly = true;
-            this.PosNumber.Width = 80;
-            // 
-            // itemDescription
-            // 
-            this.itemDescription.HeaderText = "ArtikelBeschreibung";
-            this.itemDescription.Name = "itemDescription";
-            this.itemDescription.ReadOnly = true;
-            this.itemDescription.Width = 300;
-            // 
-            // attribute2
-            // 
-            this.attribute2.HeaderText = "Marke";
-            this.attribute2.Name = "attribute2";
-            this.attribute2.ReadOnly = true;
-            this.attribute2.Width = 140;
-            // 
-            // attribute1
-            // 
-            this.attribute1.HeaderText = "Farbe";
-            this.attribute1.Name = "attribute1";
-            this.attribute1.ReadOnly = true;
-            this.attribute1.Width = 80;
-            // 
-            // attribute4
-            // 
-            this.attribute4.HeaderText = "Grösse";
-            this.attribute4.Name = "attribute4";
-            this.attribute4.ReadOnly = true;
-            this.attribute4.Width = 110;
-            // 
-            // attribute3
-            // 
-            this.attribute3.HeaderText = "Eigensch.";
-            this.attribute3.Name = "attribute3";
-            this.attribute3.ReadOnly = true;
-            this.attribute3.Width = 140;
-            // 
-            // SalesPrice
-            // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle1.Format = "C2";
-            dataGridViewCellStyle1.NullValue = null;
-            this.SalesPrice.DefaultCellStyle = dataGridViewCellStyle1;
-            this.SalesPrice.HeaderText = "VK-Preis";
-            this.SalesPrice.Name = "SalesPrice";
-            this.SalesPrice.ReadOnly = true;
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1055,6 +1055,7 @@
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4);
+            this.MaximizeBox = false;
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Kommissionwaren Secondhand Kleidung (Demo)";
@@ -1065,13 +1066,13 @@
             this.menuStrip1.PerformLayout();
             this.ItemDataContextMenuStrip.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ItemsDataGridView)).EndInit();
             this.ItemInputGroupBox.ResumeLayout(false);
             this.ItemInputGroupBox.PerformLayout();
             this.VendorGroupBox.ResumeLayout(false);
             this.VendorGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ContractBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.itemBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ItemsDataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

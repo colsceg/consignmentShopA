@@ -428,14 +428,7 @@ namespace ConsignmentShopMainUI
         {
             if (!_ignoreEvents)
             {
-                if (!String.IsNullOrWhiteSpace(CBContractID.Text))
-                {
-                    string myContractID = "ContractID = " + CBContractID.Text;
-                    view1.RowFilter = myContractID;
-                    source1.DataSource = view1;
-                    FillAttributeTables();
-                    FillAllFields();
-                }
+                ChangeFilter();
             }
             _ignoreEvents = false;
         }
