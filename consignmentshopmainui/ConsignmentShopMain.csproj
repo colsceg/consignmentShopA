@@ -225,7 +225,7 @@
     </Reference>
     <Reference Include="SharpUpdate, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\x86\Debug\SharpUpdate.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Source\Repos\SharpUpdate\bin\Debug\SharpUpdate.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />

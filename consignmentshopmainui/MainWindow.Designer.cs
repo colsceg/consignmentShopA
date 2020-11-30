@@ -1020,14 +1020,12 @@
             // 
             // Button1
             // 
-            this.Button1.Enabled = false;
             this.Button1.Location = new System.Drawing.Point(576, 621);
             this.Button1.Name = "Button1";
             this.Button1.Size = new System.Drawing.Size(75, 23);
             this.Button1.TabIndex = 31;
             this.Button1.Text = "Button1";
             this.Button1.UseVisualStyleBackColor = true;
-            this.Button1.Visible = false;
             this.Button1.Click += new System.EventHandler(this.Button1_Click);
             // 
             // MainWindow

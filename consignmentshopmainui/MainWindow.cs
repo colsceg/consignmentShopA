@@ -9,8 +9,9 @@ using System.Collections;
 using System.Text;
 using System.Globalization;
 using System.ComponentModel;
-using System.Threading.Tasks;
-
+using SharpUpdate;
+using System.Reflection;
+using System.Drawing;
 
 namespace ConsignmentShopMainUI
 {
@@ -2202,10 +2203,7 @@ namespace ConsignmentShopMainUI
             ////documentWindow.FormClosed += new FormClosedEventHandler(VendorEditWindow_Closed);
             //documentWindow.MyContractID = myContractID;
             //documentWindow.Show();
-
-            ContractUI contractUI = new ContractUI();
-
-            contractUI.Show();
+            updater.DoUpdate();
 
         }
 

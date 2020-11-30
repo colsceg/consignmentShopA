@@ -23,7 +23,7 @@
 		<!-- the filename the downloaded file is saved on the computer -->
 		<filename>2ndHandWareInstallerPINK.exe</filename>
 		<!-- the md5 hash of the file on the server -->
-		<md5>BAB87E3EDAEC3B0C37361FC9870C697D</md5>
+		<md5>3696EE79A2B27D7FECAE58C21E124489</md5>
 		<!-- a short description of the update -->
 		<description>Update verbessert einige kleinere Bedienungsfeatures</description>
 		<!-- arguments the application calls when it is launched after the update -->
