@@ -40,10 +40,10 @@ namespace ConsignmentShopLibrary
 		public static string AddVersionNumber()
 		{
 			System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
-			//FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
-			//return $" { versionInfo.FileVersion}";
-			return assembly.GetName().Version.ToString();
-		}
+            //FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
+            //return $" { versionInfo.FileVersion}";
+            return assembly.GetName().Version.ToString();
+        }
 
 		public static Bitmap GetImageByName(string imageName)
 		{

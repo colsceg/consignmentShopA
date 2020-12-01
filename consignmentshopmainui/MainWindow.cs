@@ -17,28 +17,19 @@ namespace ConsignmentShopMainUI
 {
     public partial class MainWindow : Form, ISharpUpdatable
     {
-
+        //private string CurrentUsername = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
         private Store Store = new Store();
-        private VendorTableUI VendorTable = new VendorTableUI();
-        private VendorTableUI VendorsTable = new VendorTableUI();
-        private OwnerEditUI OwnerEdit = new OwnerEditUI();
-
-        private Vendor newVendor = new Vendor();
         private string WorkingDirectory;
         private string BackupDirectory;
         private string AppDataDirectory;
-
-        private List<Vendor> VendorsList = new List<Vendor>();
 
         private DataAccessItems DbItems = new DataAccessItems();
         private DataAccessVendors DbVendors = new DataAccessVendors();
         private DataAccessAttributes DbAttribs = new DataAccessAttributes();
         private DataAccessZipCode DbZipCode = new DataAccessZipCode();
 
-        private List<Contract> ContractsList = new List<Contract>();
         private List<Item> ItemsList = new List<Item>();
         private List<Vendor> CustomersList = new List<Vendor>();
-        private string CurrentUsername = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
 
         private string LastContractID = null;
         private string LastItemNumber = null;
@@ -50,7 +41,6 @@ namespace ConsignmentShopMainUI
         private int ItemsCount = 0;
         private bool NewContract = false;
 
-        private string myTotalPriceString = string.Format("{0,00} €", 0);
         private string myAccountID = "";
         private string myContractID = "";
         private string myItemNumber = "";
@@ -73,21 +63,15 @@ namespace ConsignmentShopMainUI
         private BindingList<string> bindinglistItemdescription = new BindingList<string>();
         private BindingSource bSourceItemdescription = new BindingSource();
 
-        private BindingList<string> bindinglistProperties = new BindingList<string>();
-        private BindingSource bSourceProperties = new BindingSource();
-
         private BindingList<string> bindinglistSize = new BindingList<string>();
         private BindingSource bSourceSize = new BindingSource();
 
         private bool _ignoreEvents = true;
+        private List<string> vendors = new List<string>();
 
-        List<string> labels = new List<string>();
-        List<string> colors = new List<string>();
-        List<string> properties = new List<string>();
-        List<string> sizes = new List<string>();
-        List<string> vendors = new List<string>();
 
         #region Public Properties SharpUpdate
+
         private SharpUpdater updater;
 
         public string ApplicationName => "ConsignmentShopApp";
@@ -104,10 +88,13 @@ namespace ConsignmentShopMainUI
 
         #endregion
 
+        #region Constructor
+
         public MainWindow()
         {
             InitializeComponent();
             updater = new SharpUpdater(this);
+            updater.DoUpdate();
 
             KeyPreview = true;
             KeyDown +=
@@ -126,7 +113,7 @@ namespace ConsignmentShopMainUI
                 // lädt die Tabelle customers aus der SQLite DB
                 Disp();
                 loaded = true;
-                this.Text += " Vers." + Store.AddVersionNumber();
+                this.Text += " Vers." + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             }
         }
 
@@ -145,7 +132,7 @@ namespace ConsignmentShopMainUI
             ComboBoxVendorName.Focus();
         }
 
-
+        #endregion
 
         #region Read files from old Cincom version
         //Dient dem Einlesen der Waremliste aus dem Cincom Programm
@@ -2203,7 +2190,7 @@ namespace ConsignmentShopMainUI
             ////documentWindow.FormClosed += new FormClosedEventHandler(VendorEditWindow_Closed);
             //documentWindow.MyContractID = myContractID;
             //documentWindow.Show();
-            updater.DoUpdate();
+            //updater.DoUpdate();
 
         }
 
@@ -2390,7 +2377,7 @@ namespace ConsignmentShopMainUI
                 if (Licensed)
                 {
                     SchlüsselEingebenToolStripMenuItem.Enabled = false;
-                    this.Text = "Kommissionswaren Secondhand Kleidung (Lizensiert)  Vers." + Store.AddVersionNumber();
+                    this.Text = "Kommissionswaren Secondhand Kleidung (Lizensiert)  Vers." + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(); ;
                     this.Invalidate();
                 }
             }

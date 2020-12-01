@@ -81,6 +81,7 @@ SetShellVarContext current
 	file "System.Data.SQLite.dll.config"
 	file "System.Data.SQLite.EF6.dll"
 	file "System.Data.SQLite.Linq.dll"
+	file "SharpUpdate.dll"
 
 	SetOutPath "$INSTDIR\x86"
 		file "x86\SQLite.Interop.dll"
@@ -194,6 +195,7 @@ Section "Uninstall"
 	Delete "$INSTDIR\System.Data.SQLite.dll.config"
 	Delete "$INSTDIR\System.Data.SQLite.EF6.dll"
 	Delete "$INSTDIR\System.Data.SQLite.Linq.dll"
+	Delete "$INSTDIR\SharpUpdate.dll"
   	Delete "$INSTDIR\Uninstall.exe"
 	
 	Delete "$INSTDIR\x86\SQLite.Interop.dll"
