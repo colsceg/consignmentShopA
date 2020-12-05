@@ -9,6 +9,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace ConsignmentShopLibrary
 {
@@ -940,6 +941,15 @@ namespace ConsignmentShopLibrary
 				else return temp1;
 			}
 			return sValue;
+		}
+
+		/// <summery>
+		/// Default constructor
+		/// </summery
+		public void ShowErrors(Exception ex)
+		{
+			MessageBox.Show($"Datenbank Fehler: {ex}");
+			throw ex;
 		}
 
 		/// <summary>

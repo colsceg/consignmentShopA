@@ -718,6 +718,7 @@ namespace ConsignmentShopMainUI
         private void Disp()
         {
             AktDateTextBox.Text = DateTime.Today.ToShortDateString();
+            FillAttributeTables();
             _ignoreEvents = true;
             ComboBoxVendorName.Text = "";
         }
@@ -1067,6 +1068,12 @@ namespace ConsignmentShopMainUI
             //Egal ob gedruckt oder nicht, Vertrag bleibt mit Items gespeichert
         }
 
+        /// <summary>
+        /// Deletes all items of the actual contract
+        /// Clears the datagridview and deletes the items from table items
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ClearBtn_Click(object sender, EventArgs e)
         {
             //Vendorname enablen auf 0 setzen
@@ -1097,16 +1104,28 @@ namespace ConsignmentShopMainUI
             SalesPriceTextBox.ReadOnly = true;
             ComboBoxItemDescription.Text = "";
 
-            //tabelle leeren
             int itemsCount = ItemsDataGridView.Rows.Count;
+
+            //Look if any of the new items has been sold before the contract was finished
+            for (int i = 0; i < itemsCount; i++)
+            {
+                string itemnumber = ItemsDataGridView.Rows[i].Cells[0].Value.ToString();
+                var test = DbItems.GetItemsWithItemNumber(itemnumber);
+                if (test.Count > 0)
+                    if (test[0].SoldDate != "")
+                    {
+                        MessageBox.Show($"Ein Artikel aus der Liste wurde bereits verkauft\n {test[0].ItemDescription}");
+                        return;
+                    }
+            }
+
+            //Tabelle leeren
             for (int i = 0; i < itemsCount; i++)
             {
                 ItemsDataGridView.Rows.RemoveAt(0);
             }
 
             //alle Eingabefelder zurücksetzen
-            //configdata updaten ContractId - 1, itemsnumber - tabelle.count
-
             //contract in contracts löschen
             DbItems.DeleteContract(myContractID);
             //alle item mit contractID löschen
@@ -1349,9 +1368,16 @@ namespace ConsignmentShopMainUI
                     if (MessageBox.Show("Vorhandene Daten mit Wiederherstellungsdaten überschreiben?", "Achtung",
                         MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
-                        File.Copy(saveFileDialog1.FileName, WorkingDirectory + "\\SecondHandCollection.db", true);
-                        MessageBox.Show("Daten aus Backup wieder hergesetellt");
-                        Disp();
+                        try
+                        {
+                            File.Copy(saveFileDialog1.FileName, WorkingDirectory + "\\SecondHandCollection.db", true);
+                            MessageBox.Show("Daten aus Backup wieder hergesetellt");
+                            Disp();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"Fehler beim speichern der Datei: {ex.Data["Info"]}");
+                        }
                     }
                 }
                 else
@@ -2095,6 +2121,7 @@ namespace ConsignmentShopMainUI
         //Neuen Vertrag erstellen
 
         //Open other windows
+
         #region Open the windows
         private void OpenOwnerEdit_Window()
         {

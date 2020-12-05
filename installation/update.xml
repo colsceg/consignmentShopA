@@ -17,13 +17,13 @@
 	</update>
 	<update appId="ConsignmentShopApp">
 	<!-- the version is the number the new version has must be greater than the last -->
-		<version>2.0.1.1</version>
+		<version>2.0.1.2</version>
 		<!-- the url where the new update file could be found on the server -->
-		<url>https://www.chairfit.de/Software/2ndHandWareInstallerPINK20010.exe</url>
+		<url>https://www.chairfit.de/Software/2ndHandWareInstallerPINK20012.exe</url>
 		<!-- the filename the downloaded file is saved on the computer -->
 		<filename>2ndHandWareInstallerPINK.exe</filename>
 		<!-- the md5 hash of the file on the server -->
-		<md5>BC2BCF445B0CF1B974F9B96F6BC7B94B</md5>
+		<md5>6BB8AD6EF151CF4CDFB36DBDB24C45EB</md5>
 		<!-- a short description of the update -->
 		<description>Update verbessert einige kleinere Bedienungsfeatures</description>
 		<!-- arguments the application calls when it is launched after the update -->

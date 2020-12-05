@@ -16,7 +16,7 @@ namespace ConsignmentShopLibrary
 {
     public class DataAccessItems
     {
-        public int MyCounter { get; set; }
+        public Store Store { get; } = new Store();
 
         public void CreateDataBase(string DatabaseName)
         {
@@ -369,9 +369,18 @@ namespace ConsignmentShopLibrary
         {
             using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
             {
-                string connectionString = "";
-                connectionString = $"DELETE FROM contracts WHERE ContractID = '{aContractID}' ";
-                connection.Execute(connectionString);
+                try
+                {
+                    string connectionString = "";
+                    connectionString = $"DELETE FROM contracts WHERE ContractID = '{aContractID}' ";
+                    connection.Execute(connectionString);
+                }
+                catch (Exception ex)
+                {
+
+                    throw;
+                }
+
             }
         }
 
@@ -416,6 +425,7 @@ namespace ConsignmentShopLibrary
                         }
                         return output;
                     }
+
                     throw;
                 }
             }
@@ -1751,19 +1761,26 @@ namespace ConsignmentShopLibrary
         {
             using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
             {
-                string soldDate, payoutDate, beginDate, endDate, deleteDate;
-                soldDate = Item.ConvertDateStringToSQLiteTimeString(anItem.SoldDate);
-                payoutDate = Item.ConvertDateStringToSQLiteTimeString(anItem.PayoutDate);
-                endDate = Item.ConvertDateStringToSQLiteTimeString(anItem.EndDate);
-                beginDate = Item.ConvertDateStringToSQLiteTimeString(anItem.BeginDate);
-                deleteDate = Item.ConvertDateStringToSQLiteTimeString(anItem.DeleteDate);
+                try
+                {
+                    string soldDate, payoutDate, beginDate, endDate, deleteDate;
+                    soldDate = Item.ConvertDateStringToSQLiteTimeString(anItem.SoldDate);
+                    payoutDate = Item.ConvertDateStringToSQLiteTimeString(anItem.PayoutDate);
+                    endDate = Item.ConvertDateStringToSQLiteTimeString(anItem.EndDate);
+                    beginDate = Item.ConvertDateStringToSQLiteTimeString(anItem.BeginDate);
+                    deleteDate = Item.ConvertDateStringToSQLiteTimeString(anItem.DeleteDate);
 
-                string connectionString = $"INSERT INTO items ( [AccountID], [contractID], [itemNumber], [itemDescription],  [salesPrice], [costPrice], [payoutDate], " +
-                                          $"[soldDate], [BeginDate], [EndDate], [DeleteDate], [color], [brand], [prop], [size])  " +
-                                          $" VALUES( '{anItem.AccountID}', '{anItem.ContractID}', '{anItem.ItemNumber}', '{Store.SQLEscape(anItem.ItemDescription)}', '{anItem.SalesPrice}', " + 
-                                          $"'{anItem.CostPrice}', '{payoutDate}', '{soldDate}', '{beginDate}', '{endDate}', '{deleteDate}', '{Store.SQLEscape(anItem.Color)}', '{Store.SQLEscape(anItem.Brand)}', " +
-                                          $"'{Store.SQLEscape(anItem.Prop)}', '{Store.SQLEscape(anItem.Size)}')";
-                connection.Execute(connectionString);
+                    string connectionString = $"INSERT INTO items ( [AccountID], [contractID], [itemNumber], [itemDescription],  [salesPrice], [costPrice], [payoutDate], " +
+                                              $"[soldDate], [BeginDate], [EndDate], [DeleteDate], [color], [brand], [prop], [size])  " +
+                                              $" VALUES( '{anItem.AccountID}', '{anItem.ContractID}', '{anItem.ItemNumber}', '{Store.SQLEscape(anItem.ItemDescription)}', '{anItem.SalesPrice}', " +
+                                              $"'{anItem.CostPrice}', '{payoutDate}', '{soldDate}', '{beginDate}', '{endDate}', '{deleteDate}', '{Store.SQLEscape(anItem.Color)}', '{Store.SQLEscape(anItem.Brand)}', " +
+                                              $"'{Store.SQLEscape(anItem.Prop)}', '{Store.SQLEscape(anItem.Size)}')";
+                    connection.Execute(connectionString);
+                }
+                catch (Exception ex)
+                {
+                    Store.ShowErrors(ex);
+                }
             }
         }
 
@@ -1771,49 +1788,71 @@ namespace ConsignmentShopLibrary
         {
             using (var connection = new SQLiteConnection(Helper.ConnectionString))
             {
-                connection.Open();
+                try
+                {
+                    connection.Open();
+                }
+                catch (Exception ex)
+                {
+                    Store.ShowErrors(ex);
+                }
+
                 string soldDate, payoutDate, beginDate, endDate, deleteDate;
                 using (var cmd = new SQLiteCommand(connection))
                 {
                     using (var transaction = connection.BeginTransaction())
                     {
-                        // 100,000 inserts
-                        foreach (var anItem in anItemList)
+                        try
                         {
-                            soldDate = Item.ConvertDateStringToSQLiteTimeString(anItem.SoldDate);
-                            payoutDate = Item.ConvertDateStringToSQLiteTimeString(anItem.PayoutDate);
-                            endDate = Item.ConvertDateStringToSQLiteTimeString(anItem.EndDate);
-                            beginDate = Item.ConvertDateStringToSQLiteTimeString(anItem.BeginDate);
-                            deleteDate = Item.ConvertDateStringToSQLiteTimeString(anItem.DeleteDate);
-                            cmd.CommandText =
-                                $"INSERT OR IGNORE INTO items ( [AccountID], [contractID], [itemNumber], [itemDescription],  [salesPrice], [costPrice], [payoutDate], " +
-                                    $"[soldDate], [BeginDate], [EndDate], [DeleteDate], [color], [brand], [prop], [size])  " +
-                                    $" VALUES( '{anItem.AccountID}', '{anItem.ContractID}', '{anItem.ItemNumber}', '{Store.SQLEscape(anItem.ItemDescription)}', '{anItem.SalesPrice}', " +
-                                    $"'{anItem.CostPrice}', '{payoutDate}', '{soldDate}', '{beginDate}', '{endDate}',  '{deleteDate}', '{Store.SQLEscape(anItem.Color)}', '{Store.SQLEscape(anItem.Brand)}', " +
-                                    $"'{Store.SQLEscape(anItem.Prop)}', '{Store.SQLEscape(anItem.Size)}')";
-                            cmd.ExecuteNonQuery();
+                            // 100,000 inserts
+                            foreach (var anItem in anItemList)
+                            {
+                                soldDate = Item.ConvertDateStringToSQLiteTimeString(anItem.SoldDate);
+                                payoutDate = Item.ConvertDateStringToSQLiteTimeString(anItem.PayoutDate);
+                                endDate = Item.ConvertDateStringToSQLiteTimeString(anItem.EndDate);
+                                beginDate = Item.ConvertDateStringToSQLiteTimeString(anItem.BeginDate);
+                                deleteDate = Item.ConvertDateStringToSQLiteTimeString(anItem.DeleteDate);
+                                cmd.CommandText =
+                                    $"INSERT OR IGNORE INTO items ( [AccountID], [contractID], [itemNumber], [itemDescription],  [salesPrice], [costPrice], [payoutDate], " +
+                                        $"[soldDate], [BeginDate], [EndDate], [DeleteDate], [color], [brand], [prop], [size])  " +
+                                        $" VALUES( '{anItem.AccountID}', '{anItem.ContractID}', '{anItem.ItemNumber}', '{Store.SQLEscape(anItem.ItemDescription)}', '{anItem.SalesPrice}', " +
+                                        $"'{anItem.CostPrice}', '{payoutDate}', '{soldDate}', '{beginDate}', '{endDate}',  '{deleteDate}', '{Store.SQLEscape(anItem.Color)}', '{Store.SQLEscape(anItem.Brand)}', " +
+                                        $"'{Store.SQLEscape(anItem.Prop)}', '{Store.SQLEscape(anItem.Size)}')";
+                                cmd.ExecuteNonQuery();
+                            }
+                            transaction.Commit();
                         }
-                        transaction.Commit();
+                        catch (Exception ex)
+                        {
+                            Store.ShowErrors(ex);
+                        }
                     }
                 }
                 using (var cmd = new SQLiteCommand(connection))
                 {
                     using (var transaction = connection.BeginTransaction())
                     {
-                        foreach (var anItem in anItemList)
+                        try
                         {
-                            soldDate = Item.ConvertDateStringToSQLiteTimeString(anItem.SoldDate);
-                            payoutDate = Item.ConvertDateStringToSQLiteTimeString(anItem.PayoutDate);
-                            endDate = Item.ConvertDateStringToSQLiteTimeString(anItem.EndDate);
-                            beginDate = Item.ConvertDateStringToSQLiteTimeString(anItem.BeginDate);
-                            deleteDate = Item.ConvertDateStringToSQLiteTimeString(anItem.DeleteDate);
-                            cmd.CommandText =
-                                $"UPDATE items SET itemDescription =  '{anItem.ItemDescription}', salesPrice = '{anItem.SalesPrice}',  costPrice = '{anItem.CostPrice}', " +
-                                $"payoutDate = '{payoutDate}', soldDate = '{soldDate}', BeginDate = '{beginDate}', EndDate = '{endDate}', DeleteDate = '{deleteDate}', color = '{anItem.Color}', " +
-                                $"brand = '{anItem.Brand}', prop = '{anItem.Prop}', size = '{anItem.Size}' WHERE itemNUmber = '{anItem.ItemNumber}' " ;
-                            cmd.ExecuteNonQuery();
+                            foreach (var anItem in anItemList)
+                            {
+                                soldDate = Item.ConvertDateStringToSQLiteTimeString(anItem.SoldDate);
+                                payoutDate = Item.ConvertDateStringToSQLiteTimeString(anItem.PayoutDate);
+                                endDate = Item.ConvertDateStringToSQLiteTimeString(anItem.EndDate);
+                                beginDate = Item.ConvertDateStringToSQLiteTimeString(anItem.BeginDate);
+                                deleteDate = Item.ConvertDateStringToSQLiteTimeString(anItem.DeleteDate);
+                                cmd.CommandText =
+                                    $"UPDATE items SET itemDescription =  '{anItem.ItemDescription}', salesPrice = '{anItem.SalesPrice}',  costPrice = '{anItem.CostPrice}', " +
+                                    $"payoutDate = '{payoutDate}', soldDate = '{soldDate}', BeginDate = '{beginDate}', EndDate = '{endDate}', DeleteDate = '{deleteDate}', color = '{anItem.Color}', " +
+                                    $"brand = '{anItem.Brand}', prop = '{anItem.Prop}', size = '{anItem.Size}' WHERE itemNUmber = '{anItem.ItemNumber}' ";
+                                cmd.ExecuteNonQuery();
+                            }
+                            transaction.Commit();
                         }
-                        transaction.Commit();
+                        catch (Exception ex)
+                        {
+                            Store.ShowErrors(ex);
+                        }
                     }
                 }
                 connection.Close();
@@ -1822,11 +1861,13 @@ namespace ConsignmentShopLibrary
         }
 
         public void UpdateItem(Item anItem)
+        {
+            using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
             {
-                using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
+                try
                 {
                     string connectionString = "";
-                    string soldDate, payoutDate, endDate, beginDate, deleteDate; 
+                    string soldDate, payoutDate, endDate, beginDate, deleteDate;
 
                     soldDate = Item.ConvertDateStringToSQLiteTimeString(anItem.SoldDate);
                     payoutDate = Item.ConvertDateStringToSQLiteTimeString(anItem.PayoutDate);
@@ -1834,7 +1875,7 @@ namespace ConsignmentShopLibrary
                     beginDate = Item.ConvertDateStringToSQLiteTimeString(anItem.BeginDate);
                     deleteDate = Item.ConvertDateStringToSQLiteTimeString(anItem.DeleteDate);
 
-                    connectionString = $"UPDATE items SET " + 
+                    connectionString = $"UPDATE items SET " +
                                         $"[itemNumber] = '{anItem.ItemNumber}',  [itemDescription] = '{Store.SQLEscape(anItem.ItemDescription)}', " +
                                         $"[salesPrice] = '{anItem.SalesPrice}', [costPrice] = '{anItem.CostPrice}', [payoutDate] = '{payoutDate}', " +
                                         $"[soldDate] = '{soldDate}', [BeginDate] = '{beginDate}', [EndDate] = '{endDate}', [deleteDate] = '{deleteDate}', [color] = '{Store.SQLEscape(anItem.Color)}',  " +
@@ -1842,16 +1883,28 @@ namespace ConsignmentShopLibrary
                                         $" WHERE itemNumber = '{anItem.ItemNumber}' ";
                     connection.Execute(connectionString);
                 }
+                catch (Exception ex)
+                {
+                    Store.ShowErrors(ex);
+                }
             }
+        }
 
         public void UpdateItemsPayedWithItemNumber(string anItemNumber, string aPayoutDate)
         {
             using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
             {
-                string connectionString = "";
-                connectionString = $"UPDATE items SET PayoutDate = '{aPayoutDate}' " +
-                    $"WHERE itemNumber = '{anItemNumber}' AND  soldDate <> ''  AND payoutDate = '' ";
-                connection.Execute(connectionString);
+                try
+                {
+                    string connectionString = "";
+                    connectionString = $"UPDATE items SET PayoutDate = '{aPayoutDate}' " +
+                        $"WHERE itemNumber = '{anItemNumber}' AND  soldDate <> ''  AND payoutDate = '' ";
+                    connection.Execute(connectionString);
+                }
+                catch (Exception ex)
+                {
+                    Store.ShowErrors(ex);
+                }
             }
         }
 
@@ -1859,10 +1912,17 @@ namespace ConsignmentShopLibrary
         {
             using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
             {
-                string connectionString = "";
-                connectionString = $"UPDATE items SET PayoutDate = '{aPayoutDate}' " +
-                    $"WHERE accountID = '{anAccountID}' AND  soldDate <> ''  AND payoutDate = '' ";
-                connection.Execute(connectionString);
+                try
+                {
+                    string connectionString = "";
+                    connectionString = $"UPDATE items SET PayoutDate = '{aPayoutDate}' " +
+                        $"WHERE accountID = '{anAccountID}' AND  soldDate <> ''  AND payoutDate = '' ";
+                    connection.Execute(connectionString);
+                }
+                catch (Exception ex)
+                {
+                    Store.ShowErrors(ex);
+                }
             }
         }
 
@@ -1870,9 +1930,16 @@ namespace ConsignmentShopLibrary
         {
             using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
             {
-                string connectionString = "";
-                connectionString = $"UPDATE items SET soldDate = '{aSoldDate}' WHERE itemNumber = '{anItemNumber}' ";
-                connection.Execute(connectionString);
+                try
+                {
+                    string connectionString = "";
+                    connectionString = $"UPDATE items SET soldDate = '{aSoldDate}' WHERE itemNumber = '{anItemNumber}' ";
+                    connection.Execute(connectionString);
+                }
+                catch (Exception ex)
+                {
+                    Store.ShowErrors(ex);
+                }
             }
         }
 
@@ -1880,10 +1947,17 @@ namespace ConsignmentShopLibrary
         {
             using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
             {
-                string connectionString = "";
-                connectionString = $"UPDATE items SET salesPrice = '{aSalesPrice}', costPrice = '{aCostPrice}' " +
-                    $"WHERE itemNumber = '{anItemNumber}' ";
-                connection.Execute(connectionString);
+                try
+                {
+                    string connectionString = "";
+                    connectionString = $"UPDATE items SET salesPrice = '{aSalesPrice}', costPrice = '{aCostPrice}' " +
+                        $"WHERE itemNumber = '{anItemNumber}' ";
+                    connection.Execute(connectionString);
+                }
+                catch (Exception ex)
+                {
+                    Store.ShowErrors(ex);
+                }
             }
         }
 
@@ -1891,10 +1965,17 @@ namespace ConsignmentShopLibrary
         {
             using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
             {
-                string connectionString = "";
-                connectionString = $"UPDATE items SET itemNumber = '{anItemNumber}' " +
-                    $"WHERE itemNumber = '{anItemNumber}' ";
-                connection.Execute(connectionString);
+                try 
+                { 
+                    string connectionString = "";
+                    connectionString = $"UPDATE items SET itemNumber = '{anItemNumber}' " +
+                        $"WHERE itemNumber = '{anItemNumber}' ";
+                    connection.Execute(connectionString);
+                }
+                catch (Exception ex)
+                {
+                    Store.ShowErrors(ex);
+                }
             }
         }
 
@@ -1902,9 +1983,16 @@ namespace ConsignmentShopLibrary
         {
             using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
             {
-                string connectionString = "";
-                connectionString = $"DELETE FROM items WHERE contractID = '{aContractID}'";
-                connection.Execute(connectionString);
+                try
+                {
+                    string connectionString = "";
+                    connectionString = $"DELETE FROM items WHERE contractID = '{aContractID}'";
+                    connection.Execute(connectionString);
+                }
+                catch (Exception ex)
+                {
+                    Store.ShowErrors(ex);
+                }
             }
         }
 
@@ -1912,11 +2000,18 @@ namespace ConsignmentShopLibrary
         {
             using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
             {
-                string deleteDate = Item.ConvertDateStringToSQLiteTimeString(aDeleteDate);
-                string connectionString = "";
-                connectionString = $"UPDATE items SET DeleteDate = '{deleteDate}' " +
-                    $"WHERE itemNumber = '{anItemNumber}' ";
-                connection.Execute(connectionString);
+                try
+                {
+                    string deleteDate = Item.ConvertDateStringToSQLiteTimeString(aDeleteDate);
+                    string connectionString = "";
+                    connectionString = $"UPDATE items SET DeleteDate = '{deleteDate}' " +
+                        $"WHERE itemNumber = '{anItemNumber}' ";
+                    connection.Execute(connectionString);
+                }
+                catch (Exception ex)
+                {
+                    Store.ShowErrors(ex);
+                }
             }
         }
 
@@ -1924,9 +2019,18 @@ namespace ConsignmentShopLibrary
         {
             using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
             {
-                string connectionString = "";
-                connectionString = $"DELETE FROM items WHERE itemNumber = '{anItemNumber}'";
-                connection.Execute(connectionString);
+                try
+                {
+                    string connectionString = "";
+                    connectionString = $"DELETE FROM items WHERE itemNumber = '{anItemNumber}'";
+                    connection.Execute(connectionString);
+                }
+                catch (Exception ex)
+                {
+
+                    Store.ShowErrors(ex);
+                }
+
             }
         }
 
@@ -1934,9 +2038,17 @@ namespace ConsignmentShopLibrary
         {
             using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
             {
-                string connectionString = "";
-                connectionString = $"DELETE FROM items WHERE ItemNumber = '{anItemNumber}'";
-                connection.Execute(connectionString);
+                try
+                {
+                    string connectionString = "";
+                    connectionString = $"DELETE FROM items WHERE ItemNumber = '{anItemNumber}'";
+                    connection.Execute(connectionString);
+                }
+                catch (Exception ex)
+                {
+                    Store.ShowErrors(ex);
+                }
+
             }
         }
 
@@ -1949,11 +2061,12 @@ namespace ConsignmentShopLibrary
                     var output = connection.Query<string>($"SELECT MAX(BeginDate) FROM items LEFT JOIN contracts ON items.ContractID = contracts.ContractID  ").ToList();
                     return output[0];
                 }
-                catch
+                catch(Exception ex)
                 {
-                    throw;
+                    Store.ShowErrors(ex);
                 }
             }
+            return "";
         }
 
         public string GetMinBeginDate() //From ConfigData
@@ -1965,11 +2078,12 @@ namespace ConsignmentShopLibrary
                     var output = connection.Query<string>($"SELECT MIN(BeginDate) FROM items LEFT JOIN contracts ON items.ContractID = contracts.ContractID  ").ToList();
                     return output[0];
                 }
-                catch
+                catch (Exception ex)
                 {
-                    throw;
+                    Store.ShowErrors(ex);
                 }
             }
+            return "";
         }
 
         public string GetLastContractID() //From ConfigData
@@ -2011,6 +2125,7 @@ namespace ConsignmentShopLibrary
                             myconfigData = output.Last();
                         }
                     }
+                    Store.ShowErrors(ex);
                 }
 
                 return myconfigData.LastContractID;
@@ -2056,6 +2171,7 @@ namespace ConsignmentShopLibrary
                             myconfigData = output.Last();
                         }
                     }
+                    Store.ShowErrors(ex);
                 }
                 return myconfigData.LastItemNumber;
             }
@@ -2100,11 +2216,17 @@ namespace ConsignmentShopLibrary
                             myconfigData = output.Last();
                         }
                     }
+                    Store.ShowErrors(ex);
                 }
                 return myconfigData.LastInvoiceID;
             }
         }
 
+        /// <summary>
+        /// Liest den Datensatz aus der Tabelle configDtata
+        /// erzeugt die Tabelle mit default Werten, wenn noch nicht vorhanden
+        /// </summary>
+        /// <returns></returns>
         public List<ConfigData>GetConfigData() //From ConfigData
         {
             List<ConfigData> output = new List<ConfigData>();
@@ -2115,11 +2237,11 @@ namespace ConsignmentShopLibrary
                 try
                 {
                     output   = connection.Query<ConfigData>($"SELECT * FROM configData").ToList();
- 
                 }
 
                 catch (SQLiteException ex)
                 {
+                    //Tabelle nicht vorhanden
                     if (ex.ErrorCode == 1 || ex.ErrorCode == 14)
                     {
                         //Wenn configData Tabelle nicht vorhanden                
@@ -2137,8 +2259,8 @@ namespace ConsignmentShopLibrary
                             $" VALUES ('{myContractID}', '{myItemNumber}', '{myInvoiceID}', '{myBackupDirectory}', 150, 90, 50)";
                         connection.Execute(connectionString);
                         output = connection.Query<ConfigData>($"SELECT LastContractID FROM configData").ToList();
-                                            }
-
+                    }
+                    Store.ShowErrors(ex);
                 }
             }
             return output;
@@ -2148,9 +2270,17 @@ namespace ConsignmentShopLibrary
         {
             using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
             {
-                string connectionString = "";
-                connectionString = $"UPDATE configData SET LastInvoiceID = '{aLastInvoiceID}' ";
-                connection.Execute(connectionString);
+                try
+                {
+                    string connectionString = "";
+                    connectionString = $"UPDATE configData SET LastInvoiceID = '{aLastInvoiceID}' ";
+                    connection.Execute(connectionString);
+                }
+                catch (Exception ex)
+                {
+                    Store.ShowErrors(ex);
+                }
+
             }
         }
 
@@ -2158,12 +2288,20 @@ namespace ConsignmentShopLibrary
         {
             using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
             {
-                string connectionString = "";
-                connectionString = $"UPDATE configData SET LastContractID = '{aData.LastContractID}',  " +
-                    $" LastItemNumber = '{aData.LastItemNumber}', BackupDirectory = '{ aData.BackupDirectory }', KassenBestand = '{aData.KassenBestand}', " + 
-                    $" KassenBestand = '{aData.KassenBestand}', Period = '{ aData.Period }', Margin = '{aData.Margin}' ";
-                connection.Execute(connectionString);
+                try
+                {
+                    string connectionString = "";
+                    connectionString = $"UPDATE configData SET LastContractID = '{aData.LastContractID}',  " +
+                        $" LastItemNumber = '{aData.LastItemNumber}', BackupDirectory = '{ aData.BackupDirectory }', KassenBestand = '{aData.KassenBestand}', " +
+                        $" KassenBestand = '{aData.KassenBestand}', Period = '{ aData.Period }', Margin = '{aData.Margin}' ";
+                    connection.Execute(connectionString);
+                }
+                catch (Exception ex)
+                {
+                    Store.ShowErrors(ex);
+                }
             }
         }
+
     }
 }

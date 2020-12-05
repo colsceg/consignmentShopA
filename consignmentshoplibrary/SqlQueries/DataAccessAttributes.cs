@@ -12,12 +12,168 @@ namespace ConsignmentShopLibrary
     public class DataAccessAttributes
     {
         public Store Store { get; } = new Store();
-
+        /// <summary>
+        /// Creates a SQLite database
+        /// </summary>
+        /// <param name="DatabaseName"></param>
         public void CreateDataBase(string DatabaseName)
         {
-            SQLiteConnection.CreateFile(DatabaseName);
+            try
+            {
+                SQLiteConnection.CreateFile(DatabaseName);
+            }
+            catch (Exception ex)
+            {
+                Store.ShowErrors(ex);
+            }   
+            
         }
 
+        #region Gets Attributes from existing items
+        /// <summary>
+        /// Gets all item descriptions from a table
+        /// </summary>
+        /// <returns></returns>
+        public BindingList<string> GetAllItemDescriptionFromItems()
+        {
+            BindingList<string> temp = new BindingList<string>();
+            using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
+            {
+                try
+                {
+                    var output = connection.Query<string>($"SELECT itemDescription FROM items GROUP BY itemDescription ORDER BY itemDescription ASC ").ToList();
+
+                    foreach (var item in output)
+                    {
+                        temp.Add(item);
+                    }
+                    return temp;
+                }
+                catch (SQLiteException ex)
+                {
+                    Store.ShowErrors(ex);
+                }
+
+                return temp;
+            }
+        }
+
+        /// <summary>
+        /// Gets all brands used in all existing items
+        /// </summary>
+        /// <returns></returns>
+        public BindingList<string> GetAllBrandsFromItems()
+        {
+            BindingList<string> temp = new BindingList<string>();
+            using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
+            {
+                try
+                {
+                    var output = connection.Query<string>($"SELECT attribute2 FROM items GROUP BY attribute2 ORDER BY attribute2 ASC ").ToList();
+
+                    foreach (var item in output)
+                    {
+                        temp.Add(item);
+                    }
+                    return temp;
+                }
+                catch (SQLiteException ex)
+                {
+                    Store.ShowErrors(ex);
+                }
+
+                return temp;
+            }
+        }
+
+        /// <summary>
+        /// Gets all colors used in all existing items
+        /// </summary>
+        /// <returns></returns>
+        public BindingList<string> GetAllColorsFromItems()
+        {
+            BindingList<string> temp = new BindingList<string>();
+            using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
+            {
+                try
+                {
+                    var output = connection.Query<string>($"SELECT attribute1 FROM items GROUP BY attribute1 ORDER BY attribute1 ASC ").ToList();
+
+                    foreach (var item in output)
+                    {
+                        temp.Add(item);
+                    }
+                    return temp;
+                }
+                catch (SQLiteException ex)
+                {
+                    Store.ShowErrors(ex);
+                }
+                return temp;
+            }
+        }
+
+        /// <summary>
+        /// Gets all sizes used in all existing items
+        /// </summary>
+        /// <returns></returns>
+        public BindingList<string> GetAllSizesFromItems()
+        {
+            BindingList<string> temp = new BindingList<string>();
+            using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
+            {
+                try
+                {
+                    var output = connection.Query<string>($"SELECT attribute4 FROM items GROUP BY attribute4 ORDER BY attribute4 ASC ").ToList();
+
+                    foreach (var item in output)
+                    {
+                        temp.Add(item);
+                    }
+                    return temp;
+                }
+                catch (SQLiteException ex)
+                {
+                    Store.ShowErrors(ex);
+                }
+                return temp;
+            }
+        }
+
+        /// <summary>
+        /// Gets all extra properties used in all existing items
+        /// </summary>
+        /// <returns></returns>
+        public BindingList<string> GetAllPropertiesFromItems()
+        {
+            BindingList<string> temp = new BindingList<string>();
+            using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
+            {
+                try
+                {
+                    var output = connection.Query<string>($"SELECT attribute3 FROM items GROUP BY attribute3 ORDER BY attribute4 ASC ").ToList();
+
+                    foreach (var item in output)
+                    {
+                        temp.Add(item);
+                    }
+                    return temp;
+                }
+                catch (SQLiteException ex)
+                {
+                    Store.ShowErrors(ex);
+                }
+                return temp;
+            }
+        }
+        #endregion
+
+        #region Get all attributes from a table
+
+        /// <summary>
+        /// Get a list of all brands from a table named labels
+        /// </summary>
+        /// <returns></returns>
         public BindingList<string> GetAllBrands()
         {
             BindingList<string> temp = new BindingList<string>();
@@ -50,121 +206,16 @@ namespace ConsignmentShopLibrary
                         }
                         return temp;
                     }
-                    throw;
+                    Store.ShowErrors(ex);
                 }
+                return temp;
             }
         }
 
-        public BindingList<string> GetAllItemDescriptionFromItems()
-        {
-            BindingList<string> temp = new BindingList<string>();
-            using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
-            {
-                try
-                {
-                    var output = connection.Query<string>($"SELECT itemDescription FROM items GROUP BY itemDescription ORDER BY itemDescription ASC ").ToList();
-
-                    foreach (var item in output)
-                    {
-                        temp.Add(item);
-                    }
-                    return temp;
-                }
-                catch (SQLiteException)
-                {
-                    throw;
-                }
-            }
-        }
-
-        public BindingList<string> GetAllBrandsFromItems()
-        {
-            BindingList<string> temp = new BindingList<string>();
-            using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
-            {
-                try
-                {
-                    var output = connection.Query<string>($"SELECT attribute2 FROM items GROUP BY attribute2 ORDER BY attribute2 ASC ").ToList();
-
-                    foreach (var item in output)
-                    {
-                        temp.Add(item);
-                    }
-                    return temp;
-                }
-                catch (SQLiteException)
-                {
-                    throw;
-                }
-            }
-        }
-
-        public BindingList<string> GetAllColorsFromItems()
-        {
-            BindingList<string> temp = new BindingList<string>();
-            using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
-            {
-                try
-                {
-                    var output = connection.Query<string>($"SELECT attribute1 FROM items GROUP BY attribute1 ORDER BY attribute1 ASC ").ToList();
-
-                    foreach (var item in output)
-                    {
-                        temp.Add(item);
-                    }
-                    return temp;
-                }
-                catch (SQLiteException )
-                {
-                    throw;
-                }
-            }
-        }
-
-        public BindingList<string> GetAllSizesFromItems()
-        {
-            BindingList<string> temp = new BindingList<string>();
-            using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
-            {
-                try
-                {
-                    var output = connection.Query<string>($"SELECT attribute4 FROM items GROUP BY attribute4 ORDER BY attribute4 ASC ").ToList();
-
-                    foreach (var item in output)
-                    {
-                        temp.Add(item);
-                    }
-                    return temp;
-                }
-                catch (SQLiteException )
-                {
-                    throw;
-                }
-            }
-        }
-
-        public BindingList<string> GetAllPropertiesFromItems()
-        {
-            BindingList<string> temp = new BindingList<string>();
-            using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
-            {
-                try
-                {
-                    var output = connection.Query<string>($"SELECT attribute3 FROM items GROUP BY attribute3 ORDER BY attribute4 ASC ").ToList();
-
-                    foreach (var item in output)
-                    {
-                        temp.Add(item);
-                    }
-                    return temp;
-                }
-                catch (SQLiteException )
-                {
-                    throw;
-                }
-            }
-        }
-
+        /// <summary>
+        /// Get a list of all colors from a table named colors
+        /// </summary>
+        /// <returns></returns>
         public BindingList<string> GetAllColors()
         {
             BindingList<string> temp = new BindingList<string>();
@@ -196,11 +247,16 @@ namespace ConsignmentShopLibrary
                         }
                         return temp;
                     }
-                    throw;
+                    Store.ShowErrors(ex);
                 }
             }
+            return temp;
         }
 
+        /// <summary>
+        /// Get a list of all properties from a table named properties
+        /// </summary>
+        /// <returns></returns>
         public BindingList<string> GetAllProperties()
         {
             BindingList<string> temp = new BindingList<string>();
@@ -232,11 +288,16 @@ namespace ConsignmentShopLibrary
                         }
                         return temp;
                     }
-                    throw;
+                    Store.ShowErrors(ex);
                 }
+                return temp;
             }
         }
 
+        /// <summary>
+        /// Get a list of all colors from a table named colors
+        /// </summary>
+        /// <returns></returns>
         public BindingList<string> GetAllSizes()
         {
             BindingList<string> temp = new BindingList<string>();
@@ -268,11 +329,20 @@ namespace ConsignmentShopLibrary
                         }
                         return temp;
                     }
-                    throw;
+                    Store.ShowErrors(ex);
                 }
+                return temp;
             }
         }
 
+        #endregion
+
+        #region Find a specific attribute
+        /// <summary>
+        /// Find a specific color in table colors
+        /// </summary>
+        /// <param name="aColor"></param>
+        /// <returns>True if color found</returns>
         public bool FindColor(string aColor)
         {
             int i = 0;
@@ -292,22 +362,46 @@ namespace ConsignmentShopLibrary
                         return false;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                Store.ShowErrors(ex);
             }
+            return false;
         }
 
+        /// <summary>
+        /// Find a specific brand in table brands
+        /// We need the founded brand in mainwindow to look if premium brand or not
+        /// </summary>
+        /// <param name="aBrand"></param>
+        /// <returns>List of all brands found</returns>
         public List<Brand> FindBrand(string aBrand)
         {
+            List<Brand> temp = new List<Brand>();
             using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
             {
-                //return connection.Query<Person>("SELECT * FROM customers WHERE name = '{ name }'").ToList();
-                var output = connection.Query<Brand>($"SELECT * FROM labels  WHERE labels.name = '{Store.SQLEscape(aBrand)}'").ToList();
-                return output;
+                try
+                {
+                    var output = connection.Query<Brand>($"SELECT * FROM labels  WHERE labels.name = '{Store.SQLEscape(aBrand)}'").ToList();
+                    foreach (var item in output)
+                    {
+                        temp.Add(item);
+                    }
+                    return temp;
+                }
+                catch (Exception ex)
+                {
+                    Store.ShowErrors(ex);
+                }
+                return temp;
             }
         }
 
+        /// <summary>
+        /// Find a specific item description in table items
+        /// </summary>
+        /// <param name="anItemdescription"></param>
+        /// <returns>True if item description was found</returns>
         public bool FindItemdescription(string anItemdescription)
         {
             int i = 0;
@@ -316,7 +410,7 @@ namespace ConsignmentShopLibrary
                 using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
                 {
                     //return connection.Query<Person>("SELECT * FROM customers WHERE name = '{ name }'").ToList();
-                    var output = connection.Query<Brand>($"SELECT itemDescription FROM items WHERE itemDescription = '{Store.SQLEscape( anItemdescription) }' GROUP BY itemDescription ORDER BY itemDescription ASC ").ToList();
+                    var output = connection.Query<Brand>($"SELECT itemDescription FROM items WHERE itemDescription = '{Store.SQLEscape(anItemdescription) }' GROUP BY itemDescription ORDER BY itemDescription ASC ").ToList();
                     foreach (var item in output)
                     {
                         i++;
@@ -334,6 +428,11 @@ namespace ConsignmentShopLibrary
             }
         }
 
+        /// <summary>
+        /// Find a specific property in table properties
+        /// </summary>
+        /// <param name="aProp"></param>
+        /// <returns>True if property was found</returns>
         public bool FindProp(string aProp)
         {
             int i = 0;
@@ -359,6 +458,11 @@ namespace ConsignmentShopLibrary
             }
         }
 
+        /// <summary>
+        /// Find a specific size in table sizes
+        /// </summary>
+        /// <param name="aSize"></param>
+        /// <returns>True if size was found</returns>
         public bool FindSize(string aSize)
         {
             int i = 0;
@@ -378,11 +482,15 @@ namespace ConsignmentShopLibrary
                         return false;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                Store.ShowErrors(ex);
             }
+            return false;
         }
+        #endregion
+
+        #region insert new attributes 
 
         public bool InsertBrand(Brand aBrand)
         {
@@ -597,5 +705,7 @@ namespace ConsignmentShopLibrary
         {
             InsertSizes(aList);
         }
+
+        #endregion
     }
 }

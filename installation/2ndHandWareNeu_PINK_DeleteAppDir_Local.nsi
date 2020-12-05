@@ -31,7 +31,6 @@
   
 ;--------------------------------
 
-
 !insertmacro MUI_PAGE_LICENSE "license.rtf"
 !insertmacro MUI_PAGE_COMPONENTS
 !insertmacro MUI_PAGE_DIRECTORY
@@ -56,11 +55,9 @@ Function connectionString2
 	Push $0
 FunctionEnd */
 
-
 Section "" SecDummy
 
 SetShellVarContext current
-
 
   SetOutPath "$INSTDIR"
   
@@ -109,11 +106,9 @@ SetShellVarContext current
   
      # Start Menu
    	CreateDirectory "$SMPROGRAMS\${COMPANYNAME}"
-   	CreateShortCut "$SMPROGRAMS\${COMPANYNAME}\${APPNAME}.lnk" "$INSTDIR\PINK2ndHand.exe" "" "$INSTDIR\logo4.ico" 
+   	CreateShortCut "$SMPROGRAMS\${COMPANYNAME}\${APPNAME}.lnk" "$INSTDIR\ConsignmentShopMainUI.exe" "" "$INSTDIR\logo4.ico" 
    	CreateShortCut "$SMPROGRAMS\${COMPANYNAME}\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 
 	
-
-
 	;Create uninstaller
   	WriteUninstaller $INSTDIR\uninstall.exe
 	
@@ -197,6 +192,7 @@ Section "Uninstall"
 	Delete "$INSTDIR\System.Data.SQLite.Linq.dll"
 	Delete "$INSTDIR\SharpUpdate.dll"
   	Delete "$INSTDIR\Uninstall.exe"
+	Delete "$INSTDIR\2ndHandWareInstallerPINK.exe"
 	
 	Delete "$INSTDIR\x86\SQLite.Interop.dll"
 	Delete "$INSTDIR\x64\SQLite.Interop.dll"

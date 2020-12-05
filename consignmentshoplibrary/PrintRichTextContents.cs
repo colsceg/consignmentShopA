@@ -34,9 +34,9 @@ namespace ConsignmentShopLibrary
                 // Start printing process
                 printDoc.Print();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                MessageBox.Show($"Fehler beim Ausdruck der Rechnung  { ex}");
             }
         }
 

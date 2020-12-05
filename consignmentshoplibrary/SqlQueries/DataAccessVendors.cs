@@ -99,6 +99,17 @@ namespace ConsignmentShopLibrary
             }
         }
 
+        public List<Vendor> GetAllVendorsNameNotSold()
+        {
+            using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
+            {
+                var output = connection.Query<Vendor>($"SELECT customers.AccountID, LastName, FirstName FROM customers JOIN items " +
+                    $"WHERE customers.AccountID = items.AccountID AND items.payoutDate='' AND items.deleteDate = '' " +
+                    $"GROUP BY customers.AccountID ORDER BY LastName ASC ").ToList();
+                return output;
+            }
+        }
+
         public List<string> GetAllVendorsFullInfo()
         {
             using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))

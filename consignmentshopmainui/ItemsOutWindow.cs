@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -22,9 +22,7 @@ namespace ConsignmentShopMainUI
 
         private DataAccessItems DbItems = new DataAccessItems();
         private DataAccessVendors DbVendors = new DataAccessVendors();
-        private DataAccessAttributes DbAttribs = new DataAccessAttributes();
 
-        private List<Contract> ContractsList = new List<Contract>();
         private List<Item> ItemsList = new List<Item>();
         private List<Vendor> CustomersList = new List<Vendor>();
         private TransactionItem transactionItem = new TransactionItem();
@@ -35,12 +33,10 @@ namespace ConsignmentShopMainUI
         {
             InitializeComponent();
             Setup();
-
         }
 
         private void ItemsOutWindow_Shown(object sender, EventArgs e)
         {
-
             AccountIDComboBox.Text = "";
             VendorNameComboBox.Text = "";
             VendorNameComboBox.Focus();
@@ -53,7 +49,7 @@ namespace ConsignmentShopMainUI
             List<string> vendors = new List<string>();
             List<string> accountIDs = new List<string>();
             _ignoreEvents = true;
-            CustomersList = DbVendors.GetAllVendorsName();
+            CustomersList = DbVendors.GetAllVendorsNameNotSold();
             foreach (var item in CustomersList)
             {
                 vendors.Add(item.FullInfo);
@@ -82,7 +78,7 @@ namespace ConsignmentShopMainUI
 
                     // Get topaysum
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     int myLastIndex = ItemsDataGridView.RowCount - 1;
                     ItemsDataGridView.Rows[myLastIndex].Selected = true;
@@ -138,48 +134,60 @@ namespace ConsignmentShopMainUI
                 //Alle Artikel einlesen, die nicht ausgezahlt sind 
                 //Get all items in a DataTable not payed
                 dt = DbItems.GetItemsWithAccountIDNotPayedToDT(anAccountID);
-                //Allow change all fields in DataTable
-                foreach (System.Data.DataColumn col in dt.Columns) col.ReadOnly = false;
 
-                //Bind all items in a DataTable to a DataView
-                view1 = new DataView(dt);
-                //Bind the DataView to a DataSource
-                source1.DataSource = view1;
-                //Bind a DataSource to a DataGridView  (ds.Tables[0]);
-                ItemsDataGridView.DataSource = source1;
-
-
-                //Column width einstellen abhängig ob Srollbar angezeigt wird oder nicht
-                if (source1.Count > 25)
-                    ItemsDataGridView.Columns[2].Width = 100;
-                else
-                    ItemsDataGridView.Columns[2].Width = 120;
-                //ItemsDataGridView.DataSource = ItemsList;
-
-
-                myItemsGrouped = DbItems.GetAllItemsGroupedSoldNotPayed(anAccountID);
-                if (myItemsGrouped.Count > 0)
+                if (dt.Rows.Count > 0)
                 {
-                    ToPaySumTextBox.Text = String.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", myItemsGrouped[0].SumCost);
-                    PayoutBtn.Visible = true;
+                    //Allow change all fields in DataTable
+                    foreach (DataColumn col in dt.Columns) col.ReadOnly = false;
+
+                    //Bind all items in a DataTable to a DataView
+                    view1 = new DataView(dt);
+                    //Bind the DataView to a DataSource
+                    source1.DataSource = view1;
+                    //Bind a DataSource to a DataGridView  (ds.Tables[0]);
+                    ItemsDataGridView.DataSource = source1;
+
+
+                    //Column width einstellen abhängig ob Srollbar angezeigt wird oder nicht
+                    if (source1.Count > 25)
+                        ItemsDataGridView.Columns[2].Width = 100;
+                    else
+                        ItemsDataGridView.Columns[2].Width = 120;
+                    //ItemsDataGridView.DataSource = ItemsList;
+
+
+                    myItemsGrouped = DbItems.GetAllItemsGroupedSoldNotPayed(anAccountID);
+                    if (myItemsGrouped.Count > 0)
+                    {
+                        ToPaySumTextBox.Text = String.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", myItemsGrouped[0].SumCost);
+                        PayoutBtn.Visible = true;
+                    }
+                    else
+                    {
+                        ToPaySumTextBox.Text = String.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", 0.0);
+                    }
+
+                    int myItemNotSoldCount = ItemsDataGridView.Rows
+                        .Cast<DataGridViewRow>()
+                        .Select(row => row.Cells[6].Value)
+                        .Where(value => value == DBNull.Value)
+                        .Count();
+
+                    ItemsNotSoldTextBox.Text = myItemNotSoldCount.ToString();
+                    //the first item in grid is selected seems to be impossible to unselect all
+
+                    ItemsDataGridView.ClearSelection(); //clear select first row
+                    SalesPriceTextBox.Text = "";
+                    SalesPriceTextBox.ReadOnly = true;
                 }
                 else
                 {
-                    ToPaySumTextBox.Text = String.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:C2}", 0.0);
-                }
+                    //var w = new Form() { Size = new Size(0, 0) };
+                    //Task.Delay(TimeSpan.FromSeconds(10))
+                    //    .ContinueWith((t) => w.Close(), TaskScheduler.FromCurrentSynchronizationContext());
 
-                int myItemNotSoldCount = ItemsDataGridView.Rows
-                    .Cast<DataGridViewRow>()
-                    .Select(row => row.Cells[6].Value)
-                    .Where(value => value == DBNull.Value)
-                    .Count();
-
-                ItemsNotSoldTextBox.Text = myItemNotSoldCount.ToString();
-                //the first item in grid is selected seems to be impossible to unselect all
-               
-                ItemsDataGridView.ClearSelection(); //clear select first row
-                SalesPriceTextBox.Text = "";
-                SalesPriceTextBox.ReadOnly = true;
+                    MessageBox.Show("Keine Artikel für diesen Kunden", "Information");
+                }//MessageBox.Show($"Keine Artikel für diesen Kunden");
             }
         }
 
@@ -301,6 +309,7 @@ namespace ConsignmentShopMainUI
                 _ignoreEvents = false;
         }
 
+
         private void SalesPriceTextBox_Leave(object sender, EventArgs e)
         {
             if (ItemsDataGridView.SelectedRows.Count > 0)
@@ -336,6 +345,11 @@ namespace ConsignmentShopMainUI
             }
         }
 
+        /// <summary>
+        /// An item in DatagridView is selected
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ItemsDataGridView_SelectionChanged(object sender, EventArgs e)
         {
             if (!_ignoreEvents)
@@ -370,7 +384,12 @@ namespace ConsignmentShopMainUI
                 _ignoreEvents = false;
         }
 
-        //Menuitems Reaktion
+
+        /// <summary>
+        /// Sets datagridview context menu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ItemDataContextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
             //there is at least one article in Gridview selected
@@ -447,6 +466,7 @@ namespace ConsignmentShopMainUI
             }
         }
 
+        // Menuitems Reaktion
         /// <summary>
         /// meniitem verkauft is clicked sets solddate to today
         /// </summary>
@@ -476,6 +496,12 @@ namespace ConsignmentShopMainUI
             ItemsNotSoldTextBox.Text = myItemsCountNotSold.ToString();
         }
 
+        /// <summary>
+        /// Mark the selected articel as not sold when menuItem not sold is clicked
+        /// sets the field soldDate in items to ""
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void NotSoldToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Nur reagieren wenn Artikel als verkauft markiert
@@ -516,7 +542,7 @@ namespace ConsignmentShopMainUI
         }
         
         /// <summary>
-        /// there is an article to delete
+        /// there are one or more articles to delete
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -569,8 +595,7 @@ namespace ConsignmentShopMainUI
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Fehlercode: {ex}");
-                throw;
+                Store.ShowErrors(ex);
             }
 
         }
