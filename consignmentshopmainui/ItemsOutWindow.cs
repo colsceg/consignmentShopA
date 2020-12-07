@@ -182,11 +182,21 @@ namespace ConsignmentShopMainUI
                 }
                 else
                 {
-                    //var w = new Form() { Size = new Size(0, 0) };
-                    //Task.Delay(TimeSpan.FromSeconds(10))
-                    //    .ContinueWith((t) => w.Close(), TaskScheduler.FromCurrentSynchronizationContext());
+                    // Create the ToolTip and associate with the Form container.
+                    ToolTip toolTip1 = new ToolTip();
 
-                    MessageBox.Show("Keine Artikel für diesen Kunden", "Information");
+                    // Set up the delays for the ToolTip.
+                    toolTip1.AutoPopDelay = 5000;
+                    toolTip1.InitialDelay = 1000;
+                    toolTip1.ReshowDelay = 500;
+                    // Force the ToolTip text to be displayed whether or not the form is active.
+                    toolTip1.ShowAlways = true;
+
+                    // Set up the ToolTip text for the Button and Checkbox.
+                    toolTip1.SetToolTip(this.AccountIDComboBox, "Keine Artikel für diesen Kunden");
+                    toolTip1.SetToolTip(this.VendorNameComboBox, "Keine Artikel für diesen Kunden");
+
+
                 }//MessageBox.Show($"Keine Artikel für diesen Kunden");
             }
         }

@@ -12,6 +12,8 @@ using System.ComponentModel;
 using SharpUpdate;
 using System.Reflection;
 using System.Drawing;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace ConsignmentShopMainUI
 {

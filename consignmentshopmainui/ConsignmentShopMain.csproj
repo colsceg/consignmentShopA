@@ -337,6 +337,12 @@
     <Compile Include="ContractUI.designer.cs">
       <DependentUpon>ContractUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="PopUpWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PopUpWindow.Designer.cs">
+      <DependentUpon>PopUpWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="ReportUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -449,6 +455,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ContractUI.resx">
       <DependentUpon>ContractUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PopUpWindow.resx">
+      <DependentUpon>PopUpWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ReportUI.resx">
       <DependentUpon>ReportUI.cs</DependentUpon>
