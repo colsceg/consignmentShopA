@@ -906,7 +906,6 @@ namespace ConsignmentShopMainUI
                             TextBoxProperties.Enabled = true;
                             ComboBoxSize.Enabled = true;
 
-
                             SalesPriceTextBox.Enabled = true;
                             SalesPriceTextBox.ReadOnly = false;
                             myContractChanged = true;
@@ -921,7 +920,9 @@ namespace ConsignmentShopMainUI
                         }
                     }
                     myContract = newContract;
+
                 }
+                ComboBoxItemDescription.Focus();
             }
             else
             {
@@ -1143,13 +1144,12 @@ namespace ConsignmentShopMainUI
             }
             myContractChanged = false;
             ClearBtn.Enabled = false;
-            FullNameTextBox.Visible = false;
             ComboBoxVendorName.Enabled = true;
             ComboBoxVendorName.Visible = true;
             ComboBoxVendorName.SelectedIndex = -1;
+            FullNameTextBox.Visible = false;
             ComboBoxVendorName.Focus();
-
-            //CustomerNameLeft = false;
+            // this.Select(true, true);
         }
 
         private void ContractSaveBtn_Click(object sender, EventArgs e)
@@ -1707,7 +1707,7 @@ namespace ConsignmentShopMainUI
             {
                 _ignoreEvents = false;
             }
-           
+            ComboBoxItemDescription.Focus();
         }
 
         private void ComboBoxVendorName_SelectedIndexChanged(object sender, EventArgs e)
@@ -1732,6 +1732,7 @@ namespace ConsignmentShopMainUI
                         CreateNewContract();
                     }
                 }
+                ComboBoxItemDescription.Focus();
             }
             else
                 _ignoreEvents = false;
@@ -1899,7 +1900,7 @@ namespace ConsignmentShopMainUI
                 {
                     var ret = true; // DbAttribs.InsertItemdscription(temp);
                     if (!ret)
-                        MessageBox.Show("Speichern der Marke fehlgeschlagen ",
+                        MessageBox.Show("Speichern der Beschreibung fehlgeschlagen ",
                            "Warnung", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     else
                     {
@@ -1930,10 +1931,20 @@ namespace ConsignmentShopMainUI
         {
             if (_ignoreEvents || updateRecord && !myItemdescriptionTextChanged) { return; }
             myItemdescriptionTextChanged = false;
-            // Ungültige Zeichen entfernen
-            ComboBoxItemDescription.Text = ComboBoxItemDescription.Text.Replace(';', ',');
-            //Prüfen ob Itemname bereits vorhanden ohne Abfrage speichern
-            ItemdescriptionChanged();
+            if (!String.IsNullOrEmpty(ComboBoxItemDescription.Text))
+            {
+                // Ungültige Zeichen entfernen
+                _ignoreEvents = true;
+                ComboBoxItemDescription.Text = ComboBoxItemDescription.Text.Replace(';', ',');
+                //Prüfen ob Itemname bereits vorhanden ohne Abfrage speichern
+                ItemdescriptionChanged();
+                _ignoreEvents = false;
+            }
+            else
+            {
+                ComboBoxItemDescription.Text = "Beschreibung eintragen";
+                ComboBoxItemDescription.Focus();
+            }
         }
 
         private void ComboBoxItemDescription_EnabledChanged(object sender, EventArgs e)
@@ -2120,10 +2131,7 @@ namespace ConsignmentShopMainUI
 
         #endregion
 
-        //Neuen Vertrag erstellen
-
         //Open other windows
-
         #region Open the windows
         private void OpenOwnerEdit_Window()
         {
@@ -2458,8 +2466,7 @@ namespace ConsignmentShopMainUI
             mySizeTextChanged = true;
         }
 
-
-
         #endregion
+
     }
 }
