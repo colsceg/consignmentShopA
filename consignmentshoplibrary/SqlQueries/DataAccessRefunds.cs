@@ -19,7 +19,31 @@ namespace ConsignmentShopLibrary.SqlQueries
             SQLiteConnection.CreateFile(DatabaseName);
         }
 
+        /// <summary>
+        /// test if there is arecord with specified accountID and place and Output is empty
+        /// </summary>
+        /// <param name="anAccountID"></param>
+        /// <returns></returns>
+        public bool FindRefund(string anAccountID, string place)
+        {
+            bool found = false;
+            using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
+            {
+                try
+                {
+                    string connectionString = $"SELECT * FROM Rueckgaben  WHERE Rueckgaben.AccountID = '{anAccountID}' " +
+                        $"AND Rueckgaben.Place = '{place}' AND Rueckgaben.output= '' ";
+                    var output = connection.Query<Refund>(connectionString).ToList();
+                    found = (output.Count > 0);
+                }
+                catch
+                {
 
+                }
+            }
+            return found;
+        }
+        
         /// <summary>
         /// Get data for a specified accountID
         /// </summary>

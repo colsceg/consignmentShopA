@@ -15,15 +15,14 @@ namespace ConsignmentShopMainUI
     {
         private bool _ignoreEvents = true;
 
-        private Refund refund = new Refund();
-        private Store Store = new Store();
+        private List<Refund> refunds = new List<Refund>();
 
-        private BindingSource source1 = new BindingSource();
+        private bool comboBoxTextHasChanged = false;
+
         private DataTable dt = new DataTable();
 
         private DataAccessVendors DbVendors = new DataAccessVendors();
         private DataAccessRefunds DBRefunds = new DataAccessRefunds();
-        private DataAccessItems DbItems = new DataAccessItems();
 
         private List<Refund> ContractsList = new List<Refund>();
         private List<Vendor> CustomersList = new List<Vendor>();
@@ -70,14 +69,14 @@ namespace ConsignmentShopMainUI
             //List with accountIDs sort
             accountIDs.Sort();
             // Combobox with accountIds fill
-            AccountIDCB.DataSource = accountIDs;
+            //AccountIDCB.DataSource = accountIDs;
 
             _ignoreEvents = true;
             //Combobox fill with vendor fullinfo
             VendorNameCB.DataSource = vendors;
             _ignoreEvents = true;
 
-            AccountIDCB.SelectedIndex = -1;
+            //AccountIDCB.SelectedIndex = -1;
             _ignoreEvents = true;
             VendorNameCB.Text = " ";
             _ignoreEvents = true;
@@ -85,9 +84,13 @@ namespace ConsignmentShopMainUI
             _ignoreEvents = false;
         }
 
-
         #region Buttons clicks
 
+        /// <summary>
+        /// Close refund window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CancelBtn_Click(object sender, EventArgs e)
         {
             try
@@ -110,14 +113,25 @@ namespace ConsignmentShopMainUI
         /// <param name="e"></param>
         private void OKBtn_Click(object sender, EventArgs e)
         {
-            //Object der Rueckgabe in DB speichern 
+            // Object der Rueckgabe in DB speichern 
+            // decide if new record or update an existing reccord
 
-            //decide if new record or update an existing reccord
+            foreach (var item in refunds)
+            {
+                if (String.IsNullOrEmpty(item.Output))
+                {
+                    // Prüfen ob item bereits in Tabelle Rückgaben vorhanden
+                    if (!DBRefunds.FindRefund(item.AccountID, item.Place)) // Record nicht vorhanden
+                    {
+                        DBRefunds.InsertRefund(item); //Tabelle Rueckgaben AccountID, Name, Ort, Eingabe, Ausgabe
+                    }
+                }
+                else
+                {
+                    DBRefunds.UpdateRefund(item);
+                }
+            }
 
-            if (isNewRecord)
-                DBRefunds.InsertRefund(refund); //Tabelle Rueckgaben AccountID, Name, Ort, Eingabe, Ausgabe
-            else
-                DBRefunds.UpdateRefund(refund);
             OKBtn.Visible = false;
             ClearAllFields();
             AblageOrtCB.Enabled = false;
@@ -134,13 +148,14 @@ namespace ConsignmentShopMainUI
         private void VendorNameCB_Leave(object sender, EventArgs e)
         {
             //ClearDS();
-            if (!_ignoreEvents)
+            ComboBoxEnter comboBoxEnter =  (ComboBoxEnter)sender;
+            if (!_ignoreEvents && comboBoxTextHasChanged)
             {
-                if (RefundDataGridView.Rows.Count > 0 && !isEditMode)
-                    for (int i = 0; i < RefundDataGridView.Rows.Count; i++)
-                    {
-                        RefundDataGridView.Rows.RemoveAt(0);
-                    }
+                //if (RefundDataGridView.Rows.Count > 0 && !isEditMode)
+                //    for (int i = 0; i < RefundDataGridView.Rows.Count; i++)
+                //    {
+                //        RefundDataGridView.Rows.RemoveAt(0);
+                //    }
 
                 // Test if vendor fillinfo OK
                 if (!String.IsNullOrEmpty(VendorNameCB.Text))
@@ -155,18 +170,20 @@ namespace ConsignmentShopMainUI
                         if ((substrings.Count() == 3))
                         {
                             String myAccountID = substrings[2].Trim();
-                            int index = AccountIDCB.FindString(myAccountID);
-                            _ignoreEvents = true;
-                            AccountIDCB.SelectedIndex = index;
+                            //int index = AccountIDCB.FindString(myAccountID);
+                            //_ignoreEvents = true;
+                            //AccountIDCB.SelectedIndex = index;
                             FillAllFields(myAccountID);
                             _ignoreEvents = false;
                         }
                         else
-                            AccountIDCB.SelectedIndex = -1;
+                        {
+                            // AccountIDCB.SelectedIndex = -1;
+                        }
                     }
                     else
                     {
-                        AccountIDCB.SelectedIndex = -1;
+                        //AccountIDCB.SelectedIndex = -1;
                     }
                 }
             }
@@ -180,54 +197,54 @@ namespace ConsignmentShopMainUI
 
         }
 
-        private void AccountIDCB_Leave(object sender, EventArgs e)
-        {
-            //ClearDS();
-            if (!_ignoreEvents)
-            {
-                if (RefundDataGridView.Rows.Count > 0 && !isEditMode)
-                    for (int i = 0; i < RefundDataGridView.Rows.Count; i++)
-                    {
-                        RefundDataGridView.Rows.RemoveAt(0);
-                    }
-                String value = AccountIDCB.Text.ToString();
-                if (value.Length == 4 && !String.IsNullOrEmpty(value))
-                {
-                    //VendorNameComboBox mit aktuellem Namen selektieren
-                    List<Vendor> myAktVendorList = DbVendors.GetVendorWithAccountID(value);
-                    if (myAktVendorList.Count > 0)
-                    {
-                        string myAktVendor = myAktVendorList[0].FullInfo;
-                        int index = VendorNameCB.FindString(myAktVendor);
-                        _ignoreEvents = true;
-                        VendorNameCB.SelectedIndex = index;
+        //private void AccountIDCB_Leave(object sender, EventArgs e)
+        //{
+        //    //ClearDS();
+        //    if (!_ignoreEvents)
+        //    {
+        //        if (RefundDataGridView.Rows.Count > 0 && !isEditMode)
+        //            for (int i = 0; i < RefundDataGridView.Rows.Count; i++)
+        //            {
+        //                RefundDataGridView.Rows.RemoveAt(0);
+        //            }
+        //        String value = AccountIDCB.Text.ToString();
+        //        if (value.Length == 4 && !String.IsNullOrEmpty(value))
+        //        {
+        //            //VendorNameComboBox mit aktuellem Namen selektieren
+        //            List<Vendor> myAktVendorList = DbVendors.GetVendorWithAccountID(value);
+        //            if (myAktVendorList.Count > 0)
+        //            {
+        //                string myAktVendor = myAktVendorList[0].FullInfo;
+        //                int index = VendorNameCB.FindString(myAktVendor);
+        //                _ignoreEvents = true;
+        //                VendorNameCB.SelectedIndex = index;
 
-                        //Formularfelder füllen
-                        FillAllFields(value);
-                        _ignoreEvents = false;
+        //                //Formularfelder füllen
+        //                FillAllFields(value);
+        //                _ignoreEvents = false;
 
-                    }
-                    else
-                    {
-                        AccountIDCB.Text = "";
-                        MessageBox.Show("Kundennummer nicht vorhanden");
-                    }
-                }
-                else
-                {
-                    ClearAllFields();
-                }
-            }
-            else
-                _ignoreEvents = false;
-        }
+        //            }
+        //            else
+        //            {
+        //                AccountIDCB.Text = "";
+        //                MessageBox.Show("Kundennummer nicht vorhanden");
+        //            }
+        //        }
+        //        else
+        //        {
+        //            ClearAllFields();
+        //        }
+        //    }
+        //    else
+        //        _ignoreEvents = false;
+        //}
 
-        private void AccountIDCB_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        //private void AccountIDCB_SelectedIndexChanged(object sender, EventArgs e)
+        //{
 
-            AccountIDCB_Leave(sender, e);
+        //    AccountIDCB_Leave(sender, e);
 
-        }
+        //}
 
         private void AblageOrtCB_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -244,7 +261,7 @@ namespace ConsignmentShopMainUI
                 char delimiter = ';';
                 String name = VendorNameCB.Text;
                 String[] substrings = name.Split(delimiter);
-
+                Refund refund = new Refund();
                 if ((substrings.Count() == 3))
                 {
                     refund.AccountID = substrings[2].Trim();
@@ -254,6 +271,7 @@ namespace ConsignmentShopMainUI
                 refund.Place = AblageOrtCB.Text;
                 refund.Input = myAktDate; //aktuelles Datum
                 refund.Output = "";
+                refunds.Add(refund);
                 OKBtn.Visible = true;
 
                 //in Tabelle RefundsDataGridView eintragen
@@ -265,15 +283,15 @@ namespace ConsignmentShopMainUI
                         refund.Input, //aktuelles Datum
                         refund.Output);
                 }
-                else
-                {
-                    RefundDataGridView.Rows.RemoveAt(0);
-                    RefundDataGridView.Rows.Add(
-                        refund.LastName,
-                        refund.Place,
-                        refund.Input, //aktuelles Datum
-                        refund.Output);
-                }
+                //else
+                //{
+                //    RefundDataGridView.Rows.RemoveAt(0);
+                //    RefundDataGridView.Rows.Add(
+                //        refund.LastName,
+                //        refund.Place,
+                //        refund.Input, //aktuelles Datum
+                //        refund.Output);
+                //}
 
                 //AblageOrtCB.Enabled = false;
 
@@ -284,27 +302,25 @@ namespace ConsignmentShopMainUI
         #endregion
 
 
-
-
         #region Methods
 
         /// <summary>
         /// Clear refund data when no Input and output empty
         /// </summary>
-        private void ClearDS()
-        {
+        //private void ClearDS()
+        //{
 
-            if (!String.IsNullOrEmpty(refund.Input) && !String.IsNullOrEmpty(refund.Output))
-            {
+        //    if (!String.IsNullOrEmpty(refund.Input) && !String.IsNullOrEmpty(refund.Output))
+        //    {
 
-                refund.AccountID = "";
-                refund.LastName = "";
-                refund.Place = "";
-                refund.Input = ""; //aktuelles Datum
-                refund.Output = "";
-                AblageOrtCB.Enabled = true;
-            }
-        }
+        //        refund.AccountID = "";
+        //        refund.LastName = "";
+        //        refund.Place = "";
+        //        refund.Input = ""; //aktuelles Datum
+        //        refund.Output = "";
+        //        AblageOrtCB.Enabled = true;
+        //    }
+        //}
 
         private void FillAllFields(string anAccountID)
         {
@@ -323,8 +339,9 @@ namespace ConsignmentShopMainUI
                 //Allow change all fields in DataTable
                 if (dt.Rows.Count > 0)
                 {
+                    Refund refund = new Refund();
                     //der vendor hat eine Rückgabe ohne ausgabe datum
-                    //in datagrid eintrgaen
+                    //in datagrid eintragen
                     // ablageort disablen
                     // newRecord is false
                     isNewRecord = false;
@@ -336,7 +353,6 @@ namespace ConsignmentShopMainUI
                         for (int i = 0; i < dt.Rows.Count; i++)
                         {
                             object[] array = dt.Rows[0].ItemArray;
-
                             //in Tabelle RefundsDataGridView eintragen
                             if (!isEditMode)
                             {
@@ -356,7 +372,7 @@ namespace ConsignmentShopMainUI
                                 refund.Place = (string)array[2];
                                 isEditMode = false;
                             }
-
+                            refunds.Add(refund);
                         }
                     }
                     else
@@ -368,21 +384,19 @@ namespace ConsignmentShopMainUI
                 }
                 else
                 {
-
                     //there is no refund record found
                     isNewRecord = true;
                     AblageOrtCB.Enabled = true;
-
                 }
 
             }
             else
             {
-                //there is no vendor found
-                RefundDataGridView.Rows.Clear();
+                // there is no vendor found
+                // RefundDataGridView.Rows.Clear();
             }
             _ignoreEvents = false;
-
+            comboBoxTextHasChanged = false;
         }
 
         /// <summary>
@@ -413,14 +427,13 @@ namespace ConsignmentShopMainUI
         {
             if (RefundDataGridView.SelectedRows.Count == 1)
             {
-                if (String.IsNullOrEmpty(RefundDataGridView.SelectedRows[0].Cells[3].Value.ToString()) && OKBtn.Visible == false)
+                if (String.IsNullOrEmpty(RefundDataGridView.SelectedRows[0].Cells[3].Value.ToString()) )
                 {
-                    //there is one Article selected and not sold, sold and edit is possible
+                    //there is one Article selected and not zurückgegeben and edit is possible
                     //menuitem verkauft
                     RefundContextMenuStrip.Items[0].Visible = true;
                     //MenuItem delete
                     RefundContextMenuStrip.Items[1].Visible = true;
-
                 }
                 else
                 {
@@ -455,14 +468,12 @@ namespace ConsignmentShopMainUI
                 //Heutiges Datum in DataGridview  eintragen
                 RefundDataGridView.SelectedRows[0].Cells[3].Value = myDate;
 
-                refund.Output = myDate;
-
                 // DBRefunds.UpdateRefund(refund);
                 int index = RefundDataGridView.SelectedRows[0].Index;
+                refunds[index].Output = myDate;
 
                 OKBtn.Visible = true;
             }
-
         }
 
         /// <summary>
@@ -479,14 +490,18 @@ namespace ConsignmentShopMainUI
 
             AblageOrtCB.Enabled = true;
             VendorNameCB.Enabled = false;
-            AccountIDCB.Enabled = false;
+            //AccountIDCB.Enabled = false;
             OKBtn.Visible = true;
 
         }
 
 
+
         #endregion
 
-
+        private void VendorNameCB_TextChanged(object sender, EventArgs e)
+        {
+            comboBoxTextHasChanged = true;
+        }
     }
 }

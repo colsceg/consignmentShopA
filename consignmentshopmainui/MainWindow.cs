@@ -523,7 +523,7 @@ namespace ConsignmentShopMainUI
 
         #region Methods after application loaded
         /// <summary>
-        /// Called as a Teil des Mainwindow Constructors 
+        /// Called as a Part of the Mainwindow Constructors 
         /// </summary>
         private void Setup()
         {
@@ -531,24 +531,32 @@ namespace ConsignmentShopMainUI
             string myBackupFileName;
             //string connectionStringName = "SecondHandCollection";
 
-
-            AppDataDirectory = Helper.AppDataDirectory;
-            if (!Directory.Exists(AppDataDirectory))
+            try
             {
-                Directory.CreateDirectory(AppDataDirectory);
+                AppDataDirectory = Helper.AppDataDirectory;
+                if (!Directory.Exists(AppDataDirectory))
+                {
+                    Directory.CreateDirectory(AppDataDirectory);
+                }
+
+                WorkingDirectory = Helper.WorkingDirectory;
+                if (!Directory.Exists(WorkingDirectory))
+                {
+                    Directory.CreateDirectory(WorkingDirectory);
+                }
+
+                BackupDirectory = Helper.BackupDirectory;
+                if (!Directory.Exists(BackupDirectory))
+                {
+                    Directory.CreateDirectory(BackupDirectory);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("There is a problem creating a Directory report to inf@SecondHandWare.de " + e.Message.ToString());
             }
 
-            WorkingDirectory = Helper.WorkingDirectory;
-            if (!Directory.Exists(WorkingDirectory))
-            {
-                Directory.CreateDirectory(WorkingDirectory);
-            }
 
-            BackupDirectory = Helper.BackupDirectory;
-            if (!Directory.Exists(BackupDirectory))
-            {
-                Directory.CreateDirectory(BackupDirectory);
-            }
 
             //string ConnectionString = "Data Source=" + WorkingDirectory + Helper.MyDBFilename + "; version=3;";
             //Helper.AddUpdateConnectionStringSettings(connectionStringName, ConnectionString);
@@ -620,37 +628,44 @@ namespace ConsignmentShopMainUI
             myAktDate = myAktDate.Replace('.', '_');
             myBackupFileName = "\\SecondHandCollection_" + myAktDate + ".db";
 
-            if (!File.Exists(Helper.WorkingDirectory + Helper.MyDBFilename))
+            try
             {
-                Directory.CreateDirectory(Helper.WorkingDirectory);
-                Directory.CreateDirectory(BackupDirectory);
-                DbItems.CreateDataBase(Helper.WorkingDirectory + Helper.MyDBFilename);
-                File.Copy((Helper.WorkingDirectory + Helper.MyDBFilename), (BackupDirectory + myBackupFileName), true);
-
-            }
-            else
-            {
-                int myBackupFilesCount = Store.GetFilesCount(BackupDirectory, "*.db");
-                if (myBackupFilesCount > 0)
+                if (!File.Exists(Helper.WorkingDirectory + Helper.MyDBFilename))
                 {
-                    string myNewestBackupFileName = Store.GetNewestFileName(BackupDirectory, "*.db");
-                    if (myNewestBackupFileName != myBackupFileName)
-                    {
-                        if (!File.Exists(BackupDirectory + myBackupFileName))
-                        {
-                            File.Copy(Helper.WorkingDirectory + Helper.MyDBFilename, BackupDirectory + myBackupFileName);
-                        }
+                    Directory.CreateDirectory(Helper.WorkingDirectory);
+                    Directory.CreateDirectory(BackupDirectory);
+                    DbItems.CreateDataBase(Helper.WorkingDirectory + Helper.MyDBFilename);
+                    File.Copy((Helper.WorkingDirectory + Helper.MyDBFilename), (BackupDirectory + myBackupFileName), true);
 
-                        if (myBackupFilesCount > 7)
+                }
+                else
+                {
+                    int myBackupFilesCount = Store.GetFilesCount(BackupDirectory, "*.db");
+                    if (myBackupFilesCount > 0)
+                    {
+                        string myNewestBackupFileName = Store.GetNewestFileName(BackupDirectory, "*.db");
+                        if (myNewestBackupFileName != myBackupFileName)
                         {
-                            string myOldestBackupFileName = Store.GetOldestFileName(BackupDirectory, "*.db");
-                            if (File.Exists(BackupDirectory + myBackupFileName))
+                            if (!File.Exists(BackupDirectory + myBackupFileName))
                             {
-                                File.Delete(BackupDirectory + "\\" + myOldestBackupFileName);
+                                File.Copy(Helper.WorkingDirectory + Helper.MyDBFilename, BackupDirectory + myBackupFileName);
+                            }
+
+                            if (myBackupFilesCount > 7)
+                            {
+                                string myOldestBackupFileName = Store.GetOldestFileName(BackupDirectory, "*.db");
+                                if (File.Exists(BackupDirectory + myBackupFileName))
+                                {
+                                    File.Delete(BackupDirectory + "\\" + myOldestBackupFileName);
+                                }
                             }
                         }
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("There is Problem with the Backup Directory mail it to info@SecondHandWare.de" + e.Message.ToString());
             }
 
             //List<Contract> myContractsList = DbItems.GetAllTotalNumberOfContracts();
@@ -1235,6 +1250,11 @@ namespace ConsignmentShopMainUI
         //MainMenu aufrufen
         #region MainMenu Buttons
 
+        /// <summary>
+        /// External Backup asks for a Backup device
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BackupToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Create a SaveFileDialog to request a path and file name to save to.
@@ -1255,15 +1275,22 @@ namespace ConsignmentShopMainUI
             if (saveFileDialog1.ShowDialog() == DialogResult.OK &&
                saveFileDialog1.FileName.Length > 0)
             {
-                //Save das Database File
-                File.Copy(WorkingDirectory + "\\SecondHandCollection.db", saveFileDialog1.FileName, true);
-                MessageBox.Show($"Backup gespeichert in {saveFileDialog1.FileName} ");
+                try
+                {
+                    //Save das Database File
+                    File.Copy(WorkingDirectory + "\\SecondHandCollection.db", saveFileDialog1.FileName, true);
+                    MessageBox.Show($"Backup gespeichert in {saveFileDialog1.FileName} ");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Fehler beim Kopieren des Backups{ex.Message.ToString()} ");
+                }
             }
             this.Cursor = Cursors.Default;
         }
 
         /// <summary>
-        /// Backup Drive for automatic Backup define
+        /// Define Backup Drive for automatic Backup 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1276,10 +1303,17 @@ namespace ConsignmentShopMainUI
             List<ConfigData> myConfigData = DbItems.GetConfigData();
             string myBackupDrive = GetBackupDrive();
             string myBackupDirectory = "";
-            myBackupDirectory = myBackupDrive + "PinkSecondHand\\Backup\\";
-            myConfigData[0].BackupDirectory = myBackupDirectory;
-            Directory.CreateDirectory(myBackupDirectory);
-            DbItems.UpdateConfigDat(myConfigData[0]);
+            try
+            {
+                myBackupDirectory = myBackupDrive + "\\PinkSecondHand\\Backup\\";
+                myConfigData[0].BackupDirectory = myBackupDirectory;
+                Directory.CreateDirectory(myBackupDirectory);
+                DbItems.UpdateConfigDat(myConfigData[0]);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Problem creating a Backup directory {ex.Message} ");
+            }
             //Backup Laufwerk festlegen
             MessageBox.Show($"BackupLaufwerk {myBackupDrive} festgelegt");
             ComboBoxVendorName.Focus();
@@ -1300,18 +1334,36 @@ namespace ConsignmentShopMainUI
                 File.Copy(WorkingDirectory + "\\" + FileName, myBackupDirectory + FileName, true);
                 MessageBox.Show($"Backup gespeichert in {myBackupDirectory}  {FileName} ");
             }
-            catch
+            catch (Exception ex)
             {
                 //Backup Laufwerk nicht gefunden
                 MessageBox.Show("Noch kein Backup Laufwerk festgelegt oder Laufwerk nicht vorhanden \n BackupLaufwerk festlegen");
                 //Backup Laufwerk festlegen
                 string myBackupDrive = GetBackupDrive();
-                myBackupDirectory = myBackupDrive + "PinkSecondHand\\Backup\\";
-                myConfigData[0].BackupDirectory = myBackupDirectory;
-                Directory.CreateDirectory(myBackupDirectory);
-                File.Copy(WorkingDirectory + FileName, myBackupDirectory + FileName, true);
+                myBackupDirectory = myBackupDrive + "\\PinkSecondHand\\Backup\\";
+                try
+                {
+                    myConfigData[0].BackupDirectory = myBackupDirectory;
+                    Directory.CreateDirectory(myBackupDirectory);
+                    File.Copy(WorkingDirectory + "\\" + FileName, myBackupDirectory + FileName, true);
+                }
+                catch (Exception ex2)
+                {
+                    MessageBox.Show($"Problem copying to a Backup directory {ex2.Message} report to info@SecondHandWare.de ");
+                    this.Cursor = Cursors.Default;
+                    ComboBoxVendorName.Focus();
+                    return;
+                }
+            
                 MessageBox.Show($"Backup gespeichert in {myBackupDirectory}{FileName} ");
-                DbItems.UpdateConfigDat(myConfigData[0]);
+                try
+                {
+                    DbItems.UpdateConfigDat(myConfigData[0]);
+                }
+                catch (Exception ex3)
+                {
+                    MessageBox.Show($"Problem updating config file {ex3.Message} ");
+                }
             }
             this.Cursor = Cursors.Default;
             ComboBoxVendorName.Focus();

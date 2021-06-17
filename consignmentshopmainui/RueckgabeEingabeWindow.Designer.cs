@@ -38,7 +38,6 @@
             this.OKBtn = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.AccountIDCB = new ConsignmentShopLibrary.ComboBoxEnter();
             this.label1 = new System.Windows.Forms.Label();
             this.RefundContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.rückgabeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,6 +47,7 @@
             this.Place = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Input = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Output = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AccountIDCB = new ConsignmentShopLibrary.ComboBoxEnter();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.RefundContextMenuStrip.SuspendLayout();
@@ -65,6 +65,7 @@
             this.VendorNameCB.Size = new System.Drawing.Size(180, 21);
             this.VendorNameCB.TabIndex = 0;
             this.VendorNameCB.SelectedIndexChanged += new System.EventHandler(this.VendorNameCB_SelectedIndexChanged);
+            this.VendorNameCB.TextChanged += new System.EventHandler(this.VendorNameCB_TextChanged);
             this.VendorNameCB.Leave += new System.EventHandler(this.VendorNameCB_Leave);
             // 
             // AblageOrtCB
@@ -185,18 +186,6 @@
             this.pictureBox2.TabIndex = 7;
             this.pictureBox2.TabStop = false;
             // 
-            // AccountIDCB
-            // 
-            this.AccountIDCB.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.AccountIDCB.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.AccountIDCB.FormattingEnabled = true;
-            this.AccountIDCB.Location = new System.Drawing.Point(212, 42);
-            this.AccountIDCB.Name = "AccountIDCB";
-            this.AccountIDCB.Size = new System.Drawing.Size(74, 21);
-            this.AccountIDCB.TabIndex = 1;
-            this.AccountIDCB.SelectedIndexChanged += new System.EventHandler(this.AccountIDCB_SelectedIndexChanged);
-            this.AccountIDCB.Leave += new System.EventHandler(this.AccountIDCB_Leave);
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -212,20 +201,20 @@
             this.rückgabeToolStripMenuItem,
             this.editToolStripMenuItem});
             this.RefundContextMenuStrip.Name = "RefundContextMenuStrip";
-            this.RefundContextMenuStrip.Size = new System.Drawing.Size(181, 70);
+            this.RefundContextMenuStrip.Size = new System.Drawing.Size(127, 48);
             this.RefundContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.RefundContextMenuStrip_Opening);
             // 
             // rückgabeToolStripMenuItem
             // 
             this.rückgabeToolStripMenuItem.Name = "rückgabeToolStripMenuItem";
-            this.rückgabeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.rückgabeToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.rückgabeToolStripMenuItem.Text = "Rückgabe";
             this.rückgabeToolStripMenuItem.Click += new System.EventHandler(this.RückgabeToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.editToolStripMenuItem.Text = "Editieren";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
@@ -286,15 +275,25 @@
             this.Output.ReadOnly = true;
             this.Output.Width = 120;
             // 
+            // AccountIDCB
+            // 
+            this.AccountIDCB.Enabled = false;
+            this.AccountIDCB.FormattingEnabled = true;
+            this.AccountIDCB.Location = new System.Drawing.Point(212, 42);
+            this.AccountIDCB.Name = "AccountIDCB";
+            this.AccountIDCB.Size = new System.Drawing.Size(81, 21);
+            this.AccountIDCB.TabIndex = 10;
+            this.AccountIDCB.Visible = false;
+            // 
             // RueckgabeEingabeWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.ClientSize = new System.Drawing.Size(495, 276);
+            this.Controls.Add(this.AccountIDCB);
             this.Controls.Add(this.RefundDataGridView);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.AccountIDCB);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.OKBtn);
@@ -326,7 +325,6 @@
         private System.Windows.Forms.Button OKBtn;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private ConsignmentShopLibrary.ComboBoxEnter AccountIDCB;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ContextMenuStrip RefundContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem rückgabeToolStripMenuItem;
@@ -336,5 +334,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Place;
         private System.Windows.Forms.DataGridViewTextBoxColumn Input;
         private System.Windows.Forms.DataGridViewTextBoxColumn Output;
+        private ConsignmentShopLibrary.ComboBoxEnter AccountIDCB;
     }
 }

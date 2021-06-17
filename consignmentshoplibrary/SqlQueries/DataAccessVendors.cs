@@ -110,6 +110,17 @@ namespace ConsignmentShopLibrary
             }
         }
 
+        //public List<Vendor> GetAllVendorsNameWithRefund()
+        //{
+        //    using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
+        //    {
+        //        var output = connection.Query<Vendor>($"SELECT AccountID, LastName FROM Rueckgaben JOIN items " +
+        //            $"WHERE customers.AccountID = items.AccountID AND items.payoutDate='' AND items.deleteDate = '' " +
+        //            $"GROUP BY customers.AccountID ORDER BY LastName ASC ").ToList();
+        //        return output;
+        //    }
+        //}
+
         public List<string> GetAllVendorsFullInfo()
         {
             using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
