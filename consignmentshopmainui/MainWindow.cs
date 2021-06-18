@@ -12,8 +12,6 @@ using System.ComponentModel;
 using SharpUpdate;
 using System.Reflection;
 using System.Drawing;
-using System.Threading.Tasks;
-using System.Threading;
 
 namespace ConsignmentShopMainUI
 {
@@ -741,6 +739,7 @@ namespace ConsignmentShopMainUI
         }
 
         //Markieren einer bestimmten Zeile im DataGridView
+        // wird nicht benutzt
         private void ShowSelectedRow(int anIndex)
         {
             if (anIndex >= ItemsDataGridView.Rows.Count)
@@ -1164,6 +1163,7 @@ namespace ConsignmentShopMainUI
             ComboBoxVendorName.SelectedIndex = -1;
             FullNameTextBox.Visible = false;
             ComboBoxVendorName.Focus();
+            _ignoreEvents = false;
             // this.Select(true, true);
         }
 
@@ -1227,6 +1227,7 @@ namespace ConsignmentShopMainUI
             NewCustomerButton.Enabled = true;
             ContractSaveBtn.Enabled = false;
             ComboBoxVendorName.Focus();
+            _ignoreEvents = false;
         }
 
         private void BtnReporting_Click(object sender, EventArgs e)

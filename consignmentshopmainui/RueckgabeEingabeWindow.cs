@@ -248,12 +248,16 @@ namespace ConsignmentShopMainUI
 
         private void AblageOrtCB_SelectedIndexChanged(object sender, EventArgs e)
         {
-            AblageOrtCB_Leave(sender, e);
+            if (!_ignoreEvents)
+            {
+                AblageOrtCB_Leave(sender, e);
+                _ignoreEvents = true;
+            }
         }
 
         private void AblageOrtCB_Leave(object sender, EventArgs e)
         {
-            if (!String.IsNullOrEmpty(AblageOrtCB.Text))
+            if (!String.IsNullOrEmpty(AblageOrtCB.Text) && !_ignoreEvents)
             {
                 string myAktDate = DateTime.Today.ToShortDateString();
                 //myAktDate = myAktDate.Replace('.', '_');
@@ -271,29 +275,31 @@ namespace ConsignmentShopMainUI
                 refund.Place = AblageOrtCB.Text;
                 refund.Input = myAktDate; //aktuelles Datum
                 refund.Output = "";
-                refunds.Add(refund);
-                OKBtn.Visible = true;
+                // Test ob Lastname and Place bereits in refunds und Output empty
+                // 2. Query creation.
+                // numQuery is an IEnumerable<int>
+                var refundsQuery =
+                    from item in refunds
+                    where item.LastName == refund.LastName && item.Place == refund.Place && item.Output == ""
+                    select item;
 
-                //in Tabelle RefundsDataGridView eintragen
-                if (RefundDataGridView.RowCount == 0)
+                // when query nicht null oder count == 0 record noch nicht in Tabelle
+                if (refundsQuery.Count() <= 1)
                 {
-                    RefundDataGridView.Rows.Add(
-                        refund.LastName,
-                        refund.Place,
-                        refund.Input, //aktuelles Datum
-                        refund.Output);
-                }
-                //else
-                //{
-                //    RefundDataGridView.Rows.RemoveAt(0);
-                //    RefundDataGridView.Rows.Add(
-                //        refund.LastName,
-                //        refund.Place,
-                //        refund.Input, //aktuelles Datum
-                //        refund.Output);
-                //}
 
-                //AblageOrtCB.Enabled = false;
+                    refunds.Add(refund);
+                    //in Tabelle RefundsDataGridView eintragen
+
+                    RefundDataGridView.Rows.Add(
+                    refund.LastName,
+                    refund.Place,
+                    refund.Input, //aktuelles Datum
+                    refund.Output);
+                    _ignoreEvents = true;
+                }
+
+                OKBtn.Visible = true;
+                AblageOrtCB.SelectionLength = 0;
 
                 OKBtn.Focus();
             }
@@ -409,6 +415,7 @@ namespace ConsignmentShopMainUI
             AblageOrtCB.SelectedIndex = -1;
             AccountIDCB.SelectedItem = "";
             RefundDataGridView.Rows.Clear();
+            refunds.Clear();
             RefundDataGridView.ClearSelection(); //clear select first row
             VendorNameCB.Focus();
         }

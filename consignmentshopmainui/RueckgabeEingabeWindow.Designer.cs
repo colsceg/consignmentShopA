@@ -189,11 +189,13 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.Enabled = false;
             this.label1.Location = new System.Drawing.Point(209, 26);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(59, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "KdNummer";
+            this.label1.Visible = false;
             // 
             // RefundContextMenuStrip
             // 
