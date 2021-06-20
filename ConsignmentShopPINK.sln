@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsignmentShopMain", "cons
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsignmentShopLibrary", "consignmentshoplibrary\ConsignmentShopLibrary.csproj", "{BDF94262-ABBE-46CB-B287-E295E917A059}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpUpdate", "..\..\..\..\..\Source\Repos\SharpUpdate\SharpUpdate.csproj", "{75E5E7B4-7607-44E1-9C20-040A2FC1A8C4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug .NET Native|Any CPU = Debug .NET Native|Any CPU
@@ -74,6 +76,30 @@ Global
 		{BDF94262-ABBE-46CB-B287-E295E917A059}.Release|x64.Build.0 = Release|x64
 		{BDF94262-ABBE-46CB-B287-E295E917A059}.Release|x86.ActiveCfg = Release|x86
 		{BDF94262-ABBE-46CB-B287-E295E917A059}.Release|x86.Build.0 = Release|x86
+		{75E5E7B4-7607-44E1-9C20-040A2FC1A8C4}.Debug .NET Native|Any CPU.ActiveCfg = Debug|Any CPU
+		{75E5E7B4-7607-44E1-9C20-040A2FC1A8C4}.Debug .NET Native|Any CPU.Build.0 = Debug|Any CPU
+		{75E5E7B4-7607-44E1-9C20-040A2FC1A8C4}.Debug .NET Native|x64.ActiveCfg = Debug|Any CPU
+		{75E5E7B4-7607-44E1-9C20-040A2FC1A8C4}.Debug .NET Native|x64.Build.0 = Debug|Any CPU
+		{75E5E7B4-7607-44E1-9C20-040A2FC1A8C4}.Debug .NET Native|x86.ActiveCfg = Debug|Any CPU
+		{75E5E7B4-7607-44E1-9C20-040A2FC1A8C4}.Debug .NET Native|x86.Build.0 = Debug|Any CPU
+		{75E5E7B4-7607-44E1-9C20-040A2FC1A8C4}.Debug .Net4|Any CPU.ActiveCfg = Debug|Any CPU
+		{75E5E7B4-7607-44E1-9C20-040A2FC1A8C4}.Debug .Net4|Any CPU.Build.0 = Debug|Any CPU
+		{75E5E7B4-7607-44E1-9C20-040A2FC1A8C4}.Debug .Net4|x64.ActiveCfg = Debug|Any CPU
+		{75E5E7B4-7607-44E1-9C20-040A2FC1A8C4}.Debug .Net4|x64.Build.0 = Debug|Any CPU
+		{75E5E7B4-7607-44E1-9C20-040A2FC1A8C4}.Debug .Net4|x86.ActiveCfg = Debug|Any CPU
+		{75E5E7B4-7607-44E1-9C20-040A2FC1A8C4}.Debug .Net4|x86.Build.0 = Debug|Any CPU
+		{75E5E7B4-7607-44E1-9C20-040A2FC1A8C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75E5E7B4-7607-44E1-9C20-040A2FC1A8C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75E5E7B4-7607-44E1-9C20-040A2FC1A8C4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{75E5E7B4-7607-44E1-9C20-040A2FC1A8C4}.Debug|x64.Build.0 = Debug|Any CPU
+		{75E5E7B4-7607-44E1-9C20-040A2FC1A8C4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{75E5E7B4-7607-44E1-9C20-040A2FC1A8C4}.Debug|x86.Build.0 = Debug|Any CPU
+		{75E5E7B4-7607-44E1-9C20-040A2FC1A8C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75E5E7B4-7607-44E1-9C20-040A2FC1A8C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75E5E7B4-7607-44E1-9C20-040A2FC1A8C4}.Release|x64.ActiveCfg = Release|Any CPU
+		{75E5E7B4-7607-44E1-9C20-040A2FC1A8C4}.Release|x64.Build.0 = Release|Any CPU
+		{75E5E7B4-7607-44E1-9C20-040A2FC1A8C4}.Release|x86.ActiveCfg = Release|Any CPU
+		{75E5E7B4-7607-44E1-9C20-040A2FC1A8C4}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

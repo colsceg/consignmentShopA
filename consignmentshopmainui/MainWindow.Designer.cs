@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.DateiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backupAutomatischToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -89,6 +89,13 @@
             this.DeleteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.ItemInputGroupBox = new System.Windows.Forms.GroupBox();
+            this.ComboBoxItemDescription = new ConsignmentShopLibrary.ComboBoxEnter();
+            this.TextBoxProperties = new ConsignmentShopLibrary.TextBoxEnter();
+            this.ComboBoxColor = new ConsignmentShopLibrary.ComboBoxEnter();
+            this.ComboBoxSize = new ConsignmentShopLibrary.ComboBoxEnter();
+            this.ComboBoxBrand = new ConsignmentShopLibrary.ComboBoxEnter();
+            this.KeyTextBox = new ConsignmentShopLibrary.TextBoxEnter();
+            this.SalesPriceTextBox = new ConsignmentShopLibrary.NumTextBox();
             this.PremiumLbl = new System.Windows.Forms.Label();
             this.contractIDLabel = new System.Windows.Forms.Label();
             this.ItemsNumberTextBox = new System.Windows.Forms.TextBox();
@@ -98,6 +105,9 @@
             this.NewCustomerButton = new System.Windows.Forms.Button();
             this.VendorGroupBox = new System.Windows.Forms.GroupBox();
             this.FullNameTextBox = new System.Windows.Forms.TextBox();
+            this.ComboBoxVendorName = new ConsignmentShopLibrary.ComboBoxEnter();
+            this.PeriodTextBox = new ConsignmentShopLibrary.NumTextBox();
+            this.MarginTextBox = new ConsignmentShopLibrary.TextBoxEnter();
             this.PeriodLabel = new System.Windows.Forms.Label();
             this.ClearBtn = new System.Windows.Forms.Button();
             this.BtnItemsOut = new System.Windows.Forms.Button();
@@ -115,16 +125,6 @@
             this.attribute4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.attribute3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SalesPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ComboBoxItemDescription = new ConsignmentShopLibrary.ComboBoxEnter();
-            this.TextBoxProperties = new ConsignmentShopLibrary.TextBoxEnter();
-            this.ComboBoxColor = new ConsignmentShopLibrary.ComboBoxEnter();
-            this.ComboBoxSize = new ConsignmentShopLibrary.ComboBoxEnter();
-            this.ComboBoxBrand = new ConsignmentShopLibrary.ComboBoxEnter();
-            this.KeyTextBox = new ConsignmentShopLibrary.TextBoxEnter();
-            this.SalesPriceTextBox = new ConsignmentShopLibrary.NumTextBox();
-            this.ComboBoxVendorName = new ConsignmentShopLibrary.ComboBoxEnter();
-            this.PeriodTextBox = new ConsignmentShopLibrary.NumTextBox();
-            this.MarginTextBox = new ConsignmentShopLibrary.TextBoxEnter();
             this.menuStrip1.SuspendLayout();
             this.ItemDataContextMenuStrip.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -638,6 +638,98 @@
             this.ItemInputGroupBox.TabStop = false;
             this.ItemInputGroupBox.Text = "Artikeleingabe";
             // 
+            // ComboBoxItemDescription
+            // 
+            this.ComboBoxItemDescription.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.ComboBoxItemDescription.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.ComboBoxItemDescription.Enabled = false;
+            this.ComboBoxItemDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ComboBoxItemDescription.FormattingEnabled = true;
+            this.ComboBoxItemDescription.Location = new System.Drawing.Point(8, 41);
+            this.ComboBoxItemDescription.Name = "ComboBoxItemDescription";
+            this.ComboBoxItemDescription.Size = new System.Drawing.Size(361, 23);
+            this.ComboBoxItemDescription.Sorted = true;
+            this.ComboBoxItemDescription.TabIndex = 1;
+            this.ComboBoxItemDescription.EnabledChanged += new System.EventHandler(this.ComboBoxItemDescription_EnabledChanged);
+            this.ComboBoxItemDescription.TextChanged += new System.EventHandler(this.ConboBoxItemDescription_TextChanged);
+            this.ComboBoxItemDescription.Leave += new System.EventHandler(this.ComboBoxItemDescription_Leave);
+            // 
+            // TextBoxProperties
+            // 
+            this.TextBoxProperties.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TextBoxProperties.Location = new System.Drawing.Point(8, 133);
+            this.TextBoxProperties.Name = "TextBoxProperties";
+            this.TextBoxProperties.Size = new System.Drawing.Size(123, 21);
+            this.TextBoxProperties.TabIndex = 4;
+            this.TextBoxProperties.Leave += new System.EventHandler(this.TextBoxProperties_Leave);
+            // 
+            // ComboBoxColor
+            // 
+            this.ComboBoxColor.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.ComboBoxColor.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.ComboBoxColor.Enabled = false;
+            this.ComboBoxColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ComboBoxColor.FormattingEnabled = true;
+            this.ComboBoxColor.Location = new System.Drawing.Point(8, 84);
+            this.ComboBoxColor.Name = "ComboBoxColor";
+            this.ComboBoxColor.Size = new System.Drawing.Size(121, 23);
+            this.ComboBoxColor.TabIndex = 2;
+            this.ComboBoxColor.SelectedIndexChanged += new System.EventHandler(this.ComboBoxColor_SelectedIndexChanged);
+            this.ComboBoxColor.TextChanged += new System.EventHandler(this.ComboBoxColor_TextChanged);
+            this.ComboBoxColor.Leave += new System.EventHandler(this.ComboBoxColor_Leave);
+            // 
+            // ComboBoxSize
+            // 
+            this.ComboBoxSize.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.ComboBoxSize.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.ComboBoxSize.Enabled = false;
+            this.ComboBoxSize.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ComboBoxSize.FormattingEnabled = true;
+            this.ComboBoxSize.Location = new System.Drawing.Point(149, 131);
+            this.ComboBoxSize.Name = "ComboBoxSize";
+            this.ComboBoxSize.Size = new System.Drawing.Size(121, 23);
+            this.ComboBoxSize.TabIndex = 5;
+            this.ComboBoxSize.SelectedIndexChanged += new System.EventHandler(this.ComboBoxSize_SelectedIndexChanged);
+            this.ComboBoxSize.TextChanged += new System.EventHandler(this.ComboBoxSize_TextChanged);
+            this.ComboBoxSize.Leave += new System.EventHandler(this.ComboBoxSize_Leave);
+            // 
+            // ComboBoxBrand
+            // 
+            this.ComboBoxBrand.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.ComboBoxBrand.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.ComboBoxBrand.Enabled = false;
+            this.ComboBoxBrand.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ComboBoxBrand.FormattingEnabled = true;
+            this.ComboBoxBrand.Location = new System.Drawing.Point(149, 84);
+            this.ComboBoxBrand.Name = "ComboBoxBrand";
+            this.ComboBoxBrand.Size = new System.Drawing.Size(220, 23);
+            this.ComboBoxBrand.TabIndex = 3;
+            this.ComboBoxBrand.SelectedIndexChanged += new System.EventHandler(this.ComboBoxBrand_SelectedIndexChanged);
+            this.ComboBoxBrand.TextChanged += new System.EventHandler(this.ComboBoxBrand_TextChanged);
+            this.ComboBoxBrand.Leave += new System.EventHandler(this.ComboBoxBrand_Leave);
+            // 
+            // KeyTextBox
+            // 
+            this.KeyTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.KeyTextBox.Location = new System.Drawing.Point(520, 86);
+            this.KeyTextBox.Name = "KeyTextBox";
+            this.KeyTextBox.Size = new System.Drawing.Size(100, 21);
+            this.KeyTextBox.TabIndex = 0;
+            this.KeyTextBox.TabStop = false;
+            this.KeyTextBox.Visible = false;
+            this.KeyTextBox.Leave += new System.EventHandler(this.KeyTextBox_Leave);
+            // 
+            // SalesPriceTextBox
+            // 
+            this.SalesPriceTextBox.Enabled = false;
+            this.SalesPriceTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SalesPriceTextBox.Location = new System.Drawing.Point(291, 131);
+            this.SalesPriceTextBox.Name = "SalesPriceTextBox";
+            this.SalesPriceTextBox.Size = new System.Drawing.Size(78, 21);
+            this.SalesPriceTextBox.TabIndex = 6;
+            this.SalesPriceTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.SalesPriceTextBox.Leave += new System.EventHandler(this.SalesPriceTextBox_Leave);
+            // 
             // PremiumLbl
             // 
             this.PremiumLbl.AutoSize = true;
@@ -744,6 +836,44 @@
             this.FullNameTextBox.Size = new System.Drawing.Size(256, 21);
             this.FullNameTextBox.TabIndex = 0;
             this.FullNameTextBox.Visible = false;
+            // 
+            // ComboBoxVendorName
+            // 
+            this.ComboBoxVendorName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.ComboBoxVendorName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.ComboBoxVendorName.FormattingEnabled = true;
+            this.ComboBoxVendorName.Location = new System.Drawing.Point(14, 44);
+            this.ComboBoxVendorName.Name = "ComboBoxVendorName";
+            this.ComboBoxVendorName.Size = new System.Drawing.Size(256, 23);
+            this.ComboBoxVendorName.TabIndex = 0;
+            this.ComboBoxVendorName.TabStop = false;
+            this.ComboBoxVendorName.DataSourceChanged += new System.EventHandler(this.ComboBoxVendorName_DataSourceChanged);
+            this.ComboBoxVendorName.Leave += new System.EventHandler(this.ComboBoxVendorName_Leave);
+            // 
+            // PeriodTextBox
+            // 
+            this.PeriodTextBox.Location = new System.Drawing.Point(159, 87);
+            this.PeriodTextBox.Name = "PeriodTextBox";
+            this.PeriodTextBox.ReadOnly = true;
+            this.PeriodTextBox.Size = new System.Drawing.Size(47, 21);
+            this.PeriodTextBox.TabIndex = 0;
+            this.PeriodTextBox.TabStop = false;
+            this.PeriodTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.PeriodTextBox.Leave += new System.EventHandler(this.PeriodTextBox_Leave);
+            // 
+            // MarginTextBox
+            // 
+            this.MarginTextBox.Enabled = false;
+            this.MarginTextBox.Location = new System.Drawing.Point(92, 87);
+            this.MarginTextBox.Name = "MarginTextBox";
+            this.MarginTextBox.ReadOnly = true;
+            this.MarginTextBox.Size = new System.Drawing.Size(48, 21);
+            this.MarginTextBox.TabIndex = 0;
+            this.MarginTextBox.TabStop = false;
+            this.MarginTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.MarginTextBox.TextChanged += new System.EventHandler(this.MarginTextBox_TextChanged);
+            this.MarginTextBox.Leave += new System.EventHandler(this.MarginTextBox_Leave);
+            this.MarginTextBox.Validated += new System.EventHandler(this.MarginTextBox_Validated);
             // 
             // PeriodLabel
             // 
@@ -891,143 +1021,13 @@
             // 
             // SalesPrice
             // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle4.Format = "C2";
-            dataGridViewCellStyle4.NullValue = null;
-            this.SalesPrice.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle1.Format = "C2";
+            dataGridViewCellStyle1.NullValue = null;
+            this.SalesPrice.DefaultCellStyle = dataGridViewCellStyle1;
             this.SalesPrice.HeaderText = "VK-Preis";
             this.SalesPrice.Name = "SalesPrice";
             this.SalesPrice.ReadOnly = true;
-            // 
-            // ComboBoxItemDescription
-            // 
-            this.ComboBoxItemDescription.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.ComboBoxItemDescription.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.ComboBoxItemDescription.Enabled = false;
-            this.ComboBoxItemDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ComboBoxItemDescription.FormattingEnabled = true;
-            this.ComboBoxItemDescription.Location = new System.Drawing.Point(8, 41);
-            this.ComboBoxItemDescription.Name = "ComboBoxItemDescription";
-            this.ComboBoxItemDescription.Size = new System.Drawing.Size(361, 23);
-            this.ComboBoxItemDescription.Sorted = true;
-            this.ComboBoxItemDescription.TabIndex = 1;
-            this.ComboBoxItemDescription.EnabledChanged += new System.EventHandler(this.ComboBoxItemDescription_EnabledChanged);
-            this.ComboBoxItemDescription.TextChanged += new System.EventHandler(this.ConboBoxItemDescription_TextChanged);
-            this.ComboBoxItemDescription.Leave += new System.EventHandler(this.ComboBoxItemDescription_Leave);
-            // 
-            // TextBoxProperties
-            // 
-            this.TextBoxProperties.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TextBoxProperties.Location = new System.Drawing.Point(8, 133);
-            this.TextBoxProperties.Name = "TextBoxProperties";
-            this.TextBoxProperties.Size = new System.Drawing.Size(123, 21);
-            this.TextBoxProperties.TabIndex = 4;
-            this.TextBoxProperties.Leave += new System.EventHandler(this.TextBoxProperties_Leave);
-            // 
-            // ComboBoxColor
-            // 
-            this.ComboBoxColor.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.ComboBoxColor.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.ComboBoxColor.Enabled = false;
-            this.ComboBoxColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ComboBoxColor.FormattingEnabled = true;
-            this.ComboBoxColor.Location = new System.Drawing.Point(8, 84);
-            this.ComboBoxColor.Name = "ComboBoxColor";
-            this.ComboBoxColor.Size = new System.Drawing.Size(121, 23);
-            this.ComboBoxColor.TabIndex = 2;
-            this.ComboBoxColor.SelectedIndexChanged += new System.EventHandler(this.ComboBoxColor_SelectedIndexChanged);
-            this.ComboBoxColor.TextChanged += new System.EventHandler(this.ComboBoxColor_TextChanged);
-            this.ComboBoxColor.Leave += new System.EventHandler(this.ComboBoxColor_Leave);
-            // 
-            // ComboBoxSize
-            // 
-            this.ComboBoxSize.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.ComboBoxSize.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.ComboBoxSize.Enabled = false;
-            this.ComboBoxSize.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ComboBoxSize.FormattingEnabled = true;
-            this.ComboBoxSize.Location = new System.Drawing.Point(149, 131);
-            this.ComboBoxSize.Name = "ComboBoxSize";
-            this.ComboBoxSize.Size = new System.Drawing.Size(121, 23);
-            this.ComboBoxSize.TabIndex = 5;
-            this.ComboBoxSize.SelectedIndexChanged += new System.EventHandler(this.ComboBoxSize_SelectedIndexChanged);
-            this.ComboBoxSize.TextChanged += new System.EventHandler(this.ComboBoxSize_TextChanged);
-            this.ComboBoxSize.Leave += new System.EventHandler(this.ComboBoxSize_Leave);
-            // 
-            // ComboBoxBrand
-            // 
-            this.ComboBoxBrand.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.ComboBoxBrand.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.ComboBoxBrand.Enabled = false;
-            this.ComboBoxBrand.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ComboBoxBrand.FormattingEnabled = true;
-            this.ComboBoxBrand.Location = new System.Drawing.Point(149, 84);
-            this.ComboBoxBrand.Name = "ComboBoxBrand";
-            this.ComboBoxBrand.Size = new System.Drawing.Size(220, 23);
-            this.ComboBoxBrand.TabIndex = 3;
-            this.ComboBoxBrand.SelectedIndexChanged += new System.EventHandler(this.ComboBoxBrand_SelectedIndexChanged);
-            this.ComboBoxBrand.TextChanged += new System.EventHandler(this.ComboBoxBrand_TextChanged);
-            this.ComboBoxBrand.Leave += new System.EventHandler(this.ComboBoxBrand_Leave);
-            // 
-            // KeyTextBox
-            // 
-            this.KeyTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.KeyTextBox.Location = new System.Drawing.Point(520, 86);
-            this.KeyTextBox.Name = "KeyTextBox";
-            this.KeyTextBox.Size = new System.Drawing.Size(100, 21);
-            this.KeyTextBox.TabIndex = 0;
-            this.KeyTextBox.TabStop = false;
-            this.KeyTextBox.Visible = false;
-            this.KeyTextBox.Leave += new System.EventHandler(this.KeyTextBox_Leave);
-            // 
-            // SalesPriceTextBox
-            // 
-            this.SalesPriceTextBox.Enabled = false;
-            this.SalesPriceTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SalesPriceTextBox.Location = new System.Drawing.Point(291, 131);
-            this.SalesPriceTextBox.Name = "SalesPriceTextBox";
-            this.SalesPriceTextBox.Size = new System.Drawing.Size(78, 21);
-            this.SalesPriceTextBox.TabIndex = 6;
-            this.SalesPriceTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.SalesPriceTextBox.Leave += new System.EventHandler(this.SalesPriceTextBox_Leave);
-            // 
-            // ComboBoxVendorName
-            // 
-            this.ComboBoxVendorName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.ComboBoxVendorName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.ComboBoxVendorName.FormattingEnabled = true;
-            this.ComboBoxVendorName.Location = new System.Drawing.Point(14, 44);
-            this.ComboBoxVendorName.Name = "ComboBoxVendorName";
-            this.ComboBoxVendorName.Size = new System.Drawing.Size(256, 23);
-            this.ComboBoxVendorName.TabIndex = 0;
-            this.ComboBoxVendorName.TabStop = false;
-            this.ComboBoxVendorName.DataSourceChanged += new System.EventHandler(this.ComboBoxVendorName_DataSourceChanged);
-            this.ComboBoxVendorName.Leave += new System.EventHandler(this.ComboBoxVendorName_Leave);
-            // 
-            // PeriodTextBox
-            // 
-            this.PeriodTextBox.Location = new System.Drawing.Point(159, 87);
-            this.PeriodTextBox.Name = "PeriodTextBox";
-            this.PeriodTextBox.ReadOnly = true;
-            this.PeriodTextBox.Size = new System.Drawing.Size(47, 21);
-            this.PeriodTextBox.TabIndex = 0;
-            this.PeriodTextBox.TabStop = false;
-            this.PeriodTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.PeriodTextBox.Leave += new System.EventHandler(this.PeriodTextBox_Leave);
-            // 
-            // MarginTextBox
-            // 
-            this.MarginTextBox.Enabled = false;
-            this.MarginTextBox.Location = new System.Drawing.Point(92, 87);
-            this.MarginTextBox.Name = "MarginTextBox";
-            this.MarginTextBox.ReadOnly = true;
-            this.MarginTextBox.Size = new System.Drawing.Size(48, 21);
-            this.MarginTextBox.TabIndex = 0;
-            this.MarginTextBox.TabStop = false;
-            this.MarginTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.MarginTextBox.TextChanged += new System.EventHandler(this.MarginTextBox_TextChanged);
-            this.MarginTextBox.Leave += new System.EventHandler(this.MarginTextBox_Leave);
-            this.MarginTextBox.Validated += new System.EventHandler(this.MarginTextBox_Validated);
             // 
             // MainWindow
             // 
@@ -1054,7 +1054,8 @@
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(1224, 869);
+            this.MinimumSize = new System.Drawing.Size(1024, 689);
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Kommissionwaren Secondhand Kleidung (Demo)";

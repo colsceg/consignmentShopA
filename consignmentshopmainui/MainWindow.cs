@@ -82,7 +82,7 @@ namespace ConsignmentShopMainUI
 
         public Icon ApplicationIcon => this.Icon;
 
-        public Uri UpdateXmlLocation => new Uri("https://www.chairfit.de/Software/update.xml");
+        public Uri UpdateXmlLocation => new Uri("http://www.2ndhandsoft.de/Update/update.xml");
 
         public Form Context => this;
 
@@ -97,8 +97,7 @@ namespace ConsignmentShopMainUI
             updater.DoUpdate();
 
             KeyPreview = true;
-            KeyDown +=
-                new KeyEventHandler(MainWindow_KeyDown);
+            KeyDown += new KeyEventHandler(MainWindow_KeyDown);
             //Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
             Setup();
             Load += new EventHandler(MainWindow_Load);
