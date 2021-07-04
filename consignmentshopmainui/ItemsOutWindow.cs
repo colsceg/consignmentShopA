@@ -49,7 +49,7 @@ namespace ConsignmentShopMainUI
             List<string> vendors = new List<string>();
             List<string> accountIDs = new List<string>();
             _ignoreEvents = true;
-            CustomersList = DbVendors.GetAllVendorsNameNotSold();
+            CustomersList = DbVendors.GetAllVendorsName();
             foreach (var item in CustomersList)
             {
                 vendors.Add(item.FullInfo);

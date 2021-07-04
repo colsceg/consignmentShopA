@@ -1,20 +1,6 @@
 <?xml version="1.0"?>
 <sharpUpdate>
-<!-- the apID is the id the update launcher looks for -->
-	<update appId="TestApp">
-	<!-- the version is the number the new version has must be greater than the last -->
-		<version>2.0.0.1</version>
-		<!-- the url where the new update file could be found on the server -->
-		<url>https://www.chairfit.de/test/UpdaterTestApp2.exe</url>
-		<!-- the filename the downloaded file is saved on the computer -->
-		<filename>UpdaterTestApp20.exe</filename>
-		<!-- the md5 hash of the file on the server -->
-		<md5>BAB87E3EDAEC3B0C37361FC9870C697D</md5>
-		<!-- a short description of the update -->
-		<description>Dies ist eine TestApp</description>
-		<!-- arguments the application calls when it is launched after the update -->
-		<launchArgs></launchArgs>
-	</update>
+	<!-- the apID is the id the update launcher looks for -->
 	<update appId="ConsignmentShopApp">
 	<!-- the version is the number the new version has must be greater than the last -->
 		<version>2.0.2.2</version>

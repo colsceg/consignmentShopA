@@ -66,7 +66,6 @@
             this.VendorNameCB.TabIndex = 0;
             this.VendorNameCB.SelectedIndexChanged += new System.EventHandler(this.VendorNameCB_SelectedIndexChanged);
             this.VendorNameCB.TextChanged += new System.EventHandler(this.VendorNameCB_TextChanged);
-            this.VendorNameCB.Leave += new System.EventHandler(this.VendorNameCB_Leave);
             // 
             // AblageOrtCB
             // 
@@ -127,7 +126,6 @@
             this.AblageOrtCB.Size = new System.Drawing.Size(121, 21);
             this.AblageOrtCB.TabIndex = 2;
             this.AblageOrtCB.SelectedIndexChanged += new System.EventHandler(this.AblageOrtCB_SelectedIndexChanged);
-            this.AblageOrtCB.Leave += new System.EventHandler(this.AblageOrtCB_Leave);
             // 
             // NameLbl
             // 

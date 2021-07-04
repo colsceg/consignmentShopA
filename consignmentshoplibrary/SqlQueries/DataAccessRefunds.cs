@@ -145,15 +145,53 @@ namespace ConsignmentShopLibrary.SqlQueries
             {
                 using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
                 {
-                    string connectionString = "";
-                    string outputDate = refund.Output;
-                    outputDate = Item.ConvertDateStringToSQLiteTimeString(refund.Output);
+                    try
+                    {
+                        string connectionString = "";
+                        string outputDate = refund.Output;
+                        outputDate = Item.ConvertDateStringToSQLiteTimeString(refund.Output);
 
-                    connectionString = $"UPDATE Rueckgaben SET " +
-                                        $"[OutPut] = '{outputDate}', [Place] = '{refund.Place}' WHERE  Rueckgaben.AccountID = '{refund.AccountID}' AND Rueckgaben.OutPut = '' ";
-                    connection.Execute(connectionString);
+                        connectionString = $"UPDATE Rueckgaben SET " +
+                                            $"[OutPut] = '{outputDate}', [Place] = '{refund.Place}' WHERE  Rueckgaben.AccountID = '{refund.AccountID}' AND Rueckgaben.Output = '' ";
+                        connection.Execute(connectionString);
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("Fehler beim speichern der Daten " + e.Message);
+                    }
+
                 }
             }
         }
-     }
+
+        /// <summary>
+        /// Update an existing record based on accountID
+        /// </summary>
+        /// <param name="refund"></param>
+        public void UpdateEditRefund(Refund refund, string oldPlace)
+        {
+            {
+                try
+                {
+                    using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
+                    {
+                        string connectionString = "";
+                        string outputDate = refund.Output;
+                        outputDate = Item.ConvertDateStringToSQLiteTimeString(refund.Output);
+
+                        connectionString = $"UPDATE Rueckgaben SET " +
+                                            $"[OutPut] = '{outputDate}', [Place] = '{refund.Place}' WHERE  Rueckgaben.AccountID = '{refund.AccountID}' AND Rueckgaben.Place = '{oldPlace}' ";
+                        connection.Execute(connectionString);
+                    }
+                }
+                catch (Exception e)
+                {
+
+                    MessageBox.Show("Fehler beim speichern der Daten " + e.Message);
+                    ;
+                }
+
+            }
+        }
+    }
 }
