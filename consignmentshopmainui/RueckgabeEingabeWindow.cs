@@ -426,5 +426,18 @@ namespace ConsignmentShopMainUI
         {
             comboBoxTextHasChanged = true;
         }
+
+        private void RefundDataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (RefundDataGridView.SelectedRows.Count > 0)
+            {
+                // Ist Eingabedatum belegt
+                if (!string.IsNullOrEmpty(RefundDataGridView.SelectedRows[0].Cells[2].Value.ToString()))
+                {
+                    // Get list of all items from deleted with date == input.
+                     MessageBox.Show("Liste alle artikel für Rückgabe");
+                }
+            }
+        }
     }
 }

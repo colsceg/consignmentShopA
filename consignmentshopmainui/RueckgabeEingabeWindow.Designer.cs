@@ -246,6 +246,7 @@
             this.RefundDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.RefundDataGridView.Size = new System.Drawing.Size(443, 150);
             this.RefundDataGridView.TabIndex = 8;
+            this.RefundDataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.RefundDataGridView_CellDoubleClick);
             // 
             // LastName
             // 
