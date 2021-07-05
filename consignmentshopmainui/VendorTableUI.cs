@@ -24,7 +24,7 @@ namespace ConsignmentShopMainUI
         private bool _ignoreEvents = true;
 
         public string FullInfo { get; set; }
-
+        
         private bool loaded = false;
         private string myFilter;
         private bool isNewVendor=false;

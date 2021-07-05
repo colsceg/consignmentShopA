@@ -9,9 +9,9 @@
 		<!-- the filename the downloaded file is saved on the computer -->
 		<filename>2ndHandWareInstallerPINK.exe</filename>
 		<!-- the md5 hash of the file on the server -->
-		<md5>3558F394A17C510F9BCAFB3F1EFE393D</md5>
+		<md5>52A9EFC129D3640C1E29E96202C297C2</md5>
 		<!-- a short description of the update -->
-		<description>Update verbessert Update Funktion</description>
+		<description>Update verbessert Rückgabe </description>
 		<!-- arguments the application calls when it is launched after the update -->
 		<launchArgs></launchArgs>
 	</update>

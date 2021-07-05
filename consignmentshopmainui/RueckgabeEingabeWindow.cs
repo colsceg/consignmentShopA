@@ -209,7 +209,7 @@ namespace ConsignmentShopMainUI
                     {
                         refund.LastName = RefundDataGridView.SelectedRows[0].Cells[0].Value != null ? RefundDataGridView.SelectedRows[0].Cells[0].Value.ToString() : "";
                         refund.Place = AblageOrtCB.Text;
-                        refund.Input = myDate;
+                        refund.Input = string.IsNullOrEmpty(refunds[RefundDataGridView.SelectedRows[0].Index].Input) ? myDate : refunds[RefundDataGridView.SelectedRows[0].Index].Input;
                         refund.Output =RefundDataGridView.SelectedRows[0].Cells[3].Value != null ? RefundDataGridView.SelectedRows[0].Cells[3].Value.ToString() : "";
                         
                         // Liste aller refunds aktualisieren
@@ -250,20 +250,21 @@ namespace ConsignmentShopMainUI
             foreach (System.Data.DataColumn col in dt.Columns) col.ReadOnly = false;
             if (dt.Rows.Count > 0) // Name in Refund table found
             {
+                // Test if Lastname in refunds already
+
                 Refund refund = new Refund();
                 // Write founded receord to DatagridView
+
                 object[] array = dt.Rows[0].ItemArray;
-                RefundDataGridView.Rows.Add(
-                    array[1],
-                    array[2],
-                    array[3],
-                    array[4]);
+
                 refund.AccountID = (string)array[0];
                 refund.LastName = (string)array[1];
                 refund.Place = (string)array[2];
                 refund.Input = (string)array[3];
                 refund.Output = "";
-                refunds.Add(refund);
+
+                InsertDSToDatagrid(refund);
+
                 return;
             }
 
@@ -273,23 +274,50 @@ namespace ConsignmentShopMainUI
             if (myVendorList.Count > 0)
             {
                 Refund refund = new Refund();
-                isNewRecord = true; // New record to put into Refund table
-                RefundDataGridView.Rows.Add(
-                    myVendorList[0].LastName,
-                    "",
-                    "",
-                    "");
 
                 refund.AccountID = anAccountID;
                 refund.LastName = myVendorList[0].LastName;
                 refund.Place = "";
                 refund.Input = "";
                 refund.Output ="";
-                refunds.Add(refund);
+
+                InsertDSToDatagrid(refund);
             }
             _ignoreEvents = false;
             comboBoxTextHasChanged = false;
             AblageOrtCB.Enabled = true;
+        }
+
+        private void InsertDSToDatagrid(Refund refund)
+        {
+            bool test = false;
+            foreach (var item in refunds)
+            {
+                test = item.Equals(refund);
+                if (test)
+                    break;
+            }
+
+            if (!test)
+            {
+                refunds.Add(refund);
+                isNewRecord = true; // New record to put into Refund table
+                RefundDataGridView.Rows.Add(
+                    refund.LastName,
+                    refund.Place,
+                    refund.Input,
+                    refund.Output);
+
+                if (RefundDataGridView.SelectedRows.Count > 0)
+                {
+                    for (int i = 0; i < RefundDataGridView.Rows.Count; i++)
+                    {
+                        RefundDataGridView.Rows[i].Selected = false;
+                    }
+                }
+                int index = RefundDataGridView.Rows.Count > 0 ? RefundDataGridView.Rows.Count - 1 : 0;
+                RefundDataGridView.Rows[index].Selected = true;
+            }
         }
 
         /// <summary>
