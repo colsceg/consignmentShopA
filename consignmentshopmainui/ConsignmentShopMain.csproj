@@ -335,6 +335,12 @@
     <Compile Include="DocumentPayout.Designer.cs">
       <DependentUpon>DocumentPayout.cs</DependentUpon>
     </Compile>
+    <Compile Include="DocumentRefundList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DocumentRefundList.Designer.cs">
+      <DependentUpon>DocumentRefundList.cs</DependentUpon>
+    </Compile>
     <Compile Include="DocumentReturnList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -465,6 +471,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DocumentPayout.resx">
       <DependentUpon>DocumentPayout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DocumentRefundList.resx">
+      <DependentUpon>DocumentRefundList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DocumentReturnList.resx">
       <DependentUpon>DocumentReturnList.cs</DependentUpon>

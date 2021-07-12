@@ -182,6 +182,7 @@
     <Compile Include="Itemdescription.cs" />
     <Compile Include="Refund.cs" />
     <Compile Include="RefundDataTable.cs" />
+    <Compile Include="RefundItems.cs" />
     <Compile Include="SqlQueries\DataAccessAttributes.cs" />
     <Compile Include="SqlQueries\DataAccessItems.cs" />
     <Compile Include="SqlQueries\DataAccessRefunds.cs" />

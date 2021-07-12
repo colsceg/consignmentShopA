@@ -21,6 +21,7 @@ namespace ConsignmentShopMainUI
 
         private DataAccessVendors DbVendors = new DataAccessVendors();
         private DataAccessRefunds DBRefunds = new DataAccessRefunds();
+        private DataAccessItems DBItems = new DataAccessItems();
 
         private List<Refund> ContractsList = new List<Refund>();
         private List<Vendor> CustomersList = new List<Vendor>();
@@ -391,6 +392,8 @@ namespace ConsignmentShopMainUI
                 RefundDataGridView.SelectedRows[0].Cells[3].Value = myDate;
                 // Heutiges Datum in refunds liste  eintragen
                 refunds[RefundDataGridView.SelectedRows[0].Index].Output = myDate;
+                string myAccountID = refunds[RefundDataGridView.SelectedRows[0].Index].AccountID.ToString();
+                DBItems.UpdateItemsDeletedWithAccountID(myAccountID);
 
                 OKBtn.Visible = true;
             }
@@ -435,7 +438,18 @@ namespace ConsignmentShopMainUI
                 if (!string.IsNullOrEmpty(RefundDataGridView.SelectedRows[0].Cells[2].Value.ToString()))
                 {
                     // Get list of all items from deleted with date == input.
-                     MessageBox.Show("Liste alle artikel für Rückgabe");
+                    DocumentRefundList RefundListWin = new DocumentRefundList();
+                    string myAccountID = refunds[RefundDataGridView.SelectedRows[0].Index].AccountID.ToString();
+                    string myInDate = refunds[RefundDataGridView.SelectedRows[0].Index].Input.ToString();
+
+                    Vendor vendor = DbVendors.GetVendorWithAccountID(myAccountID)[0];
+
+                    // Get list of all items from DeletedItems table with myAccountId and InputDate
+                    List<Item> itemsList = DBItems.GetAllDeletedItemsWithAccountID(myAccountID, myInDate);
+                    RefundListWin.RefundItemsList = itemsList;
+                    RefundListWin.VendorInfo = vendor;
+                    RefundListWin.Show();
+                    //MessageBox.Show("Liste alle artikel für Rückgabe");
                 }
             }
         }

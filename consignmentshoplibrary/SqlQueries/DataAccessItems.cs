@@ -68,6 +68,8 @@ namespace ConsignmentShopLibrary
             }
         }
 
+
+
         public void InsertTransaction(TransactionItem anItem)
         {
             using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
@@ -381,6 +383,29 @@ namespace ConsignmentShopLibrary
                     throw;
                 }
 
+            }
+        }
+
+        public void AlterItemsTable()
+        {
+            using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
+            {
+                try
+                {
+                    string connectionString = "";
+                    connectionString = $"ALTER TABLE items ADD retourDate TEXT; ";
+                    connection.Execute(connectionString);
+
+                    connectionString = $"Update items SET retourDate = ''";
+                    connection.Execute(connectionString);
+
+                }
+                catch (Exception ex)
+                {
+                    // MessageBox.Show($"Fehler {ex.Message.ToString()}");
+
+                    return;
+                }
             }
         }
 
@@ -835,6 +860,36 @@ namespace ConsignmentShopLibrary
                 }
                 return output;
             }
+        }
+
+        public List<Item> GetAllDeletedItemsWithAccountID(string anAccountID, string anInDate)
+        {
+            List<Item> items = new List<Item>();
+            try
+            {
+                using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
+                {
+                    string myInDate = Item.ConvertDateStringToSQLiteTimeString(anInDate);
+                    var output = connection.Query<Item>($"SELECT *  FROM items  WHERE AccountID = '{ anAccountID }' AND " +
+                        $" deleteDate <> '' AND retourDate = '' ORDER BY deleteDate DESC ").ToList();
+
+                    foreach (var item in output)
+                    {
+                        item.SoldDate = Item.ConvertSQLiteTimeStringToDateString(item.SoldDate);
+                        item.PayoutDate = Item.ConvertSQLiteTimeStringToDateString(item.PayoutDate);
+                        item.BeginDate = Item.ConvertSQLiteTimeStringToDateString(item.BeginDate);
+                        item.EndDate = Item.ConvertSQLiteTimeStringToDateString(item.EndDate);
+                        item.DeleteDate = Item.ConvertSQLiteTimeStringToDateString(item.DeleteDate);
+                    }
+                    return output;
+                }
+            }
+            catch (Exception ex)
+            {
+               MessageBox.Show($" data  {ex.Data.ToString()}  und  {ex.Message}  ");
+            }
+
+            return items;
         }
 
         public List<ItemGrouped> GetItemsWithContractIDGrouped(string aContractID)
@@ -1917,6 +1972,26 @@ namespace ConsignmentShopLibrary
                     string connectionString = "";
                     connectionString = $"UPDATE items SET PayoutDate = '{aPayoutDate}' " +
                         $"WHERE accountID = '{anAccountID}' AND  soldDate <> ''  AND payoutDate = '' ";
+                    connection.Execute(connectionString);
+                }
+                catch (Exception ex)
+                {
+                    Store.ShowErrors(ex);
+                }
+            }
+        }
+
+        public void UpdateItemsDeletedWithAccountID(string anAccountID)
+        {
+            using (SQLiteConnection connection = new SQLiteConnection(Helper.ConnectionString))
+            {
+                string myDate = DateTime.Today.ToShortDateString();
+                myDate = Item.ConvertDateStringToSQLiteTimeString(myDate);
+                try
+                {
+                    string connectionString = "";
+                    connectionString = $"UPDATE items SET RetourDate = '{myDate}' " +
+                        $"WHERE accountID = '{anAccountID}' AND  DeleteDate <> ''  AND RetourDate = '' ";
                     connection.Execute(connectionString);
                 }
                 catch (Exception ex)

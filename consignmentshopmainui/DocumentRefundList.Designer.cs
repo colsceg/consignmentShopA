@@ -1,6 +1,7 @@
-﻿namespace ConsignmentShopMainUI
+﻿
+namespace ConsignmentShopMainUI
 {
-    partial class DocumentMonthlyVolumes
+    partial class DocumentRefundList
     {
         /// <summary>
         /// Required designer variable.
@@ -28,11 +29,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.printDialog1 = new System.Windows.Forms.PrintDialog();
-            this.MyRichTextBoxEx = new ConsignmentShopLibrary.RichTextBoxEx();
             this.PrintBtn = new System.Windows.Forms.Button();
             this.CloseBtn = new System.Windows.Forms.Button();
+            this.printDialog1 = new System.Windows.Forms.PrintDialog();
+            this.MyRichTextBoxEx = new ConsignmentShopLibrary.RichTextBoxEx();
             this.SuspendLayout();
+            // 
+            // PrintBtn
+            // 
+            this.PrintBtn.Location = new System.Drawing.Point(36, 29);
+            this.PrintBtn.Name = "PrintBtn";
+            this.PrintBtn.Size = new System.Drawing.Size(75, 23);
+            this.PrintBtn.TabIndex = 1;
+            this.PrintBtn.Text = "Drucken";
+            this.PrintBtn.UseVisualStyleBackColor = true;
+            this.PrintBtn.MouseClick += new System.Windows.Forms.MouseEventHandler(this.PrintBtn_MouseClick);
+            // 
+            // CloseBtn
+            // 
+            this.CloseBtn.Location = new System.Drawing.Point(684, 29);
+            this.CloseBtn.Name = "CloseBtn";
+            this.CloseBtn.Size = new System.Drawing.Size(75, 23);
+            this.CloseBtn.TabIndex = 2;
+            this.CloseBtn.Text = "Schliessen";
+            this.CloseBtn.UseVisualStyleBackColor = true;
+            this.CloseBtn.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CloseBtn_MouseClick);
             // 
             // printDialog1
             // 
@@ -40,52 +61,32 @@
             // 
             // MyRichTextBoxEx
             // 
-            this.MyRichTextBoxEx.Location = new System.Drawing.Point(10, 57);
+            this.MyRichTextBoxEx.Location = new System.Drawing.Point(36, 58);
             this.MyRichTextBoxEx.Name = "MyRichTextBoxEx";
-            this.MyRichTextBoxEx.Size = new System.Drawing.Size(638, 790);
+            this.MyRichTextBoxEx.Size = new System.Drawing.Size(723, 547);
             this.MyRichTextBoxEx.TabIndex = 0;
             this.MyRichTextBoxEx.Text = "";
             // 
-            // PrintBtn
-            // 
-            this.PrintBtn.Location = new System.Drawing.Point(12, 28);
-            this.PrintBtn.Name = "PrintBtn";
-            this.PrintBtn.Size = new System.Drawing.Size(75, 23);
-            this.PrintBtn.TabIndex = 1;
-            this.PrintBtn.Text = "Drucken";
-            this.PrintBtn.UseVisualStyleBackColor = true;
-            this.PrintBtn.Click += new System.EventHandler(this.PrintBtn_Click);
-            // 
-            // CloseBtn
-            // 
-            this.CloseBtn.Location = new System.Drawing.Point(570, 28);
-            this.CloseBtn.Name = "CloseBtn";
-            this.CloseBtn.Size = new System.Drawing.Size(75, 23);
-            this.CloseBtn.TabIndex = 2;
-            this.CloseBtn.Text = "Schliessen";
-            this.CloseBtn.UseVisualStyleBackColor = true;
-            this.CloseBtn.Click += new System.EventHandler(this.CloseBtn_Click);
-            // 
-            // DocumentMonthlyVolumes
+            // DocumentRefundList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(657, 651);
+            this.ClientSize = new System.Drawing.Size(800, 633);
             this.Controls.Add(this.CloseBtn);
             this.Controls.Add(this.PrintBtn);
             this.Controls.Add(this.MyRichTextBoxEx);
-            this.Name = "DocumentMonthlyVolumes";
-            this.Text = "DocumentMonthlyVolumes";
-            this.Shown += new System.EventHandler(this.DocumentMonthlyVolumes_Shown);
+            this.Name = "DocumentRefundList";
+            this.Text = "DocumentRefundList";
+            this.Load += new System.EventHandler(this.DocumentRefundList_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.PrintDialog printDialog1;
         private ConsignmentShopLibrary.RichTextBoxEx MyRichTextBoxEx;
         private System.Windows.Forms.Button PrintBtn;
         private System.Windows.Forms.Button CloseBtn;
+        private System.Windows.Forms.PrintDialog printDialog1;
     }
 }

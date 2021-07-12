@@ -3,13 +3,13 @@
 	<!-- the apID is the id the update launcher looks for -->
 	<update appId="ConsignmentShopApp">
 	<!-- the version is the number the new version has must be greater than the last -->
-		<version>2.0.2.2</version>
+		<version>2.0.2.4</version>
 		<!-- the url where the new update file could be found on the server -->
-		<url>http://www.2ndhandsoft.de/Update/2ndHandWareInstallerPINK2022.exe</url>
+		<url>http://www.2ndhandsoft.de/Update/2ndHandWareInstallerPINK2024.exe</url>
 		<!-- the filename the downloaded file is saved on the computer -->
 		<filename>2ndHandWareInstallerPINK.exe</filename>
 		<!-- the md5 hash of the file on the server -->
-		<md5>52A9EFC129D3640C1E29E96202C297C2</md5>
+		<md5>DD1D7381F9EB6C090CBDA3C4939EFC9E</md5>
 		<!-- a short description of the update -->
 		<description>Update verbessert Rückgabe </description>
 		<!-- arguments the application calls when it is launched after the update -->

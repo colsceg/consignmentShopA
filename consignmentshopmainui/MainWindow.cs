@@ -665,6 +665,8 @@ namespace ConsignmentShopMainUI
                 MessageBox.Show("There is Problem with the Backup Directory mail it to info@SecondHandWare.de" + e.Message.ToString());
             }
 
+            DbItems.AlterItemsTable();
+
             //List<Contract> myContractsList = DbItems.GetAllTotalNumberOfContracts();
             //Artikelliste einlesen
             ItemsList = DbItems.GetAllItems();
